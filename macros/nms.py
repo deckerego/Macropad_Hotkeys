@@ -1,7 +1,8 @@
 # MACROPAD Hotkeys: No Man's Sky
 
 from adafruit_hid.keycode import Keycode
-from adafruit_hid.mouse import Mouse
+from adafruit_hid.mouse import Mouse as MouseCode
+from mouse import Mouse
 
 app = {
     'name' : 'No Man\'s Sky',
@@ -9,20 +10,20 @@ app = {
     'macros' : [
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------
-        (0x004166, 'G Map', [Keycode.M]),
-        (0x004166, '     ', []),
-        (0x004166, 'Pulse', [Keycode.SPACE]),
+        (0x544408, 'G Map', [Keycode.M]),
+        (0x000000, '     ', []),
+        (0x540908, 'Pulse', [Keycode.SPACE]),
         # 2nd row ----------
-        (0x004166, 'Prev ', [Keycode.PERIOD]),
-        (0x004166, '     ', []), # Needs to be Mouse.MIDDLE_BUTTON
-        (0x004166, 'Next ', [Keycode.COMMA]),
+        (0x000754, 'Prev ', [Keycode.PERIOD]),
+        (0x540908, 'Target', [Mouse(MouseCode.MIDDLE_BUTTON)]),
+        (0x000754, 'Next ', [Keycode.COMMA]),
         # 3rd row ----------
-        (0x004166, 'Scan ', [Keycode.C]),
-        (0x004166, 'Visor', [Keycode.F]),
-        (0x004166, 'HUD  ', [Keycode.H]),
+        (0x080F54, 'Scan ', [Keycode.C]),
+        (0x080F54, 'Visor', [Keycode.F]),
+        (0x080F54, 'HUD  ', [Keycode.H]),
         # 4th row ----------
-        (0x004166, 'Quick', [Keycode.X]),
-        (0x640A66, '     ', []),
-        (0x663F0A, 'Build', [Keycode.Z])
+        (0x095E06, 'Quick', [Keycode.X]),
+        (0x000000, '     ', []),
+        (0x095E06, 'Build', [Keycode.Z])
     ]
 }

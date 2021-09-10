@@ -2,6 +2,7 @@
 
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control_code import ConsumerControlCode
+from consumer import Toolbar
 
 app = {
     'name' : 'Zoom',
@@ -18,11 +19,11 @@ app = {
         (0x000754, 'Leave  ', [Keycode.COMMAND, Keycode.W]),
         # 3rd row ----------
         (0x000000, '       ', []),
-        (0x000000, '       ', []),
+        (0x095E06, 'Pause  ', [Toolbar(ConsumerControlCode.PLAY_PAUSE)]),
         (0x000000, '       ', []),
         # 4th row ----------
-        (0x080F54, 'Vol+   ', [ConsumerControlCode.VOLUME_INCREMENT]),
+        (0x080F54, 'Vol-   ', [Toolbar(ConsumerControlCode.VOLUME_DECREMENT)]),
         (0x000000, '       ', []),
-        (0x080F54, 'Vol-   ', [ConsumerControlCode.VOLUME_DECREMENT])
+        (0x080F54, 'Vol=   ', [Toolbar(ConsumerControlCode.VOLUME_INCREMENT)])
     ]
 }
