@@ -3,7 +3,7 @@ class Mouse:
         self.keycode = keycode
 
     def press(self, macropad):
-        if(self.keycode) < 0:
+        if self.keycode < 0:
             macropad.mouse.release(self.keycode)
         else:
             macropad.mouse.press(self.keycode)
