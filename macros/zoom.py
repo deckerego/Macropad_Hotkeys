@@ -5,6 +5,7 @@ from adafruit_hid.consumer_control_code import ConsumerControlCode
 
 app = {
     'name' : 'Zoom',
+    'order': 0,
     'macros' : [
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------

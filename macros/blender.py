@@ -4,6 +4,7 @@ from adafruit_hid.keycode import Keycode
 
 app = {
     'name' : 'Blender',
+    'order': 2,
     'macros' : [
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------

@@ -1,3 +1,5 @@
+# pylint: disable=import-error, unused-import, too-few-public-methods
+
 import os
 import time
 import displayio
@@ -11,6 +13,7 @@ MACRO_FOLDER = '/macros'
 class App:
     def __init__(self, appdata):
         self.name = appdata['name']
+        self.order = appdata['order']
         self.macros = appdata['macros']
 
     def switch(self):
@@ -59,7 +62,6 @@ macropad.display.show(group)
 # Load all the macro key setups from .py files in MACRO_FOLDER
 apps = []
 files = os.listdir(MACRO_FOLDER)
-files.sort()
 for filename in files:
     if filename.endswith('.py'):
         try:
@@ -71,8 +73,9 @@ for filename in files:
 if not apps:
     group[13].text = 'NO MACRO FILES FOUND'
     macropad.display.refresh()
-    while True:
-        pass
+    quit()
+
+apps.sort(key=lambda m:m.order)
 
 last_position = None
 sleeping = False
@@ -80,18 +83,13 @@ last_encoder_switch = macropad.encoder_switch_debounced.pressed
 app_index = 0
 apps[app_index].switch()
 
-
 while True:
-    # Read encoder position. If it's changed, switch apps.
     position = macropad.encoder
     if position != last_position:
         app_index = position % len(apps)
         apps[app_index].switch()
         last_position = position
 
-    # Handle encoder button. If state has changed, and if there's a
-    # corresponding macro, set up variables to act on this just like
-    # the keypad keys, as if it were a 13th key/macro.
     macropad.encoder_switch_debounced.update()
     encoder_switch = macropad.encoder_switch_debounced.pressed
     if encoder_switch != last_encoder_switch:

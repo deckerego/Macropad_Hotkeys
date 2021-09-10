@@ -4,6 +4,7 @@ from adafruit_hid.keycode import Keycode
 
 app = {
     'name' : 'Numpad',
+    'order': 1,
     'macros' : [
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------

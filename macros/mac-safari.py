@@ -4,6 +4,7 @@ from adafruit_hid.keycode import Keycode
 
 app = {
     'name' : 'MacOS Safari',
+    'order': 3,
     'macros' : [
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------
