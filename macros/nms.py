@@ -18,9 +18,9 @@ app = {
         (0x540908, 'Target', [Mouse(MouseCode.MIDDLE_BUTTON)]),
         (0x000754, 'Next ', [Keycode.COMMA]),
         # 3rd row ----------
-        (0x047F91, 'Scan ', [Keycode.C]),
+        (0x034E59, 'Scan ', [Keycode.C]),
         (0x505050, 'Light', [Keycode.T]),
-        (0x6B0373, 'HUD  ', [Keycode.H]),
+        (0x4F0354, 'HUD  ', [Keycode.H]),
         # 4th row ----------
         (0x095E06, 'Quick', [Keycode.X]),
         (0x000000, '     ', []),
