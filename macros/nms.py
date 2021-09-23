@@ -11,7 +11,7 @@ app = {
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------
         (0x544408, 'G Map', [Keycode.M]),
-        (0x000000, '     ', []),
+        (0x000000, 'Boost', [Keycode.LEFT_SHIFT]),
         (0x540908, 'Pulse', [Keycode.SPACE]),
         # 2nd row ----------
         (0x000754, 'Prev ', [Keycode.PERIOD]),
@@ -19,7 +19,7 @@ app = {
         (0x000754, 'Next ', [Keycode.COMMA]),
         # 3rd row ----------
         (0x080F54, 'Scan ', [Keycode.C]),
-        (0x080F54, 'Visor', [Keycode.F]),
+        (0x080F54, 'Light', [Keycode.T]),
         (0x080F54, 'HUD  ', [Keycode.H]),
         # 4th row ----------
         (0x095E06, 'Quick', [Keycode.X]),
