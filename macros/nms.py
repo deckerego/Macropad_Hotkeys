@@ -15,7 +15,7 @@ app = {
         (0x540908, 'Pulse', [Keycode.SPACE]),
         # 2nd row ----------
         (0x000754, 'Prev ', [Keycode.PERIOD]),
-        (0x540908, 'Target', [Mouse(MouseCode.MIDDLE_BUTTON)]),
+        (0x540908, 'Target',[Mouse(MouseCode.MIDDLE_BUTTON)]),
         (0x000754, 'Next ', [Keycode.COMMA]),
         # 3rd row ----------
         (0x034E59, 'Scan ', [Keycode.C]),

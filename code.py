@@ -58,14 +58,14 @@ def switch(app):
     macropad.display.refresh()
 
 def make_key(item):
-    if isinstance(item, int):
-        return Keyboard(item)
-    elif isinstance(item, Toolbar):
+    if isinstance(item, Toolbar):
         return item
     elif isinstance(item, Mouse):
         return item
     elif isinstance(item, float):
         return Sleep(item)
+    else:
+        return Keyboard(item)
 
 init_display()
 apps = []
