@@ -1,6 +1,7 @@
 # pylint: disable=import-error, unused-import, too-few-public-methods
 
 import os
+import time
 import displayio
 import terminalio
 from adafruit_display_shapes.rect import Rect
@@ -17,9 +18,11 @@ MACRO_FOLDER = '/macros'
 macropad = MacroPad()
 macropad.display.auto_refresh = False
 macropad.pixels.auto_write = False
-group = displayio.Group()
+group = None
 
 def init_display():
+    global group
+    group = displayio.Group()
     for key_index in range(12):
         x = key_index % 3
         y = key_index // 3
@@ -45,6 +48,8 @@ def init_display():
     macropad.display.show(group)
 
 def switch(app):
+    global group
+    macropad.keyboard.release_all()
     group[13].text = app.name   # Application name
     for i in range(12):
         if i < len(app.macros): # Key in use, set label + LED color
@@ -53,7 +58,6 @@ def switch(app):
         else:  # Key not in use, no label or LED
             macropad.pixels[i] = 0
             group[i].text = ''
-    macropad.keyboard.release_all()
     macropad.pixels.show()
     macropad.display.refresh()
 
@@ -90,7 +94,17 @@ last_position = None
 sleeping = False
 last_encoder_switch = macropad.encoder_switch_debounced.pressed
 app_index = 0
-switch(apps[app_index])
+
+while True:
+    try:
+        switch(apps[app_index])
+        break
+    except OSError as err:
+        print(err)
+        init_display()
+        group[13].text = 'NO USB CONNECTION'
+        macropad.display.refresh()
+        time.sleep(5000)
 
 while True:
     position = macropad.encoder
