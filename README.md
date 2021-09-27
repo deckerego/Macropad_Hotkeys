@@ -18,9 +18,10 @@ example from the
 
 ## Installing
 
-When installing for the first time, copy the contents of the latest
+When installing for the first time, extract the latest
 [MacroPad Hotkeys.zip](https://github.com/deckerego/Macropad_Hotkeys/releases/latest)
-release onto the CIRCUITPY drive that apears when you plug in your Macropad.
+into a directory, then copy the contents of that extracted archive
+into the CIRCUITPY drive that appears when you plug in your Macropad.
 Ensure that the contents of the `lib/` subdirectory are also copied - these are
 the precompiled Adafruit libraries that power the Macropad.
 
