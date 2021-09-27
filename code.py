@@ -1,13 +1,8 @@
-# pylint: disable=import-error, unused-import, too-few-public-methods
-
 import os
 import time
+import keyfactory
 from adafruit_macropad import MacroPad
 from app import App
-from consumer import Toolbar
-from mouse import Mouse
-from sleeper import Sleep
-from keyboard import Keyboard
 from display import Display
 
 MACRO_FOLDER = '/macros'
@@ -25,16 +20,6 @@ def switch(app):
         else:  # Key not in use, no label or LED
             macropad.pixels[i] = 0
     macropad.pixels.show()
-
-def make_key(item):
-    if isinstance(item, Toolbar):
-        return item
-    elif isinstance(item, Mouse):
-        return item
-    elif isinstance(item, float):
-        return Sleep(item)
-    else:
-        return Keyboard(item)
 
 screen.initialize()
 apps = []
@@ -104,12 +89,12 @@ while True:
             sleeping = not sleeping
 
         for item in sequence:
-            make_key(item).press(macropad)
+            keyfactory.get(item).press(macropad)
 
     else:
         # Release any still-pressed keys
         for item in sequence:
-            make_key(item).release(macropad)
+            keyfactory.get(item).release(macropad)
         if not sleeping and key_number < 12: # No pixel for encoder button
             macropad.pixels[key_number] = apps[app_index].macros[key_number][0]
             macropad.pixels.show()
