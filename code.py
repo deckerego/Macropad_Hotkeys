@@ -1,4 +1,3 @@
-import os
 import time
 import keyfactory
 from adafruit_macropad import MacroPad
@@ -12,38 +11,21 @@ macropad = MacroPad()
 macropad.pixels.auto_write = False
 screen = Display(macropad)
 pixels = Pixels(macropad)
-
-def switch(app):
-    macropad.keyboard.release_all()
-    screen.setApp(app)
-    pixels.setApp(app)
-
-screen.initialize()
-apps = []
-files = os.listdir(MACRO_FOLDER)
-for filename in files:
-    if filename.endswith('.py'):
-        try:
-            module = __import__(MACRO_FOLDER + '/' + filename[:-3])
-            apps.append(App(module.app))
-        except (SyntaxError, ImportError, AttributeError, KeyError, NameError, IndexError, TypeError) as err:
-            print(err)
-            pass
-
-if not apps:
-    display.setText('NO MACRO FILES FOUND')
-    quit()
-
-apps.sort(key=lambda m:m.order)
-
 last_position = None
 sleeping = False
 last_encoder_switch = macropad.encoder_switch_debounced.pressed
 app_index = 0
 
+screen.initialize()
+apps = App.load_all(MACRO_FOLDER)
+
+if not apps:
+    display.setText('NO MACRO FILES FOUND')
+    quit()
+
 while True:
-    try:
-        switch(apps[app_index])
+    try: # Test the USB HID connection
+        macropad.keyboard.release_all()
         break
     except OSError as err:
         print(err)
@@ -53,9 +35,11 @@ while True:
 while True:
     position = macropad.encoder
     if position != last_position:
-        app_index = position % len(apps)
-        switch(apps[app_index])
         last_position = position
+        app_index = position % len(apps)
+        macropad.keyboard.release_all()
+        screen.setApp(apps[app_index])
+        pixels.setApp(apps[app_index])
 
     macropad.encoder_switch_debounced.update()
     encoder_switch = macropad.encoder_switch_debounced.pressed
@@ -80,7 +64,7 @@ while True:
                 pixels.off()
             else:
                 display.resume()
-                switch(apps[app_index])
+                pixels.setApp(apps[app_index])
             sleeping = not sleeping
 
         for item in sequence:
