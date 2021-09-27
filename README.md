@@ -18,24 +18,11 @@ example from the
 
 ## Installing
 
-When installing for the first time, copy all the Python (.py) files onto the
-CIRCUITPY drive that apears when you plug in your Macropad. You will also need
-the libraries listed in the
-[Adafruit Learning System Guide](https://learn.adafruit.com/macropad-hotkeys/project-code)
-and available as the [CircuitPython library bundle](https://circuitpython.org/libraries).
-
-The libraries required by this version of Macropad Hotkeys includes:
-- adafruit_debouncer.mpy
-- adafruit_display_shapes
-- adafruit_display_text
-- adafruit_displayio_layout
-- adafruit_hid
-- adafruit_macropad.mpy
-- adafruit_midi
-- adafruit_pixelbuf.mpy
-- adafruit_simple_text_display.mpy
-- neopixel.mpy
-
+When installing for the first time, copy the contents of the latest
+[MacroPad Hotkeys.zip](https://github.com/deckerego/Macropad_Hotkeys/releases/latest)
+release onto the CIRCUITPY drive that apears when you plug in your Macropad.
+Ensure that the contents of the `lib/` subdirectory are also copied - these are
+the precompiled Adafruit libraries that power the Macropad.
 
 ## Updating
 
