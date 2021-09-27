@@ -20,7 +20,7 @@ screen.initialize()
 apps = App.load_all(MACRO_FOLDER)
 
 if not apps:
-    display.setText('NO MACRO FILES FOUND')
+    screen.setText('NO MACRO FILES FOUND')
     quit()
 
 while True:
@@ -29,7 +29,7 @@ while True:
         break
     except OSError as err:
         print(err)
-        display.setText('NO USB CONNECTION')
+        screen.setText('NO USB CONNECTION')
         time.sleep(5000)
 
 while True:
@@ -60,10 +60,10 @@ while True:
             pixels.highlight(key_number, 0xFFFFFF)
         elif key_number is 12:
             if not sleeping:
-                display.sleep()
+                screen.sleep()
                 pixels.off()
             else:
-                display.resume()
+                screen.resume()
                 pixels.setApp(apps[app_index])
             sleeping = not sleeping
 
