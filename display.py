@@ -56,8 +56,8 @@ class Display:
                 self.group[i].text = ''
         self.macropad.display.refresh()
 
-    def setText(self, text):
-        self.group[13].text = 'NO MACRO FILES FOUND'
+    def setTitle(self, text):
+        self.group[13].text = text
         for i in range(12):
             self.group[i].text = ''
         self.macropad.display.refresh()

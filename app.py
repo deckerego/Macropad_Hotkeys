@@ -9,7 +9,13 @@ class App:
     @staticmethod
     def load_all(dir):
         apps = []
-        files = os.listdir(dir)
+
+        try:
+            files = os.listdir(dir)
+        except OSError as err:
+            print(err)
+            return apps
+
         for filename in files:
             if filename.endswith('.py'):
                 try:

@@ -20,17 +20,17 @@ screen.initialize()
 apps = App.load_all(MACRO_FOLDER)
 
 if not apps:
-    screen.setText('NO MACRO FILES FOUND')
-    quit()
+    screen.setTitle('NO MACRO FILES FOUND')
+    while True:
+        pass
 
-while True:
-    try: # Test the USB HID connection
-        macropad.keyboard.release_all()
-        break
-    except OSError as err:
-        print(err)
-        screen.setText('NO USB CONNECTION')
-        time.sleep(5000)
+try: # Test the USB HID connection
+    macropad.keyboard.release_all()
+except OSError as err:
+    print(err)
+    screen.setTitle('NO USB CONNECTION')
+    while True:
+        pass
 
 while True:
     position = macropad.encoder
