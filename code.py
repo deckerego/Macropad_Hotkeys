@@ -4,22 +4,19 @@ import keyfactory
 from adafruit_macropad import MacroPad
 from app import App
 from display import Display
+from pixels import Pixels
 
 MACRO_FOLDER = '/macros'
 
 macropad = MacroPad()
 macropad.pixels.auto_write = False
 screen = Display(macropad)
+pixels = Pixels(macropad)
 
 def switch(app):
     macropad.keyboard.release_all()
     screen.setApp(app)
-    for i in range(12):
-        if i < len(app.macros): # Key in use, set label + LED color
-            macropad.pixels[i] = app.macros[i][0]
-        else:  # Key not in use, no label or LED
-            macropad.pixels[i] = 0
-    macropad.pixels.show()
+    pixels.setApp(app)
 
 screen.initialize()
 apps = []
@@ -76,13 +73,11 @@ while True:
     sequence = apps[app_index].macros[key_number][2] if key_number < 12  else []
     if pressed:
         if not sleeping and key_number < 12:
-            macropad.pixels[key_number] = 0xFFFFFF
-            macropad.pixels.show()
+            pixels.highlight(key_number, 0xFFFFFF)
         elif key_number is 12:
             if not sleeping:
                 display.sleep()
-                macropad.pixels.fill((0, 0, 0))
-                macropad.pixels.show()
+                pixels.off()
             else:
                 display.resume()
                 switch(apps[app_index])
@@ -96,5 +91,4 @@ while True:
         for item in sequence:
             keyfactory.get(item).release(macropad)
         if not sleeping and key_number < 12: # No pixel for encoder button
-            macropad.pixels[key_number] = apps[app_index].macros[key_number][0]
-            macropad.pixels.show()
+            pixels.reset(key_number)
