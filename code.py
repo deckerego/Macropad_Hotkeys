@@ -8,7 +8,6 @@ from pixels import Pixels
 MACRO_FOLDER = '/macros'
 
 macropad = MacroPad()
-macropad.pixels.auto_write = False
 screen = Display(macropad)
 pixels = Pixels(macropad)
 last_position = None
@@ -61,10 +60,10 @@ while True:
         elif key_number is 12:
             if not sleeping:
                 screen.sleep()
-                pixels.off()
+                pixels.sleep()
             else:
                 screen.resume()
-                pixels.setApp(apps[app_index])
+                pixels.resume()
             sleeping = not sleeping
 
         for item in sequence:
