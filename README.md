@@ -9,7 +9,7 @@ example from the
 ## Modifications
 
 - Rotary button no longer is an action, instead it turns on/off the displays
-- Macros for Blender, Safari, generic number pad and Zoom
+- Macros for Blender, Safari, MIDI drum kit, generic number pad and Zoom
 - Support for HID consumer control codes
 - Support for mouse buttons
 - Support for sending MIDI notes
