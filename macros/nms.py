@@ -6,7 +6,7 @@ from mouse import Mouse
 
 app = {
     'name' : 'No Man\'s Sky',
-    'order': 4,
+    'order': 5,
     'macros' : [
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------
