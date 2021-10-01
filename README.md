@@ -12,9 +12,42 @@ example from the
 - Macros for Blender, Safari, generic number pad and Zoom
 - Support for HID consumer control codes
 - Support for mouse buttons
+- Support for sending MIDI notes
 - When no HID connection is present (power only), keep LEDs off and provide a message
 - Mount filesystem as read-only unless the encoder button is pressed on boot
 - Refactored the code to make it (maybe) easier to modify
+
+
+## Using
+
+You use the Macropad Hotkeys much like the original
+[Adafruit version](https://github.com/adafruit/Adafruit_Learning_System_Guides/blob/main/LICENSE),
+with a few differences.
+
+Use the dial to select the macro template you would like to use. The macros appear
+in the order specified within each config file (see [Configuration](#configuration) below for details).
+Once you have the macro you like selected, you are free to hammer away at the keys.
+
+Click the rotary dial to turn off the display & LEDs - click it again to turn it back on.
+Note the keys continue to respond even when they are not lit.
+
+
+## Configuration
+
+The `macros/` folder has a list of macro templates to chose from, all of which
+can be altered at your whim. First make sure to mount your Macropad in read/write
+mode (see [Updating](#updating)) and then open up the `.py` examples in the
+`macros/` folder. Note that each has a list of settings, including:
+
+- The name that will show at the top of the OLED display
+- The sequential order that it will be shown when rotating the encoder dial
+- A list of macros, sorted by row
+
+Each macro consists of an LED color, a label to appear on the OLED display,
+and a sequence of keys. A "key" can be text, a keyboard key, a consumer control
+key (like play/pause), a mouse action, or a MIDI note. More than one key can
+be specified in a sequence.
+
 
 ## Installing
 
@@ -24,6 +57,7 @@ into a directory, then copy the contents of that extracted archive
 into the CIRCUITPY drive that appears when you plug in your Macropad.
 Ensure that the contents of the `lib/` subdirectory are also copied - these are
 the precompiled Adafruit libraries that power the Macropad.
+
 
 ## Updating
 
