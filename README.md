@@ -1,4 +1,4 @@
-# Macropad Hotkeys
+# Macropad Hotkeys II
 
 A derivative of the
 [Macropad Hotkeys](https://github.com/adafruit/Adafruit_Learning_System_Guides/blob/main/LICENSE)
