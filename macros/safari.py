@@ -10,10 +10,10 @@ app = {
         # 1st row ----------
         (0x0A2B5E, '< Back ', [Keycode.COMMAND, '[']),
         (0x0A2B5E, 'Fwd >  ', [Keycode.COMMAND, ']']),
-        (0x5E4001, 'Up     ', [Keycode.SHIFT, ' ']),
+        (0x5E4001, 'Up     ', [Keycode.SHIFT, ' ']  ),
         # 2nd row ----------
         (0x095E06, '< Tab  ', [Keycode.CONTROL, Keycode.SHIFT, Keycode.TAB]),
-        (0x095E06, 'Tab >  ', [Keycode.CONTROL, Keycode.TAB]),
+        (0x095E06, 'Tab >  ', [Keycode.CONTROL, Keycode.TAB]               ),
         (0x5E4001, 'Down   ', ' '),
         # 3rd row ----------
         (0x5E143E, 'Reload ', [Keycode.COMMAND, 'r']),
