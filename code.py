@@ -66,9 +66,9 @@ while True:
                 pixels.resume()
             sleeping = not sleeping
 
-        if sequence is list:
+        if type(sequence) is list:
             for item in sequence:
-                if item is list: # We have a macro to execute
+                if type(item) is list: # We have a macro to execute
                     for subitem in item: # Press the key combination
                         keyfactory.get(subitem).press(macropad)
                     for subitem in item: # Immediately release the key combo
@@ -79,9 +79,9 @@ while True:
             keyfactory.get(sequence).press(macropad)
                 
     else:
-        if sequence is list: 
+        if type(sequence) is list: 
             for item in sequence:
-                if item is not list: # Release any still-pressed key combinations
+                if type(item) is not list: # Release any still-pressed key combinations
                     keyfactory.get(item).release(macropad)
                 # Macro key cobinations should already have been released
         else: # Release any still-pressed single commands

@@ -5,6 +5,7 @@ from keyboard import Keyboard
 from midi import Midi
 
 def get(item):
+    print(type(item))
     if isinstance(item, Toolbar):
         return item
     elif isinstance(item, Mouse):
