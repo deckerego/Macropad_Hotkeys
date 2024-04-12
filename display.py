@@ -35,14 +35,12 @@ class Display:
         self.display.show(self.group)
 
     def sleep(self):
-        self.display.auto_brightness = False
         self.display.brightness = 0
         self.display.show(displayio.Group())
         self.display.refresh()
 
     def resume(self):
         self.display.brightness = 1
-        self.display.auto_brightness = True
         self.display.show(self.group)
         self.display.refresh()
 
