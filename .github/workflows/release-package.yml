@@ -1,0 +1,54 @@
+name: Package the Latest Release
+
+on:
+  release:
+    types: [ published ]
+
+env:
+  adafruit-bundle: '20250221'
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Adafruit Library Cache
+        id: cache-mpy
+        uses: actions/cache@v4
+        with:
+          path: ~/.adafruit-circuitpython-bundle
+          key: ${{ runner.os }}-adafruit-mpy-${{ env.adafruit-bundle }}
+      - if: ${{ steps.cache-mpy.outputs.cache-hit != 'true' }}
+        name: Download the Adafruit CircuitPython Bundle
+        run: |
+          curl -L https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/${{ env.adafruit-bundle }}/adafruit-circuitpython-bundle-9.x-mpy-${{ env.adafruit-bundle }}.zip -o adafruit-circuitpython-bundle.zip
+          unzip adafruit-circuitpython-bundle.zip
+          rm adafruit-circuitpython-bundle.zip
+          mkdir -p ~/.adafruit-circuitpython-bundle
+          mv adafruit-circuitpython-bundle-9.x-mpy-${{ env.adafruit-bundle }}/* ~/.adafruit-circuitpython-bundle/
+          rmdir adafruit-circuitpython-bundle-9.x-mpy-${{ env.adafruit-bundle }}
+      - name: Copy Adafruit Libraries
+        run: |
+          cp -a \
+          ~/.adafruit-circuitpython-bundle/lib/adafruit_debouncer.mpy \
+          ~/.adafruit-circuitpython-bundle/lib/adafruit_display_shapes \
+          ~/.adafruit-circuitpython-bundle/lib/adafruit_display_text \
+          ~/.adafruit-circuitpython-bundle/lib/adafruit_displayio_layout \
+          ~/.adafruit-circuitpython-bundle/lib/adafruit_hid \
+          ~/.adafruit-circuitpython-bundle/lib/adafruit_macropad.mpy \
+          ~/.adafruit-circuitpython-bundle/lib/adafruit_midi \
+          ~/.adafruit-circuitpython-bundle/lib/adafruit_pixelbuf.mpy \
+          ~/.adafruit-circuitpython-bundle/lib/adafruit_simple_text_display.mpy \
+          ~/.adafruit-circuitpython-bundle/lib/neopixel.mpy \
+          ~/.adafruit-circuitpython-bundle/lib/adafruit_ticks.mpy \
+          ./lib
+      - name: Archive Release Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: Macropad.Hotkeys.v${{ github.ref_name }}
+          path: |
+            *.py
+            lib
+            macros
+            README.md
+            LICENSE
