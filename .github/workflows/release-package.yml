@@ -5,7 +5,7 @@ on:
     types: [ published ]
 
 env:
-  adafruit-bundle: '20250221'
+  adafruit-bundle: '20251105'
 
 jobs:
   package:

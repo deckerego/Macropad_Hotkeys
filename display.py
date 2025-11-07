@@ -32,7 +32,7 @@ class Display:
                 anchor_point=(0.5, 0.0)
             )
         )
-        self.display.show(self.group)
+        self.display.root_group = self.group
 
     def sleep(self):
         self.display.brightness = 0
@@ -41,7 +41,7 @@ class Display:
 
     def resume(self):
         self.display.brightness = 1
-        self.display.show(self.group)
+        self.display.root_group = self.group
         self.display.refresh()
 
     def setApp(self, app):

@@ -52,7 +52,7 @@ be specified in a sequence.
 ## Installing
 
 First make sure that your Macropad has the
-[latest version of CircuitPython installed](https://circuitpython.org/board/adafruit_macropad_rp2040/).
+[latest version of CircuitPython 10.0 installed](https://circuitpython.org/board/adafruit_macropad_rp2040/).
 See [https://learn.adafruit.com/adafruit-macropad-rp2040/circuitpython](https://learn.adafruit.com/adafruit-macropad-rp2040/circuitpython)
 for instructions on how to update the Macropad to have the latest version of
 CircuitPython.
