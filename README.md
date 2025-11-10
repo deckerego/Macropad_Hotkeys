@@ -76,5 +76,6 @@ To update or edit the code on the device, or to modify the macros, you first
 need to reboot the device with the CIRCUITPY drive mounted in read/write mode.
 To do that, reboot the device using the boot switch on the left of the
 Macropad, and then after releasing the button immediately hold down the
-rotary encoder button. You should see the text "Mounting Read/Write" quickly
-appear on the screen, and then the CIRCUITPY drive will mount in read/write mode.
+blinking top-left key on the keypad (KEY1). You should see the text 
+"Mounting Read/Write" quickly appear on the screen, and then the CIRCUITPY 
+drive will mount in read/write mode.
