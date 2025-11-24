@@ -36,7 +36,7 @@ class Display:
 
     def sleep(self):
         self.display.brightness = 0
-        self.display.show(displayio.Group())
+        self.display.root_group = displayio.Group()
         self.display.refresh()
 
     def resume(self):
