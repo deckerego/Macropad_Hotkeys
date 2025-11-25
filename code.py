@@ -61,6 +61,7 @@ while True:
     sleep_remaining -= elapsed_seconds()
     if not state["sleeping"] and sleep_remaining <= 0:
         Sleep().press(state)
+        continue
 
     # Determine the event type
     if position != last_position and state["macropad"].encoder_switch:
@@ -98,8 +99,8 @@ while True:
     # Wake up if there is a key event while sleeping
     if state["sleeping"] and (pressed or rotated):
         Sleep().press(state)
-        sleep_remaining = SLEEP_AFTER
         continue
+    sleep_remaining = SLEEP_AFTER
 
     if sequence and (pressed or rotated):
         if not state["sleeping"] and key_number < 12:
