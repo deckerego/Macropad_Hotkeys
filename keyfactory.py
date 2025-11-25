@@ -1,8 +1,9 @@
 from consumer import Toolbar
 from mouse import Mouse
-from sleeper import Sleep
+from pause import Pause
 from keyboard import Keyboard
 from midi import Midi
+from sleep import Sleep
 
 def get(item):
     if isinstance(item, Toolbar):
@@ -11,7 +12,9 @@ def get(item):
         return item
     elif isinstance(item, Midi):
         return item
+    elif isinstance(item, Sleep):
+        return item
     elif isinstance(item, float):
-        return Sleep(item)
+        return Pause(item)
     else:
         return Keyboard(item)
