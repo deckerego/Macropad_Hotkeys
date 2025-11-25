@@ -10,9 +10,9 @@ MACRO_FOLDER = '/macros'
 macropad = MacroPad()
 screen = Display(macropad)
 pixels = Pixels(macropad)
-last_position = None
+last_position = macropad.encoder
+macro_changed = False
 sleeping = False
-last_encoder_switch = macropad.encoder_switch_debounced.pressed
 app_index = 0
 
 screen.initialize()
@@ -31,21 +31,33 @@ except OSError as err:
     while True:
         pass
 
+screen.setApp(apps[0])
+pixels.setApp(apps[0])
+
 while True:
     position = macropad.encoder
-    if position != last_position:
+    macropad.encoder_switch_debounced.update()
+    pressed = False
+    rotated = False
+
+    if position != last_position and macropad.encoder_switch:
+        macro_changed = True
         last_position = position
         app_index = position % len(apps)
         macropad.keyboard.release_all()
         screen.setApp(apps[app_index])
         pixels.setApp(apps[app_index])
-
-    macropad.encoder_switch_debounced.update()
-    encoder_switch = macropad.encoder_switch_debounced.pressed
-    if encoder_switch != last_encoder_switch:
-        last_encoder_switch = encoder_switch
+        continue # Changing macros, not a keypress event
+    elif macro_changed and macropad.encoder_switch_debounced.released:
+        macro_changed = False
+        continue # We've changed macros, ignore encoder press
+    elif macropad.encoder_switch_debounced.released:
         key_number = 12
-        pressed = encoder_switch
+        pressed = macropad.encoder_switch_debounced.released
+    elif position != last_position:
+        key_number = 13 if position < last_position else 14
+        last_position = position
+        rotated = True
     else:
         event = macropad.keys.events.get()
         if not event or event.key_number >= len(apps[app_index].macros):
@@ -53,18 +65,15 @@ while True:
         key_number = event.key_number
         pressed = event.pressed
 
-    sequence = apps[app_index].macros[key_number][2] if key_number < 12  else []
-    if pressed:
+    try:
+        sequence = apps[app_index].macros[key_number][2] if key_number <= 14  else []
+    except (IndexError) as err:
+        print("Couldn't find sequence for key number ", key_number)
+        sequence = None
+
+    if sequence and (pressed or rotated):
         if not sleeping and key_number < 12:
             pixels.highlight(key_number, 0xFFFFFF)
-        elif key_number is 12:
-            if not sleeping:
-                screen.sleep()
-                pixels.sleep()
-            else:
-                screen.resume()
-                pixels.resume()
-            sleeping = not sleeping
 
         if type(sequence) is list:
             for item in sequence:
@@ -78,7 +87,7 @@ while True:
         else: # We just have a single command to execute
             keyfactory.get(sequence).press(macropad)
                 
-    else:
+    if sequence and (not pressed or rotated):
         if type(sequence) is list: 
             for item in sequence:
                 if type(item) is not list: # Release any still-pressed key combinations
