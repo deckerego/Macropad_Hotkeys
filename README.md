@@ -42,6 +42,7 @@ mode (see [Updating](#updating)) and then open up the `.py` examples in the
 
 - The name that will show at the top of the OLED display
 - The sequential order that it will be shown when rotating the encoder dial
+- A macro to launch when switching to this screen
 - A list of macros, sorted by row
 - A list of macros for the rotary encoder
 
@@ -53,6 +54,10 @@ be specified in a sequence.
 The example in `macros/examples/test.py` is a good starter for your own custom macro.
 From this example you can see the triplets which specify color, label, and commands and
 visualize the key layout for the configuration, with the rotary encoder values at the bottom.
+
+Note the "launch" setting is a macro that will run when you switch to a given screen.
+It does not run when the macropad first starts, but it will once you switch from another screen.
+See `macros/examples/resolve_edit.py` for an example.
 
 
 ## Installing
