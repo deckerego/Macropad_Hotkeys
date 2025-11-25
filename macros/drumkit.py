@@ -2,6 +2,7 @@
 # https://en.wikipedia.org/wiki/General_MIDI#Percussion
 
 from midi import Midi
+from sleep import Sleep
 
 app = {
     'name' : 'Drum Kit',
@@ -23,6 +24,10 @@ app = {
         # 4th row ----------
         (0x540908, 'Bass',    Midi(35)),
         (0x540908, 'Kick',    Midi(36)),
-        (0x04541B, 'Cowbell', Midi(56))
+        (0x04541B, 'Cowbell', Midi(56)),
+        # Rotary Encoder ---
+        (0x000000, None, Sleep()),
+        (0x000000, None, []),
+        (0x000000, None, []),
     ]
 }

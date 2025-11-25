@@ -3,6 +3,7 @@
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.mouse import Mouse as MouseCode
 from mouse import Mouse
+from sleep import Sleep
 
 app = {
     'name' : 'No Man\'s Sky',
@@ -24,6 +25,10 @@ app = {
         # 4th row ----------
         (0x095E06, 'Quick', Keycode.X),
         (0x000000, '     ', []),
-        (0x095E06, 'Build', Keycode.Z)
+        (0x095E06, 'Build', Keycode.Z),
+        # Rotary Encoder ---
+        (0x000000, None, Sleep()),
+        (0x000000, None, []),
+        (0x000000, None, []),
     ]
 }

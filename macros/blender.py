@@ -1,6 +1,7 @@
 # MACROPAD Hotkeys: Blender
 
 from adafruit_hid.keycode import Keycode
+from sleep import Sleep
 
 app = {
     'name' : 'Blender',
@@ -22,6 +23,10 @@ app = {
         # 4th row ----------
         (0x660556, 'Camera', Keycode.KEYPAD_ZERO ),
         (0x20660A, 'Zoom +', Keycode.KEYPAD_PLUS ),
-        (0x20660A, 'Zoom -', Keycode.KEYPAD_MINUS)
+        (0x20660A, 'Zoom -', Keycode.KEYPAD_MINUS),
+        # Rotary Encoder ---
+        (0x000000, None, Sleep()),
+        (0x000000, None, Keycode.KEYPAD_MINUS),
+        (0x000000, None, Keycode.KEYPAD_PLUS),
     ]
 }

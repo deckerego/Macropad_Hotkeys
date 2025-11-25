@@ -1,6 +1,7 @@
 # MACROPAD Hotkeys: Safari web browser for Mac
 
 from adafruit_hid.keycode import Keycode
+from sleep import Sleep
 
 app = {
     'name' : 'MacOS Safari',
@@ -25,6 +26,10 @@ app = {
         (0x01255E, 'AWS    ', [Keycode.COMMAND, 't', -Keycode.COMMAND,
                             'http://console.aws.amazon.com\n']),
         (0x01255E, 'Feedly ', [Keycode.COMMAND, 't', -Keycode.COMMAND,
-                             'https://feedly.com/\n'])
+                             'https://feedly.com/\n']),
+        # Rotary Encoder ---
+        (0x000000, None, Sleep()),
+        (0x000000, None, []),
+        (0x000000, None, []),
     ]
 }

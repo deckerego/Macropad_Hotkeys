@@ -1,6 +1,7 @@
 # MACROPAD Hotkeys: Universal Numpad
 
 from adafruit_hid.keycode import Keycode
+from sleep import Sleep
 
 app = {
     'name' : 'Numpad',
@@ -22,6 +23,10 @@ app = {
         # 4th row ----------
         (0x004166, '0    ', Keycode.KEYPAD_ZERO  ),
         (0x640A66, '.    ', Keycode.KEYPAD_PERIOD),
-        (0x663F0A, 'ENTER', Keycode.KEYPAD_ENTER )
+        (0x663F0A, 'ENTER', Keycode.KEYPAD_ENTER ),
+        # Rotary Encoder ---
+        (0x000000, None, Sleep()),
+        (0x000000, None, []),
+        (0x000000, None, []),
     ]
 }

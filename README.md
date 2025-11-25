@@ -8,28 +8,24 @@ example from the
 
 ## Modifications
 
-- Rotary button no longer is an action, instead it turns on/off the displays
-- Macros for Blender, Safari, MIDI drum kit, generic number pad and Zoom
+- A number of sample macros for things such as Blender, a MIDI drum kit, DaVinici Resolve, and more
 - Support for HID consumer control codes
 - Support for mouse buttons
 - Support for sending MIDI notes
 - When no HID connection is present (power only), keep LEDs off and provide a message
-- Mount filesystem as read-only unless the encoder button is pressed on boot
+- Stop your OS from shouting when you unplug the Macropad - mount filesystem as read-only unless the KEY1 button is pressed on boot
 - Refactored the code to make it (maybe) easier to modify
 
 
 ## Using
 
-You use the Macropad Hotkeys much like the original
+You use the Macropad Hotkeys in a similar way to the original
 [Adafruit version](https://github.com/adafruit/Adafruit_Learning_System_Guides/blob/main/LICENSE),
-with a few differences.
+with several improvements.
 
-Use the dial to select the macro template you would like to use. The macros appear
+Push down & rotate the dial to select the macro template you would like to use. The macros appear
 in the order specified within each config file (see [Configuration](#configuration) below for details).
 Once you have the macro you like selected, you are free to hammer away at the keys.
-
-Click the rotary dial to turn off the display & LEDs - click it again to turn it back on.
-Note the keys continue to respond even when they are not lit.
 
 
 ## Configuration
@@ -42,6 +38,7 @@ mode (see [Updating](#updating)) and then open up the `.py` examples in the
 - The name that will show at the top of the OLED display
 - The sequential order that it will be shown when rotating the encoder dial
 - A list of macros, sorted by row
+- A list of macros for the rotary encoder
 
 Each macro consists of an LED color, a label to appear on the OLED display,
 and a sequence of keys. A "key" can be text, a keyboard key, a consumer control
