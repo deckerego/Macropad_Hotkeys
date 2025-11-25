@@ -1,6 +1,7 @@
 # MACROPAD Hotkeys: DaVinci Resolve Cut Page
 
 from adafruit_hid.keycode import Keycode
+from sleep import Sleep
 
 app = {
     'name' : 'DV Resolve [Cut]',
@@ -24,7 +25,7 @@ app = {
         (0x000000, '       ', []),
         (0x000000, '       ', []),
         # Rotary Encoder ---
-        (0x000000, None, []),
+        (0x000000, None, Sleep()),
         (0x000000, None, [Keycode.LEFT_SHIFT, Keycode.LEFT_ARROW]),
         (0x000000, None, [Keycode.LEFT_SHIFT, Keycode.RIGHT_ARROW]),
     ]

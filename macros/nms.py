@@ -24,6 +24,10 @@ app = {
         # 4th row ----------
         (0x095E06, 'Quick', Keycode.X),
         (0x000000, '     ', []),
-        (0x095E06, 'Build', Keycode.Z)
+        (0x095E06, 'Build', Keycode.Z),
+        # Rotary Encoder ---
+        (0x000000, None, Sleep()),
+        (0x000000, None, []),
+        (0x000000, None, []),
     ]
 }

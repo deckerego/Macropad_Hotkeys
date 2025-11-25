@@ -23,6 +23,10 @@ app = {
         # 4th row ----------
         (0x540908, 'Bass',    Midi(35)),
         (0x540908, 'Kick',    Midi(36)),
-        (0x04541B, 'Cowbell', Midi(56))
+        (0x04541B, 'Cowbell', Midi(56)),
+        # Rotary Encoder ---
+        (0x000000, None, Sleep()),
+        (0x000000, None, []),
+        (0x000000, None, []),
     ]
 }
