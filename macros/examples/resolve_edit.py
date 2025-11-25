@@ -11,21 +11,21 @@ app = {
     'macros' : [
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------
-        (0x20660A, '- ', [Keycode.COMMAND, '-']),
-        (0x660556, 'Zoom', [Keycode.LEFT_SHIFT, 'z']),
-        (0x20660A, ' +', [Keycode.COMMAND, '=']),
+        (0x2D2D4E, '- ', [Keycode.COMMAND, '-']),
+        (0x0D0E50, 'Zoom', [Keycode.LEFT_SHIFT, 'z']),
+        (0x2D2D4E, ' +', [Keycode.COMMAND, '=']),
         # 2nd row ----------
-        (0x663F00, '<<', 'j'),
-        (0x660556, '>||', Keycode.SPACE),
-        (0x663F00, '>>', 'l' ),
+        (0x5BA004, '<<', 'j'),
+        (0x0D0E50, '>||', Keycode.SPACE),
+        (0x5BA004, '>>', 'l' ),
         # 3rd row ----------
-        (0x663F00, 'Prev', Keycode.UP_ARROW),
-        (0x660556, ' [*] ', 'k'),
-        (0x663F00, 'Next', Keycode.DOWN_ARROW),
+        (0x5BA004, 'Prev', Keycode.UP_ARROW),
+        (0x0D0E50, ' [*] ', 'k'),
+        (0x5BA004, 'Next', Keycode.DOWN_ARROW),
         # 4th row ----------
-        (0x663F00, 'In', 'i'),
-        (0x660556, 'Clear', 'x'),
-        (0x663F00, 'Out', 'o'),
+        (0xF2CB05, 'In', 'i'),
+        (0xA52226, 'Clear', 'x'),
+        (0xF2CB05, 'Out', 'o'),
         # Rotary Encoder ---
         (0x000000, None, Sleep()),
         (0x000000, None, [Keycode.LEFT_SHIFT, Keycode.LEFT_ARROW], [Keycode.LEFT_SHIFT, Keycode.LEFT_ARROW], [Keycode.LEFT_SHIFT, Keycode.LEFT_ARROW]),
