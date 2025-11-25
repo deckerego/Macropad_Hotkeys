@@ -22,7 +22,7 @@ class App:
                     module = __import__(dir + '/' + filename[:-3])
                     apps.append(App(module.app))
                 except (SyntaxError, ImportError, AttributeError, KeyError, NameError, IndexError, TypeError) as err:
-                    print(err)
+                    print("Macro Error: ", err)
                     pass
 
         apps.sort(key=lambda m:m.order)
