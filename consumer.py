@@ -2,11 +2,11 @@ class Toolbar:
     def __init__(self, keycode):
         self.keycode = keycode
 
-    def press(self, macropad):
+    def press(self, state):
         if self.keycode < 0:
-            macropad.consumer_control.release()
+            state["macropad"].consumer_control.release()
         else:
-            macropad.consumer_control.press(self.keycode)
+            state["macropad"].consumer_control.press(self.keycode)
 
-    def release(self, macropad):
-        macropad.consumer_control.release()
+    def release(self, state):
+        state["macropad"].consumer_control.release()

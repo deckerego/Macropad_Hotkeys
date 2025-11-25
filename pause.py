@@ -1,11 +1,11 @@
 import time
 
-class Sleep:
+class Pause:
     def __init__(self, seconds):
         self.seconds = seconds
 
-    def press(self, macropad):
+    def press(self, state):
         time.sleep(self.seconds)
 
-    def release(self, macropad):
+    def release(self, state):
         pass
