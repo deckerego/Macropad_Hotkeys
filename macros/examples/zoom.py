@@ -24,8 +24,8 @@ app = {
         (0x000000, '       ', []),
         # 4th row ----------
         (0x080F54, 'Vol-   ', [Toolbar(ConsumerControlCode.VOLUME_DECREMENT)]),
-        (0x000000, '       ', []),
-        (0x080F54, 'Vol+   ', [Toolbar(ConsumerControlCode.VOLUME_INCREMENT)]),
+        (0x000000, 'VolMute', [Toolbar(ConsumerControlCode.MUTE)]),
+        (0x080F54, '  Vol+ ', [Toolbar(ConsumerControlCode.VOLUME_INCREMENT)]),
         # Rotary Encoder ---
         (0x000000, None, Sleep()),
         (0x000000, None, [Toolbar(ConsumerControlCode.VOLUME_DECREMENT)]),

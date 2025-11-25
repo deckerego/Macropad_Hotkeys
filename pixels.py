@@ -1,4 +1,4 @@
-BRIGHTNESS = 0.6
+BRIGHTNESS = 0.3
 
 class Pixels:
     def __init__(self, macropad):

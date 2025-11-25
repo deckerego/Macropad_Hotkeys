@@ -4,6 +4,7 @@ class App:
     def __init__(self, appdata):
         self.name = appdata['name']
         self.order = appdata['order']
+        self.launch = appdata['launch'] if 'launch' in appdata else None
         self.macros = appdata['macros']
 
     @staticmethod
