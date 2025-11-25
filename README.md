@@ -1,6 +1,6 @@
 # Macropad Hotkeys II
 
-A derivative of the
+A rebuild of the
 [Macropad Hotkeys](https://github.com/adafruit/Adafruit_Learning_System_Guides/blob/main/LICENSE)
 example from the
 [Adafruit Learning System Guide](https://learn.adafruit.com/macropad-hotkeys/project-code).
