@@ -1,6 +1,7 @@
 # MACROPAD Hotkeys: Blender
 
 from adafruit_hid.keycode import Keycode
+from sleep import Sleep
 
 app = {
     'name' : 'Blender',

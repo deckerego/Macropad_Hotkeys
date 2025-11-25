@@ -2,6 +2,7 @@
 # https://en.wikipedia.org/wiki/General_MIDI#Percussion
 
 from midi import Midi
+from sleep import Sleep
 
 app = {
     'name' : 'Drum Kit',

@@ -1,6 +1,7 @@
 # MACROPAD Hotkeys: Safari web browser for Mac
 
 from adafruit_hid.keycode import Keycode
+from sleep import Sleep
 
 app = {
     'name' : 'MacOS Safari',

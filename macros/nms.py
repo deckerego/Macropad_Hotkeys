@@ -3,6 +3,7 @@
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.mouse import Mouse as MouseCode
 from mouse import Mouse
+from sleep import Sleep
 
 app = {
     'name' : 'No Man\'s Sky',

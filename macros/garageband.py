@@ -3,6 +3,7 @@
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control_code import ConsumerControlCode
 from consumer import Toolbar
+from sleep import Sleep
 
 app = {
     'name' : 'GarageBand',
