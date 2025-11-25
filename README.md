@@ -23,9 +23,14 @@ You use the Macropad Hotkeys in a similar way to the original
 [Adafruit version](https://github.com/adafruit/Adafruit_Learning_System_Guides/blob/main/LICENSE),
 with several improvements.
 
-Push down & rotate the dial to select the macro template you would like to use. The macros appear
-in the order specified within each config file (see [Configuration](#configuration) below for details).
-Once you have the macro you like selected, you are free to hammer away at the keys.
+At first install you don't have any macros installed - however several examples are provided
+in the `macros/examples` directory. You can create your own macros or use a pre-made example -
+see [Installing](#installing) or [Updating](#updating) below for details.
+
+Once you have some macros installed, push down & rotate the dial to select the macro template you 
+would like to use. The macros appear in the order specified within each config file 
+(see [Configuration](#configuration) below for details). Once you have the macro you like selected, 
+you are free to hammer away at the keys.
 
 
 ## Configuration
@@ -60,6 +65,9 @@ into a directory, then copy the contents of that extracted archive
 into the CIRCUITPY drive that appears when you plug in your Macropad.
 Ensure that the contents of the `lib/` subdirectory are also copied - these are
 the precompiled Adafruit libraries that power the Macropad.
+
+You can also install some initial macros to get started - copy some of the .py files from the `macros/examples` directory
+into `macros/` - this will give you a pre-built example to start from.
 
 
 ## Updating
