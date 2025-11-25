@@ -118,7 +118,7 @@ while True: # Event loop
 
     sequence = get_sequence(key_number)
     if sequence and (rotated or pressed):
-        if not state["sleeping"] and key_number < MAX_LEDS:
+        if not state["sleeping"] and (0 <= key_number < MAX_LEDS):
             state["pixels"].highlight(key_number, 0xFFFFFF)
 
         if type(sequence) is list:
@@ -141,5 +141,5 @@ while True: # Event loop
                 # Macro key cobinations should already have been released
         else: # Release any still-pressed single commands
             keyfactory.get(sequence).release(state)
-        if not state["sleeping"] and key_number < MAX_LEDS: # No pixel for encoder button
+        if not state["sleeping"] and (0 <= key_number < MAX_LEDS): # No pixel for encoder button
             state["pixels"].reset(key_number)
