@@ -24,7 +24,7 @@ app = {
         (0x544408, 'Fwd',        Keycode.PERIOD  ),
         # 4th row ----------
         (0x080F54, 'Vol-', Toolbar(ConsumerControlCode.VOLUME_DECREMENT)),
-        (0x000000, '',     []),
+        (0x000000, 'Mute', Toolbar(ConsumerControlCode.MUTE)),
         (0x080F54, 'Vol+', Toolbar(ConsumerControlCode.VOLUME_INCREMENT)),
         # Rotary Encoder ---
         (0x000000, None, Sleep()),
