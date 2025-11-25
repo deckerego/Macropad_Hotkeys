@@ -27,7 +27,7 @@ app = {
         (0x000000, '       ', []),
         # Rotary Encoder ---
         (0x000000, None, []),
-        (0x000000, None, [[Keycode.LEFT_SHIFT, Keycode.LEFT_ARROW], []]),
-        (0x000000, None, [[Keycode.LEFT_SHIFT, Keycode.RIGHT_ARROW], []]),
+        (0x000000, None, [Keycode.LEFT_SHIFT, Keycode.LEFT_ARROW]),
+        (0x000000, None, [Keycode.LEFT_SHIFT, Keycode.RIGHT_ARROW]),
     ]
 }
