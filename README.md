@@ -50,6 +50,10 @@ and a sequence of keys. A "key" can be text, a keyboard key, a consumer control
 key (like play/pause), a mouse action, or a MIDI note. More than one key can
 be specified in a sequence.
 
+The example in `macros/examples/test.py` is a good starter for your own custom macro.
+From this example you can see the triplets which specify color, label, and commands and
+visualize the key layout for the configuration, with the rotary encoder values at the bottom.
+
 
 ## Installing
 
@@ -66,8 +70,9 @@ into the CIRCUITPY drive that appears when you plug in your Macropad.
 Ensure that the contents of the `lib/` subdirectory are also copied - these are
 the precompiled Adafruit libraries that power the Macropad.
 
-You can also install some initial macros to get started - copy some of the .py files from the `macros/examples` directory
-into `macros/` - this will give you a pre-built example to start from.
+You can also install some initial macros to get started. Copy any of the .py files from the `macros/examples` directory
+into `macros/` to start with a pre-built example. Modify the examples to change LED colors, label text, or key/mouse/control
+macros as needed.
 
 
 ## Updating
