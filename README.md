@@ -45,6 +45,7 @@ mode (see [Updating](#updating)) and then copy a `.py` example in the
 
 - The name that will show at the top of the OLED display
 - The sequential order that it will be shown when rotating the encoder dial
+- An optional timeout before the LEDs and display go to sleep
 - A macro to launch when switching to this screen
 - A list of macros, sorted by row
 - A list of macros for the rotary encoder
