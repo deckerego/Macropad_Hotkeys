@@ -1,4 +1,4 @@
-# MACROPAD Hotkeys: Test Hotkey Scenarios
+# MACROPAD Hotkeys: Sample of a full configuration with all options
 
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control_code import ConsumerControlCode
@@ -12,6 +12,8 @@ from midi import Midi
 app = {
     'name' : 'Example Macro',
     'order': 0,
+    'launch': 
+        (0x000000, None, [Keycode.SHIFT]),
     'macros' : [
         # COLOR    LABEL    KEY SEQUENCE
         # 1st row ----------
