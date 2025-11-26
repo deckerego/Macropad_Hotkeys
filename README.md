@@ -35,9 +35,12 @@ you are free to hammer away at the keys.
 
 ## Configuration
 
-The `macros/` folder has a list of macro templates to chose from, all of which
-can be altered at your whim. First make sure to mount your Macropad in read/write
-mode (see [Updating](#updating)) and then open up the `.py` examples in the
+The `macros/examples/` folder has template macro pages to start from, or you can view
+some read-made macro pages in the 
+[Macropad Hotkeys II Wiki](https://github.com/deckerego/Macropad_Hotkeys/wiki).
+
+To add a new macro page, first make sure to mount your Macropad in read/write
+mode (see [Updating](#updating)) and then copy a `.py` example in the
 `macros/` folder. Note that each has a list of settings, including:
 
 - The name that will show at the top of the OLED display
@@ -51,13 +54,13 @@ and a sequence of keys. A "key" can be text, a keyboard key, a consumer control
 key (like play/pause), a mouse action, or a MIDI note. More than one key can
 be specified in a sequence.
 
-The example in `macros/examples/test.py` is a good starter for your own custom macro.
+The example in `macros/examples/minimal.py` is a good starter for your own custom macro.
 From this example you can see the triplets which specify color, label, and commands and
-visualize the key layout for the configuration, with the rotary encoder values at the bottom.
+visualize the key layout for the configuration.
 
 Note the "launch" setting is a macro that will run when you switch to a given screen.
 It does not run when the macropad first starts, but it will once you switch from another screen.
-See `macros/examples/resolve_edit.py` for an example.
+See `macros/examples/example.py` for an example of all configuration options.
 
 
 ## Installing
