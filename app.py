@@ -1,11 +1,18 @@
 import os
 
+NAME_DEFAULT = ''
+ORDER_DEFAULT = 0
+TIMEOUT_DEFAULT = 300
+LAUNCH_DEFUALT = None
+MACROS_DEFAULT = []
+
 class App:
     def __init__(self, appdata):
-        self.name = appdata['name']
-        self.order = appdata['order']
-        self.launch = appdata['launch'] if 'launch' in appdata else None
-        self.macros = appdata['macros']
+        self.name    = appdata['name']    if 'name'    in appdata else NAME_DEFAULT
+        self.order   = appdata['order']   if 'order'   in appdata else ORDER_DEFAULT
+        self.launch  = appdata['launch']  if 'launch'  in appdata else LAUNCH_DEFUALT
+        self.timeout = appdata['timeout'] if 'timeout' in appdata else TIMEOUT_DEFAULT
+        self.macros  = appdata['macros']  if 'macros'  in appdata else MACROS_DEFAULT
 
     @staticmethod
     def load_all(dir):
