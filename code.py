@@ -13,12 +13,11 @@ KEY_ENC_RIGHT = 14
 MAX_KEYS = 14
 MAX_LEDS = 12
 MACRO_FOLDER = '/macros'
-SLEEP_AFTER = 300 # Dim the display after 5 minutes
 
 macropad = MacroPad()
 last_position = macropad.encoder
 last_time_seconds = time.monotonic()
-sleep_remaining = SLEEP_AFTER
+sleep_remaining = None
 macro_changed = False
 current_app = None
 
@@ -38,8 +37,9 @@ def elapsed_seconds():
     return elapsed_seconds
 
 def set_app(index):
-    global current_app
+    global current_app, sleep_remaining
     current_app = apps[index]
+    sleep_remaining = current_app.timeout
     state["macropad"].keyboard.release_all()
     state["screen"].setApp(current_app)
     state["pixels"].setApp(current_app)
@@ -111,10 +111,10 @@ while True: # Event loop
         pressed = event.pressed
 
     # Wake up if there is a key event while sleeping
+    sleep_remaining = current_app.timeout
     if state["sleeping"] and (pressed or rotated):
         Sleep().press(state)
         continue
-    sleep_remaining = SLEEP_AFTER
 
     sequence = get_sequence(key_number)
     if sequence and (rotated or pressed):
