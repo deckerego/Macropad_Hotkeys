@@ -22,6 +22,7 @@ macro_changed = False
 app_index = 0
 app_current = None
 
+# The application state that is shared with the key events
 state = {
     "macropad": macropad,
     "screen": Display(macropad),
@@ -29,7 +30,7 @@ state = {
     "sleeping": False,
 }
 
-# Seconds (floating) since last invocation
+# Fractions of a second that have elapsed since this method's last run
 def elapsed_seconds():
     global last_time_seconds
     current_seconds = time.monotonic()
@@ -37,6 +38,7 @@ def elapsed_seconds():
     last_time_seconds = current_seconds
     return elapsed_seconds
 
+# Set the macro page (app) at the given index
 def set_app(index):
     global app_current, app_index, sleep_remaining
     app_index = index
@@ -46,6 +48,7 @@ def set_app(index):
     state["screen"].setApp(app_current)
     state["pixels"].setApp(app_current)
 
+# Get the macro sequence to execute for a given key
 def get_sequence(key):
     global app_current
     if key == KEY_LAUNCH:
@@ -98,14 +101,16 @@ while True: # Event loop
             app_next = app_index - 1 if key_number is KEY_ENC_LEFT else app_index + 1
             set_app(app_next % len(apps))
             continue # Changing macros, not a keypress event
+    # We are now switching to a new macro page
     elif macro_changed and state["macropad"].encoder_switch_debounced.released:
         macro_changed = False
         key_number = KEY_LAUNCH
         rotated = True
+    # We only clicked the encoder button (not switching to a new page)
     elif state["macropad"].encoder_switch_debounced.released:
         key_number = KEY_ENC_BUTTON
         pressed = state["macropad"].encoder_switch_debounced.released
-    else:
+    else: # Was there a keypress event on the keypad?
         event = state["macropad"].keys.events.get()
         if not event or event.key_number >= len(app_current.macros):
             if state["sleeping"]: time.sleep(1.0) # Low power mode
@@ -120,7 +125,7 @@ while True: # Event loop
         continue
 
     sequence = get_sequence(key_number)
-    if sequence and (rotated or pressed):
+    if sequence and (rotated or pressed): # Key Down Event
         if not state["sleeping"] and (0 <= key_number < MAX_LEDS):
             state["pixels"].highlight(key_number, 0xFFFFFF)
 
@@ -136,7 +141,7 @@ while True: # Event loop
         else: # We just have a single command to execute
             keyfactory.get(sequence).press(state)
                 
-    if sequence and (rotated or not pressed):
+    if sequence and (rotated or not pressed): # Key Up Event
         if type(sequence) is list: 
             for item in sequence:
                 if type(item) is not list: # Release any still-pressed key combinations
