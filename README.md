@@ -17,6 +17,13 @@ example from the
 - Refactored the code to make it (maybe) easier to modify
 
 
+## Demo
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=rzTTRM9xGms" target="_blank">
+ <img src="http://img.youtube.com/vi/rzTTRM9xGms/mqdefault.jpg" alt="Macropad Hotkeys II Demo" width="320" height="240" border="10" />
+</a>
+
+
 ## Using
 
 You use the Macropad Hotkeys in a similar way to the original
