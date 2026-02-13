@@ -17,6 +17,7 @@ class Display:
                 label.Label(terminalio.FONT,
                     text='',
                     color=0xFFFFFF,
+                    background_color=None,
                     anchored_position=((self.display.width - 1) * x / 2,
                     self.display.height - 1 - (3 - y) * 12),
                     anchor_point=(x / 2, 1.0)
@@ -42,6 +43,16 @@ class Display:
     def resume(self):
         self.display.brightness = 1
         self.display.root_group = self.group
+        self.display.refresh()
+
+    def highlight(self, key_index):
+        self.group[key_index].color = 0x000000
+        self.group[key_index].background_color = 0xFFFFFF
+        self.display.refresh()
+    
+    def reset(self, key_index):
+        self.group[key_index].color = 0xFFFFFF
+        self.group[key_index].background_color = 0x000000
         self.display.refresh()
 
     def setApp(self, app):
