@@ -25,8 +25,8 @@ jobs:
           unzip adafruit-circuitpython-bundle.zip
           rm adafruit-circuitpython-bundle.zip
           mkdir -p ~/.adafruit-circuitpython-bundle
-          mv adafruit-circuitpython-bundle-9.x-mpy-${{ env.adafruit-bundle }}/* ~/.adafruit-circuitpython-bundle/
-          rmdir adafruit-circuitpython-bundle-9.x-mpy-${{ env.adafruit-bundle }}
+          mv adafruit-circuitpython-bundle-10.x-mpy-${{ env.adafruit-bundle }}/* ~/.adafruit-circuitpython-bundle/
+          rmdir adafruit-circuitpython-bundle-10.x-mpy-${{ env.adafruit-bundle }}
       - name: Copy Adafruit Libraries
         run: |
           cp -a \
