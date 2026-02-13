@@ -27,11 +27,8 @@ class Pixels:
         self.pixels.show()
 
     def highlight(self, key_index, color):
-        for alpha in range(5):
-            color_blend = Pixels.blend(self.macros[key_index][0], color, alpha / 5.0)
-            self.pixels[key_index] = color_blend
-            self.pixels.show()
-            time.sleep(0.1)
+        self.pixels[key_index] = color
+        self.pixels.show()
 
     def reset(self, key_index):
         self.pixels[key_index] = self.macros[key_index][0]
