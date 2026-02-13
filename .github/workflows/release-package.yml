@@ -5,7 +5,7 @@ on:
     types: [ published ]
 
 env:
-  adafruit-bundle: '20251105'
+  adafruit-bundle: '20260212'
 
 jobs:
   package:
@@ -21,7 +21,7 @@ jobs:
       - if: ${{ steps.cache-mpy.outputs.cache-hit != 'true' }}
         name: Download the Adafruit CircuitPython Bundle
         run: |
-          curl -L https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/${{ env.adafruit-bundle }}/adafruit-circuitpython-bundle-9.x-mpy-${{ env.adafruit-bundle }}.zip -o adafruit-circuitpython-bundle.zip
+          curl -L https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/${{ env.adafruit-bundle }}/adafruit-circuitpython-bundle-10.x-mpy-${{ env.adafruit-bundle }}.zip -o adafruit-circuitpython-bundle.zip
           unzip adafruit-circuitpython-bundle.zip
           rm adafruit-circuitpython-bundle.zip
           mkdir -p ~/.adafruit-circuitpython-bundle
@@ -39,8 +39,8 @@ jobs:
           ~/.adafruit-circuitpython-bundle/lib/adafruit_midi \
           ~/.adafruit-circuitpython-bundle/lib/adafruit_pixelbuf.mpy \
           ~/.adafruit-circuitpython-bundle/lib/adafruit_simple_text_display.mpy \
-          ~/.adafruit-circuitpython-bundle/lib/neopixel.mpy \
           ~/.adafruit-circuitpython-bundle/lib/adafruit_ticks.mpy \
+          ~/.adafruit-circuitpython-bundle/lib/neopixel.mpy \
           ./lib
       - name: Archive Release Package
         uses: actions/upload-artifact@v4
