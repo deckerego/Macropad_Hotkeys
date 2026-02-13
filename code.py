@@ -128,6 +128,7 @@ while True: # Event loop
     if sequence and (rotated or pressed): # Key Down Event
         if not state["sleeping"] and (0 <= key_number < MAX_LEDS):
             state["pixels"].highlight(key_number, 0xFFFFFF)
+            state["screen"].highlight(key_number)
 
         if type(sequence) is list:
             for item in sequence:
@@ -151,3 +152,4 @@ while True: # Event loop
             keyfactory.get(sequence).release(state)
         if not state["sleeping"] and (0 <= key_number < MAX_LEDS): # No pixel for encoder button
             state["pixels"].reset(key_number)
+            state["screen"].reset(key_number)
