@@ -31,13 +31,13 @@ You use the Macropad Hotkeys in a similar way to the original
 with several improvements.
 
 At first install you don't have any macros installed - however several examples are provided
-in the `macros/examples` directory. You can create your own macros or use a pre-made example -
-see [Installing](#installing) or [Updating](#updating) below for details.
+in the `macros/examples` directory. The [Macropad Hotkeys II Wiki](https://github.com/deckerego/Macropad_Hotkeys/wiki)
+has a number of additional templates you can customize for things like DaVinci Resolve or Baldur's Gate III. 
+See [Configuration](#configuration) for details.
 
 Once you have some macros installed, push down & rotate the dial to select the macro template you 
-would like to use. The macros appear in the order specified within each config file 
-(see [Configuration](#configuration) below for details). Once you have the macro you like selected, 
-you are free to hammer away at the keys.
+would like to use; the macros appear in the order specified within each config file. 
+Once you have the macro you like selected, you are free to hammer away at the keys.
 
 
 ## Configuration
@@ -88,7 +88,8 @@ the precompiled Adafruit libraries that power the Macropad.
 
 You can also install some initial macros to get started. Copy any of the .py files from the `macros/examples` directory
 into `macros/` to start with a pre-built example. Modify the examples to change LED colors, label text, or key/mouse/control
-macros as needed.
+macros as needed. You can also copy-and-paste macros listed in the 
+[Macropad Hotkeys II Wiki](https://github.com/deckerego/Macropad_Hotkeys/wiki) then tweak as needed.
 
 
 ## Updating
