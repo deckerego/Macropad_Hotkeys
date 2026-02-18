@@ -15,7 +15,6 @@ downloads/
 eggs/
 .eggs/
 lib/**/*.mpy
-lib/**/*.py
 lib64/
 parts/
 sdist/

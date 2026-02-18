@@ -8,6 +8,9 @@ class Display:
         self.display = macropad.display
         self.display.auto_refresh = False
 
+    def __del__(self):
+        return
+
     def initialize(self):
         self.group = displayio.Group()
         for key_index in range(12):
