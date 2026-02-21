@@ -1,12 +1,12 @@
 class Group():
     def __init__(self):
-        return
+        self.list = []
     
     def __getitem__(self, index):
-        return
+        return self.list[index]
     
     def __setitem__(self, index, value):
-        return
+        self.list[index] = value
     
-    def append(self):
-        return
+    def append(self, value):
+        self.list = self.list + [value]
