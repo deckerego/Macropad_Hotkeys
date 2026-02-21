@@ -114,14 +114,7 @@ I've attempted to build mocks of all necessary libraries so things can be tested
 
 ### Running tests
 
-Tests require `pytest` to be installed along with a local version of the repository, as in:
-
+Tests can be run with the native Python unittest module, as in:
 ```sh
-pip3 install -e .
-```
-
-Once installed pytest can be invoked with default arguments, as in:
-
-```sh
-pytest
+python3 -m unittest discover
 ```
