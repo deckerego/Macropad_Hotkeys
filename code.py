@@ -4,6 +4,18 @@ from app import App
 from display import Display
 from keys import Keys
 
+## DEPRECATED 
+# Ensure backwards compatibility for the 2.x series
+# So we don't have to change import statements in old macros
+import sys
+import commands
+sys.modules['keyboard'] = commands
+sys.modules['mouse'] = commands
+sys.modules['pause'] = commands
+sys.modules['sleep'] = commands
+sys.modules['midi'] = commands
+sys.modules['consumer'] = commands
+
 MACRO_FOLDER = '/macros'
 
 macropad = MacroPad()
