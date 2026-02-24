@@ -14,8 +14,8 @@ class Keys:
         self.app = app
         self.keys = [Keys.MAX_KEYS]
         for i in range(len(self.app.macros)):
-            color, _, macro = self.app.macros[i]
-            self.keys[i] = Key(None, macro, color)
+            color, label, macro = self.app.macros[i]
+            self.keys[i] = Key(None, macro, label, color)
 
         self.macropad = macropad
         self.pixels = macropad.pixels
