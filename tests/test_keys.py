@@ -17,8 +17,11 @@ class MockApp:
         ]
 
 class TestKeys(TestCase):
-    def test_press(self):
+    def test_init(self):
         macropad = mock.Mock()
         app = MockApp()
         keys = Keys(macropad, app)
-        keys.press(0)
+        
+        self.assertEqual(len(keys.keys), 1)
+        self.assertEqual(keys.keys[0].color, 0x0F0F0F)
+        self.assertEqual(keys.keys[0].command, MockKeycode.MOCK_1)
