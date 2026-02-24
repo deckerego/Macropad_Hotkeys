@@ -1,4 +1,5 @@
 from key import Key
+from commands import Command
 
 BRIGHTNESS = 0.3
 
@@ -14,8 +15,9 @@ class Keys:
         self.app = app
         self.keys = [Keys.MAX_KEYS]
         for i in range(len(self.app.macros)):
-            color, label, macro = self.app.macros[i]
-            self.keys[i] = Key(None, macro, label, color)
+            color, label, sequence = self.app.macros[i]
+            command = Command.get(sequence)
+            self.keys[i] = Key(None, command, label, color)
 
         self.macropad = macropad
         self.pixels = macropad.pixels

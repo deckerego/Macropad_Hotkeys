@@ -1,18 +1,20 @@
 import time
 
-def get(item):
-    if isinstance(item, Toolbar):
-        return item
-    elif isinstance(item, Mouse):
-        return item
-    elif isinstance(item, Midi):
-        return item
-    elif isinstance(item, Sleep):
-        return item
-    elif isinstance(item, float):
-        return Pause(item)
-    else:
-        return Keyboard(item)
+class Command:
+    @staticmethod
+    def get(item):
+        if isinstance(item, Toolbar):
+            return item
+        elif isinstance(item, Mouse):
+            return item
+        elif isinstance(item, Midi):
+            return item
+        elif isinstance(item, Sleep):
+            return item
+        elif isinstance(item, float):
+            return Pause(item)
+        else:
+            return Keyboard(item)
 
 class Keyboard:
     def __init__(self, key):

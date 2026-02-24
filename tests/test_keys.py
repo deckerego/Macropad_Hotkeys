@@ -2,6 +2,7 @@ from unittest import mock
 from unittest import TestCase
 from keys import Keys
 from adafruit_hid.keycode import Keycode
+from keyboard import Keyboard # DEPRECATED switch to command module after 3.x
 
 class MockKeycode(Keycode):
     MOCK_1 = mock.Mock()
@@ -24,4 +25,4 @@ class TestKeys(TestCase):
         
         self.assertEqual(len(keys.keys), 1)
         self.assertEqual(keys.keys[0].color, 0x0F0F0F)
-        self.assertEqual(keys.keys[0].command, MockKeycode.MOCK_1)
+        self.assertIsInstance(keys.keys[0].command, Keyboard)
