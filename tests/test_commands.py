@@ -1,7 +1,7 @@
 from unittest import TestCase
-from keyboard import Keyboard # DEPRECATED switch to command module after 3.x
-from pause import Pause       # DEPRECATED switch to command module after 3.x
-from mouse import Mouse       # DEPRECATED switch to command module after 3.x
+from keyboard import Keyboard # pyright: ignore[reportMissingImports, reportMissingModuleSource] Switch to command module after 3.x
+from pause import Pause       # pyright: ignore[reportMissingImports, reportMissingModuleSource] Switch to command module after 3.x
+from mouse import Mouse       # pyright: ignore[reportMissingImports, reportMissingModuleSource] Switch to command module after 3.x
 from commands import Command
 
 class TestKey(TestCase):

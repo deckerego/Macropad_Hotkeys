@@ -2,7 +2,7 @@ from unittest import mock
 from unittest import TestCase
 from keys import Keys
 from adafruit_hid.keycode import Keycode
-from keyboard import Keyboard # DEPRECATED switch to command module after 3.x
+from keyboard import Keyboard # pyright: ignore[reportMissingImports, reportMissingModuleSource] Switch to command module after 3.x
 
 class MockKeycode(Keycode):
     MOCK_1 = mock.Mock()
