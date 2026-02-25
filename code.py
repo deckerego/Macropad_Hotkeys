@@ -1,7 +1,7 @@
 import time
 from adafruit_macropad import MacroPad
 from app import App
-from display import Display
+from screen import Screen
 from keys import Keys
 
 ## DEPRECATED 
@@ -19,25 +19,14 @@ sys.modules['consumer'] = commands
 MACRO_FOLDER = '/macros'
 
 macropad = MacroPad()
-last_time_seconds = time.monotonic()
-sleep_remaining = None
-app_index = 0
+screen = Screen(macropad)
 keys = None
-screen = Display(macropad)
-
-# Fractions of a second that have elapsed since this method's last run
-def elapsed_seconds():
-    global last_time_seconds
-    current_seconds = time.monotonic()
-    elapsed_seconds = current_seconds - last_time_seconds
-    last_time_seconds = current_seconds
-    return elapsed_seconds
+app_index = 0
 
 # Set the macro page (app) at the given index
 def set_app(index):
     global app_index, sleep_remaining, keys, screen
     app_index = index
-    sleep_remaining = apps[app_index].timeout
     macropad.keyboard.release_all()
     screen.setApp(apps[app_index])
     keys = Keys(macropad, apps[app_index])
@@ -59,8 +48,8 @@ except OSError as err:
         pass
 
 # Prep before the run loop
-set_app(0)
+set_app(app_index)
 
 while True: # Event loop
     macropad.encoder_switch_debounced.update()
-    time.sleep(1.0)
+    time.sleep(0.5)

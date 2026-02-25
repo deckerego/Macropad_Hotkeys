@@ -9,15 +9,14 @@ class Keys:
     ENC_LEFT = 13
     ENC_RIGHT = 14
     MAX_LEDS = 12
-    MAX_KEYS = 14
 
     def __init__(self, macropad, app):
         self.app = app
-        self.keys = [Keys.MAX_KEYS]
+        self.keys = []
         for i in range(len(self.app.macros)):
             color, label, sequence = self.app.macros[i]
             command = Command.get(sequence)
-            self.keys[i] = Key(None, command, label, color)
+            self.keys += [Key(None, command, label, color)]
 
         self.macropad = macropad
         self.pixels = macropad.pixels

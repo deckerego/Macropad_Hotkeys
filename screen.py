@@ -3,7 +3,7 @@ import terminalio
 from adafruit_display_text import label
 from adafruit_display_shapes.rect import Rect
 
-class Display:
+class Screen:
     def __init__(self, macropad):
         self.display = macropad.display
         self.display.auto_refresh = False
@@ -20,7 +20,7 @@ class Display:
                 label.Label(terminalio.FONT,
                     text='',
                     color=0xFFFFFF,
-                    background_color=None,
+                    background_color=0x000000,
                     anchored_position=((self.display.width - 1) * x / 2,
                     self.display.height - 1 - (3 - y) * 12),
                     anchor_point=(x / 2, 1.0)
