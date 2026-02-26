@@ -3,6 +3,11 @@ from unittest import TestCase
 from screen import Screen
 from adafruit_display_shapes.rect import Rect
 
+class MockApp:
+    def __init__(self, appdata):
+        self.name = appdata['name']
+        self.macros = appdata['macros']
+
 class MockMacroPad:
     def __init__(self):
         self.display = MockDisplay()
@@ -66,3 +71,32 @@ class TestScreen(TestCase):
         self.assertEqual(screen.display.root_group[0].background_color, 0x000000)
         self.assertEqual(screen.display.root_group[1].color, 0xFFFFFF)
         self.assertEqual(screen.display.root_group[1].background_color, 0x000000)
+
+    def test_title(self):
+        macropad = MockMacroPad()
+        screen = Screen(macropad)
+        screen.initialize()
+        screen.group[1].text = "Two"
+        screen.setTitle("ERASED")
+
+        self.assertEqual(screen.group[1].text, '')
+        self.assertEqual(screen.group[13].text, 'ERASED')
+
+    def test_set_app(self):
+        data = {
+            'name' : 'TitleText',
+            'macros' : [
+                (0x0F0F0F, 'MOCK_1', []),
+                (0xF0F0F0, 'MOCK_2', []),
+                (0x0000FF, 'MOCK_3', []),
+            ]
+        }
+        app = MockApp(data)
+        macropad = MockMacroPad()
+        screen = Screen(macropad)
+        screen.initialize()
+        screen.setApp(app)
+
+        self.assertEqual(screen.group[1].text, 'MOCK_2')
+        self.assertEqual(screen.group[3].text, '')
+        self.assertEqual(screen.group[13].text, 'TitleText')
