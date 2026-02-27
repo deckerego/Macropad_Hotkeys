@@ -9,14 +9,20 @@ class Key:
 
 class Keys:
     listeners = []
+    keys = []
+    app = None
 
     def __init__(self, listeners, app):
-        self.listeners = listeners
         self.app = app
+        
         self.keys = []
         for i in range(len(self.app.macros)):
             color, label, macro = self.app.macros[i]
             self.keys += [Key(macro, label, color)]
+
+        self.listeners = listeners
+        for listener in self.listeners:
+            listener.register(self)
 
     def __del__(self):
         self.listeners.clear()

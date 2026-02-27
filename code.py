@@ -3,6 +3,7 @@ from adafruit_macropad import MacroPad
 from app import App
 from screen import ScreenListener
 from keys import Keys
+from pixels import PixelListener
 
 ## DEPRECATED 
 # Ensure backwards compatibility for the 2.x series
@@ -20,6 +21,7 @@ MACRO_FOLDER = '/macros'
 
 macropad = MacroPad()
 screen = ScreenListener(macropad)
+pixels = PixelListener(macropad)
 keys = None
 app_index = 0
 
@@ -29,9 +31,8 @@ def set_app(index):
     app_index = index
     macropad.keyboard.release_all()
 
-    keys = Keys([screen], apps[app_index])
+    keys = Keys([screen, pixels], apps[app_index])
     screen.setTitle(apps[app_index].name)
-    screen.setKeys(keys)
 
 # Load available macros
 screen.initialize()
@@ -53,5 +54,4 @@ except OSError as err:
 set_app(app_index)
 
 while True: # Event loop
-    macropad.encoder_switch_debounced.update()
     time.sleep(0.5)

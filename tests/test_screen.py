@@ -90,7 +90,7 @@ class TestScreen(TestCase):
         macropad = MockMacroPad()
         screen = ScreenListener(macropad)
         screen.initialize()
-        screen.setKeys(keys)
+        screen.register(keys)
 
         self.assertEqual(screen.group[0].text, 'Test1')
         self.assertEqual(screen.group[1].text, 'Test2')
@@ -105,7 +105,7 @@ class TestScreen(TestCase):
         macropad = MockMacroPad()
         screen = MockScreenListener(macropad)
         screen.initialize()
-        screen.setKeys(keys)
+        screen.register(keys)
         screen.pressed(keys, 1)
 
         screen.highlight.assert_called_once()
@@ -119,7 +119,7 @@ class TestScreen(TestCase):
         macropad = MockMacroPad()
         screen = MockScreenListener(macropad)
         screen.initialize()
-        screen.setKeys(keys)
+        screen.register(keys)
         screen.released(keys, 1)
 
         screen.reset.assert_called_once()

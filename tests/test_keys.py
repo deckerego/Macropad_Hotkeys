@@ -20,6 +20,8 @@ class MockListener:
     def __init__(self):
         self.pressed = mock.Mock()
         self.released = mock.Mock()
+    def register(self, _):
+        pass
 
 class TestKeys(TestCase):
     def test_init(self):

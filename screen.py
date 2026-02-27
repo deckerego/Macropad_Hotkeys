@@ -9,7 +9,7 @@ class ScreenListener:
         self.display.auto_refresh = False
 
     def __del__(self):
-        pass
+        self.display = None
 
     def initialize(self):
         self.group = displayio.Group()
@@ -42,7 +42,7 @@ class ScreenListener:
         self.group[13].text = text
         self.display.refresh()
 
-    def setKeys(self, keys):
+    def register(self, keys):
         for i in range(12):
             if i < len(keys):
                 self.group[i].text = keys[i].label
