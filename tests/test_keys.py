@@ -25,9 +25,9 @@ class MockListener:
 
 class TestKeys(TestCase):
     def test_init(self):
-        listeners = [MockListener()]
         app = MockApp()
-        keys = Keys(listeners, app)
+        keys = Keys(app)
+        keys.addListener(MockListener())
         
         self.assertEqual(len(keys.keys), 1)
         self.assertEqual(keys.keys[0].color, 0x0F0F0F)
@@ -37,7 +37,9 @@ class TestKeys(TestCase):
         listenerOne = MockListener()
         listenerTwo = MockListener()
         app = MockApp()
-        keys = Keys([listenerOne, listenerTwo], app)
+        keys = Keys(app)
+        keys.addListener(listenerOne)
+        keys.addListener(listenerTwo)
         keys.press(0)
         
         listenerOne.pressed.assert_called_once()
@@ -49,7 +51,9 @@ class TestKeys(TestCase):
         listenerOne = MockListener()
         listenerTwo = MockListener()
         app = MockApp()
-        keys = Keys([listenerOne, listenerTwo], app)
+        keys = Keys(app)
+        keys.addListener(listenerOne)
+        keys.addListener(listenerTwo)
         keys.release(0)
         
         listenerOne.released.assert_called_once()

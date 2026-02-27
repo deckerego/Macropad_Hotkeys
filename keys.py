@@ -12,17 +12,13 @@ class Keys:
     keys = []
     app = None
 
-    def __init__(self, listeners, app):
+    def __init__(self, app):
         self.app = app
         
         self.keys = []
         for i in range(len(self.app.macros)):
             color, label, macro = self.app.macros[i]
             self.keys += [Key(macro, label, color)]
-
-        self.listeners = listeners
-        for listener in self.listeners:
-            listener.register(self)
 
     def __del__(self):
         self.listeners.clear()
@@ -40,6 +36,10 @@ class Keys:
 
     def __len__(self):
         return len(self.keys)
+
+    def addListener(self, listener):
+        self.listeners += [listener]
+        listener.register(self)
 
     def press(self, key_index):
         for listener in self.listeners:

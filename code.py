@@ -31,7 +31,10 @@ app_index = 0
 def set_app(index):
     global app_index, keys, screen
     app_index = index
-    keys = Keys([hid, screen, pixels], apps[app_index])
+    keys = Keys(apps[app_index])
+    keys.addListener(hid)
+    keys.addListener(screen)
+    keys.addListener(pixels)
     screen.setTitle(apps[app_index].name)
 
 # Load available macros
