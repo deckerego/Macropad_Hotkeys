@@ -2,8 +2,6 @@ from commands import Commands
 from enum import Enum
 
 class Key:
-    State = Enum('State', [('PRESSED', 1), ('RELEASED', 2)])
-
     def __init__(self, macro, label='', color=0xF0F0F0):
         self.commands = Commands(macro)
         self.label = label
@@ -26,7 +24,9 @@ class Keys:
             self.keys += [Key(macro, label, color)]
 
     def __del__(self):
-        pass
+        self.listeners.clear()
+        self.keys.clear()
+        self.app = None
 
     def press(self, key_index):
         for listener in self.listeners:

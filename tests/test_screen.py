@@ -1,6 +1,5 @@
-from unittest import mock
-from unittest import TestCase
-from screen import Screen
+from unittest import mock, TestCase
+from screen import ScreenListener
 from adafruit_display_shapes.rect import Rect
 
 class MockApp:
@@ -22,7 +21,7 @@ class MockDisplay:
 class TestScreen(TestCase):
     def test_initalize(self):
         macropad = MockMacroPad()
-        screen = Screen(macropad)
+        screen = ScreenListener(macropad)
         screen.initialize()
 
         elementCount = len(screen.display.root_group)
@@ -32,7 +31,7 @@ class TestScreen(TestCase):
 
     def test_sleep(self):
         macropad = MockMacroPad()
-        screen = Screen(macropad)
+        screen = ScreenListener(macropad)
         screen.initialize()
         screen.sleep()
 
@@ -41,7 +40,7 @@ class TestScreen(TestCase):
 
     def test_resume(self):
         macropad = MockMacroPad()
-        screen = Screen(macropad)
+        screen = ScreenListener(macropad)
         screen.initialize()
         screen.sleep()
         screen.resume()
@@ -51,7 +50,7 @@ class TestScreen(TestCase):
 
     def test_highlight(self):
         macropad = MockMacroPad()
-        screen = Screen(macropad)
+        screen = ScreenListener(macropad)
         screen.initialize()
         screen.highlight(1)
 
@@ -62,7 +61,7 @@ class TestScreen(TestCase):
 
     def test_reset(self):
         macropad = MockMacroPad()
-        screen = Screen(macropad)
+        screen = ScreenListener(macropad)
         screen.initialize()
         screen.highlight(1)
         screen.reset(1)
@@ -74,7 +73,7 @@ class TestScreen(TestCase):
 
     def test_title(self):
         macropad = MockMacroPad()
-        screen = Screen(macropad)
+        screen = ScreenListener(macropad)
         screen.initialize()
         screen.group[1].text = "Two"
         screen.setTitle("ERASED")
@@ -93,7 +92,7 @@ class TestScreen(TestCase):
         }
         app = MockApp(data)
         macropad = MockMacroPad()
-        screen = Screen(macropad)
+        screen = ScreenListener(macropad)
         screen.initialize()
         screen.setApp(app)
 

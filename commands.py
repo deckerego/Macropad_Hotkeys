@@ -5,9 +5,12 @@ class Commands:
         self.commands = []
         if isinstance(macro, list):
             for item in macro:
-                self.commands += Commands.build(item)
+                self.commands += [Commands.build(item)]
         else:
-            self.commands += [macro]
+            self.commands += [Commands.build(macro)]
+
+    def __del__(self):
+        self.commands.clear()
 
     def __bool__(self):
         return len(self.commands) > 0
@@ -47,6 +50,9 @@ class Sequence(Command):
         self.commands = []
         for keycode in keycodes:
             self.commands += [Commands.build(keycode)]
+
+    def __del__(self):
+        self.commands.clear()
 
     def __bool__(self):
         return len(self.commands) > 0
