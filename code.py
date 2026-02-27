@@ -1,9 +1,10 @@
 import time
 from adafruit_macropad import MacroPad
 from app import App
-from screen import ScreenListener
 from keys import Keys
+from screen import ScreenListener
 from pixels import PixelListener
+from hid import InputDeviceListener
 
 ## DEPRECATED 
 # Ensure backwards compatibility for the 2.x series
@@ -22,6 +23,7 @@ MACRO_FOLDER = '/macros'
 macropad = MacroPad()
 screen = ScreenListener(macropad)
 pixels = PixelListener(macropad)
+hid = InputDeviceListener(macropad)
 keys = None
 app_index = 0
 
@@ -29,9 +31,7 @@ app_index = 0
 def set_app(index):
     global app_index, keys, screen
     app_index = index
-    macropad.keyboard.release_all()
-
-    keys = Keys([screen, pixels], apps[app_index])
+    keys = Keys([hid, screen, pixels], apps[app_index])
     screen.setTitle(apps[app_index].name)
 
 # Load available macros
