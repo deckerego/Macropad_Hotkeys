@@ -1,6 +1,6 @@
 class Mouse:
     def __init__(self):
-        return
+        pass
 
     def __del__(self):
-        return
+        pass

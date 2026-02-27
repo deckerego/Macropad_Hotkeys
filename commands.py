@@ -1,8 +1,28 @@
 import time
 
-class Command:
+class Commands:
+    def __init__(self, macro):
+        self.commands = []
+        if isinstance(macro, list):
+            for item in macro:
+                self.commands += Commands.build(item)
+        else:
+            self.commands += [macro]
+
+    def __bool__(self):
+        return len(self.commands) > 0
+    
+    def __iter__(self):
+        return iter(self.commands)
+
+    def __getitem__(self, index):
+        return self.commands[index]
+
+    def __len__(self):
+        return len(self.commands)
+
     @staticmethod
-    def get(item):
+    def build(item):
         if isinstance(item, Toolbar):
             return item
         elif isinstance(item, Mouse):
@@ -13,92 +33,53 @@ class Command:
             return item
         elif isinstance(item, float):
             return Pause(item)
+        elif isinstance(item, list):
+            return Sequence(item)
         else:
             return Keyboard(item)
 
-class Keyboard:
-    def __init__(self, key):
-        self.key = key
-
-    def press(self, state):
-        macropad = state["macropad"]
-        if not isinstance(self.key, int):
-            macropad.keyboard_layout.write(self.key)
-        elif self.key < 0:
-            macropad.keyboard.release(self.key)
-        else:
-            macropad.keyboard.press(self.key)
-
-    def release(self, state):
-        if isinstance(self.key, int) and self.key >= 0:
-            state["macropad"].keyboard.release(self.key)
-
-class Toolbar:
+class Command:
     def __init__(self, keycode):
         self.keycode = keycode
 
-    def press(self, state):
-        if self.keycode < 0:
-            state["macropad"].consumer_control.release()
-        else:
-            state["macropad"].consumer_control.press(self.keycode)
+class Sequence(Command):
+    def __init__(self, keycodes):
+        self.commands = []
+        for keycode in keycodes:
+            self.commands += [Commands.build(keycode)]
 
-    def release(self, state):
-        state["macropad"].consumer_control.release()
-
-class Mouse:
-    def __init__(self, keycode):
-        self.keycode = keycode
-
-    def press(self, state):
-        if self.keycode < 0:
-            state["macropad"].mouse.release(self.keycode)
-        else:
-            state["macropad"].mouse.press(self.keycode)
-
-    def release(self, state):
-        state["macropad"].mouse.release(self.keycode)
-
-class Midi:
-    VELOCITY = 127
+    def __bool__(self):
+        return len(self.commands) > 0
     
+    def __iter__(self):
+        return iter(self.commands)
+
+    def __getitem__(self, index):
+        return self.commands[index]
+
+    def __len__(self):
+        return len(self.commands)
+
+class Keyboard(Command):
+    def __init__(self, key):
+        self.keycode = key
+
+class Toolbar(Command):
+    def __init__(self, keycode):
+        self.keycode = keycode
+
+class Mouse(Command):
+    def __init__(self, keycode):
+        self.keycode = keycode
+
+class Midi(Command):
     def __init__(self, note):
-        self.note = note
+        self.keycode = note
 
-    def press(self, state):
-        macropad = state["macropad"]
-        if self.note < 0:
-            macropad.midi.send(macropad.NoteOff(self.note, 0))
-        else:
-            macropad.midi.send(macropad.NoteOn(self.note, Midi.VELOCITY))
-
-    def release(self, state):
-        macropad = state["macropad"]
-        if self.note >= 0:
-            macropad.midi.send(macropad.NoteOff(self.note, 0))
-
-class Pause:
+class Pause(Command):
     def __init__(self, seconds):
-        self.seconds = seconds
+        self.keycode = seconds
 
-    def press(self, state):
-        time.sleep(self.seconds)
-
-    def release(self, state):
-        pass
-
-class Sleep:
+class Sleep(Command):
     def __init__(self):
-        pass
-
-    def press(self, state):
-        if state["sleeping"]:
-            state["screen"].resume()
-            state["pixels"].resume()
-        else:
-            state["screen"].sleep()
-            state["pixels"].sleep()
-        state["sleeping"] = not state["sleeping"]
-
-    def release(self, state):
         pass

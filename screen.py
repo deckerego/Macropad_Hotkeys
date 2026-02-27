@@ -3,13 +3,13 @@ import terminalio
 from adafruit_display_text import label
 from adafruit_display_shapes.rect import Rect
 
-class Screen:
+class ScreenListener:
     def __init__(self, macropad):
         self.display = macropad.display
         self.display.auto_refresh = False
 
     def __del__(self):
-        return
+        pass
 
     def initialize(self):
         self.group = displayio.Group()

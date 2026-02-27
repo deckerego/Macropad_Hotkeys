@@ -10,21 +10,21 @@ class Display:
         self.height = 0
 
     def release_all(self):
-        return
+        pass
     
     def refresh(self):
-        return
+        pass
 
 class Keyboard:
     def __init__(self):
-        return
+        pass
 
     def release_all(self):
-        return
+        pass
 
 class EncoderSwitch:
     def __init__(self):
-        return
+        pass
     
     def update(self):
-        return
+        pass

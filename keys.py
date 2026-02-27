@@ -1,7 +1,13 @@
-from key import Key
-from commands import Command
+from commands import Commands
+from enum import Enum
 
-BRIGHTNESS = 0.3
+class Key:
+    State = Enum('State', [('PRESSED', 1), ('RELEASED', 2)])
+
+    def __init__(self, macro, label='', color=0xF0F0F0):
+        self.commands = Commands(macro)
+        self.label = label
+        self.color = color    
 
 class Keys:
     LAUNCH = -1
@@ -9,25 +15,23 @@ class Keys:
     ENC_LEFT = 13
     ENC_RIGHT = 14
     MAX_LEDS = 12
+    listeners = []
 
-    def __init__(self, macropad, app):
+    def __init__(self, listeners, app):
+        self.listeners = listeners
         self.app = app
         self.keys = []
         for i in range(len(self.app.macros)):
-            color, label, sequence = self.app.macros[i]
-            command = Command.get(sequence)
-            self.keys += [Key(None, command, label, color)]
-
-        self.macropad = macropad
-        self.pixels = macropad.pixels
-        self.pixels.auto_write = False
-        self.pixels.brightness = BRIGHTNESS
+            color, label, macro = self.app.macros[i]
+            self.keys += [Key(macro, label, color)]
 
     def __del__(self):
-        return
+        pass
 
     def press(self, key_index):
-        return self.keys[key_index].press()
+        for listener in self.listeners:
+            listener.pressed(self.keys[key_index])
 
     def release(self, key_index):
-        return self.keys[key_index].release()
+        for listener in self.listeners:
+            listener.released(self.keys[key_index])
