@@ -11,7 +11,7 @@ class InputDeviceListener:
     def __del__(self):
         pass
 
-    def register(self, keys):
+    def register(self, _):
         pass
 
     def pressed(self, keys, index):

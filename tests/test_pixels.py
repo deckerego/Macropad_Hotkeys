@@ -1,6 +1,7 @@
 from unittest import mock, TestCase
 from keys import Keys, Key
 from pixels import PixelListener
+from commands import Commands, Sleep
 
 class MockKeys(Keys):
     def __init__(self, listeners, app):
@@ -104,3 +105,17 @@ class TestPixels(TestCase):
 
         pixels.reset.assert_called_once()
         pixels.highlight.assert_not_called()
+
+    def test_sleep(self):
+        keys = MockKeys([], None)
+        keys[0].commands = Commands(Sleep())
+        class MockPixelListener(PixelListener):
+            highlight = mock.Mock()
+            reset = mock.Mock()
+            sleep = mock.Mock()
+        macropad = MockMacroPad()
+        screen = MockPixelListener(macropad)
+        screen.register(keys)
+        screen.pressed(keys, 0)
+
+        screen.sleep.assert_called_once()

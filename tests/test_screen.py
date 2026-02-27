@@ -1,6 +1,7 @@
 from unittest import mock, TestCase
 from keys import Keys, Key
 from screen import ScreenListener
+from commands import Commands, Sleep
 from adafruit_display_shapes.rect import Rect
 
 class MockKeys(Keys):
@@ -124,3 +125,18 @@ class TestScreen(TestCase):
 
         screen.reset.assert_called_once()
         screen.highlight.assert_not_called()
+
+    def test_sleep(self):
+        keys = MockKeys([], None)
+        keys[0].commands = Commands(Sleep())
+        class MockScreenListener(ScreenListener):
+            highlight = mock.Mock()
+            reset = mock.Mock()
+            sleep = mock.Mock()
+        macropad = MockMacroPad()
+        screen = MockScreenListener(macropad)
+        screen.initialize()
+        screen.register(keys)
+        screen.pressed(keys, 0)
+
+        screen.sleep.assert_called_once()
