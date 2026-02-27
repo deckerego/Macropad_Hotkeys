@@ -1,3 +1,5 @@
+from commands import Sleep
+
 class PixelListener:
     BRIGHTNESS = 0.3
     MAX_LEDS = 12
@@ -29,11 +31,19 @@ class PixelListener:
                 self.pixels[i] = 0x000000
         self.pixels.show()
 
-    def pressed(self, _, index):
+    def pressed(self, keys, index):
         self.highlight(index)
 
-    def released(self, _, index):
+        commands = keys[index].commands
+        if isinstance(commands[0], Sleep):
+            self.sleep()
+
+    def released(self, keys, index):
         self.reset(index)
+
+        commands = keys[index].commands
+        if isinstance(commands[0], Sleep):
+            self.resume()
 
     def sleep(self):
         self.pixels.brightness = 0.0
