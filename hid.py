@@ -74,7 +74,7 @@ class InputDeviceListener:
     def pressKeyboard(self, command:Keyboard):
         if not isinstance(command.keycode, int):
             self.macropad.keyboard_layout.write(command.keycode)
-        elif self.key < 0:
+        elif command.keycode < 0:
             self.macropad.keyboard.release(command.keycode)
         else:
             self.macropad.keyboard.press(command.keycode)
@@ -86,9 +86,9 @@ class InputDeviceListener:
         self.macropad.mouse.release(command.keycode)
 
     def releaseMidi(self, command:Midi):
-        if self.note >= 0:
-            self.macropad.midi.send(self.macropad.NoteOff(self.note, 0))
+        if command.keycode >= 0:
+            self.macropad.midi.send(self.macropad.NoteOff(command.keycode, 0))
 
     def releaseKeyboard(self, command:Keyboard):
-        if isinstance(command.keycode, int) and self.key >= 0:
-            self.macropad.keyboard.release(self.key)
+        if isinstance(command.keycode, int) and command.keycode >= 0:
+            self.macropad.keyboard.release(command.keycode)

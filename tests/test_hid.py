@@ -1,13 +1,14 @@
 from unittest import mock, TestCase
 from keys import Keys, Key
 from hid import InputDeviceListener
+from adafruit_hid.keycode import Keycode
 
 class MockKeys(Keys):
     def __init__(self, listeners, app):
         self.keys = [
-            Key(mock.Mock(), "", 0x0000FF),
-            Key(mock.Mock(), "", 0x00FF00),
-            Key(mock.Mock(), "", 0xFF0000),
+            Key(Keycode.A),
+            Key([Keycode.A, Keycode.B]),
+            Key([[Keycode.SHIFT, Keycode.A], Keycode.B]),
         ]
 
 class MockMacroPad:
@@ -16,9 +17,10 @@ class MockMacroPad:
         self.keyboard_layout = MockKeyboardLayout()
 
 class MockKeyboard:
-    press = mock.Mock()
-    release = mock.Mock()
-    release_all = mock.Mock()
+    def __init__(self):
+        self.press = mock.Mock()
+        self.release = mock.Mock()
+        self.release_all = mock.Mock()
 
 class MockKeyboardLayout:
     write = mock.Mock()
@@ -37,17 +39,17 @@ class TestInputDevice(TestCase):
         macropad = MockMacroPad()
         listener = InputDeviceListener(macropad)
         listener.register(keys)
-        listener.pressed(keys, 1)
+        listener.pressed(keys, 0)
 
         macropad.keyboard.press.assert_called_once()
-        macropad.keyboard.release.assert_never_called()
+        macropad.keyboard.release.assert_not_called()
 
     def test_release_keyboard(self):
         keys = MockKeys([], None)
         macropad = MockMacroPad()
         listener = InputDeviceListener(macropad)
         listener.register(keys)
-        listener.released(keys, 1)
+        listener.released(keys, 0)
 
         macropad.keyboard.release.assert_called_once()
-        macropad.keyboard.press.assert_never_called()
+        macropad.keyboard.press.assert_not_called()

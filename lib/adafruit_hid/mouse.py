@@ -1,6 +1,6 @@
 class Mouse:
-    def __init__(self):
-        pass
-
-    def __del__(self):
-        pass
+    LEFT_BUTTON = 1
+    RIGHT_BUTTON = 2
+    MIDDLE_BUTTON = 4
+    BACK_BUTTON = 8
+    FORWARD_BUTTON = 16
