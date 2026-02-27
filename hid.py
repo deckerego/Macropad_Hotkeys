@@ -6,7 +6,6 @@ class InputDeviceListener:
 
     def __init__(self, macropad):
         self.macropad = macropad
-        self.macropad.keyboard.release_all()
     
     def __del__(self):
         pass

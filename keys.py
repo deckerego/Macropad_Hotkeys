@@ -1,5 +1,4 @@
 from commands import Commands
-from enum import Enum
 
 class Key:
     def __init__(self, macro, label='', color=0xF0F0F0):

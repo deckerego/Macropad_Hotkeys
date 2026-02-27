@@ -31,11 +31,14 @@ app_index = 0
 def set_app(index):
     global app_index, keys, screen
     app_index = index
+
+    screen.setTitle(apps[app_index].name)
+    macropad.keyboard.release_all()
+
     keys = Keys(apps[app_index])
     keys.addListener(hid)
     keys.addListener(screen)
     keys.addListener(pixels)
-    screen.setTitle(apps[app_index].name)
 
 # Load available macros
 screen.initialize()
@@ -57,4 +60,11 @@ except OSError as err:
 set_app(app_index)
 
 while True: # Event loop
-    time.sleep(0.5)
+    macropad.encoder_switch_debounced.update()
+    event = macropad.keys.events.get()
+    if event and event.pressed:
+        keys.press(event.key_number)
+    elif event and event.released:
+        keys.release(event.key_number)
+    else:
+        time.sleep(0.1)
