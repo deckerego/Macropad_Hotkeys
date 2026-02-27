@@ -8,11 +8,6 @@ class Key:
         self.color = color    
 
 class Keys:
-    LAUNCH = -1
-    ENC_BUTTON = 12
-    ENC_LEFT = 13
-    ENC_RIGHT = 14
-    MAX_LEDS = 12
     listeners = []
 
     def __init__(self, listeners, app):
@@ -28,10 +23,22 @@ class Keys:
         self.keys.clear()
         self.app = None
 
+    def __bool__(self):
+        return len(self.keys) > 0
+    
+    def __iter__(self):
+        return iter(self.keys)
+
+    def __getitem__(self, index):
+        return self.keys[index]
+
+    def __len__(self):
+        return len(self.keys)
+
     def press(self, key_index):
         for listener in self.listeners:
-            listener.pressed(self.keys[key_index])
+            listener.pressed(self.keys, key_index)
 
     def release(self, key_index):
         for listener in self.listeners:
-            listener.released(self.keys[key_index])
+            listener.released(self.keys, key_index)

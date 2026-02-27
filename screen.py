@@ -38,6 +38,24 @@ class ScreenListener:
         )
         self.display.root_group = self.group
 
+    def setTitle(self, text):
+        self.group[13].text = text
+        self.display.refresh()
+
+    def setKeys(self, keys):
+        for i in range(12):
+            if i < len(keys):
+                self.group[i].text = keys[i].label
+            else:
+                self.group[i].text = ''
+        self.display.refresh()
+
+    def pressed(self, _, index):
+        self.highlight(index)
+
+    def released(self, _, index):
+        self.reset(index)
+
     def sleep(self):
         self.display.brightness = 0
         self.display.root_group = displayio.Group()
@@ -56,19 +74,4 @@ class ScreenListener:
     def reset(self, key_index):
         self.group[key_index].color = 0xFFFFFF
         self.group[key_index].background_color = 0x000000
-        self.display.refresh()
-
-    def setApp(self, app):
-        self.group[13].text = app.name
-        for i in range(12):
-            if i < len(app.macros):
-                self.group[i].text = app.macros[i][1]
-            else:
-                self.group[i].text = ''
-        self.display.refresh()
-
-    def setTitle(self, text):
-        self.group[13].text = text
-        for i in range(12):
-            self.group[i].text = ''
         self.display.refresh()

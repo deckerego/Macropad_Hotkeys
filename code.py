@@ -1,7 +1,7 @@
 import time
 from adafruit_macropad import MacroPad
 from app import App
-from screen import Screen
+from screen import ScreenListener
 from keys import Keys
 
 ## DEPRECATED 
@@ -19,23 +19,25 @@ sys.modules['consumer'] = commands
 MACRO_FOLDER = '/macros'
 
 macropad = MacroPad()
-screen = Screen(macropad)
+screen = ScreenListener(macropad)
 keys = None
 app_index = 0
 
 # Set the macro page (app) at the given index
 def set_app(index):
-    global app_index, sleep_remaining, keys, screen
+    global app_index, keys, screen
     app_index = index
     macropad.keyboard.release_all()
-    screen.setApp(apps[app_index])
-    keys = Keys(macropad, apps[app_index])
+
+    keys = Keys([screen], apps[app_index])
+    screen.setTitle(apps[app_index].name)
+    screen.setKeys(keys)
 
 # Load available macros
 screen.initialize()
 apps = App.load_all(MACRO_FOLDER)
 if not apps:
-    screen.setTitle('NO MACRO FILES FOUND')
+    screen.setError('NO MACRO FILES FOUND')
     while True:
         pass
 
@@ -43,7 +45,7 @@ try: # Test the USB HID connection
     macropad.keyboard.release_all()
 except OSError as err:
     print(err)
-    screen.setTitle('NO USB CONNECTION')
+    screen.setError('NO USB CONNECTION')
     while True:
         pass
 

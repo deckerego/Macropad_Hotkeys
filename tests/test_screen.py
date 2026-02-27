@@ -1,11 +1,15 @@
 from unittest import mock, TestCase
+from keys import Keys, Key
 from screen import ScreenListener
 from adafruit_display_shapes.rect import Rect
 
-class MockApp:
-    def __init__(self, appdata):
-        self.name = appdata['name']
-        self.macros = appdata['macros']
+class MockKeys(Keys):
+    def __init__(self, listeners, app):
+        self.keys = [
+            Key(mock.Mock(), "Test1"),
+            Key(mock.Mock(), "Test2"),
+            Key(mock.Mock(), "Test3"),
+        ]
 
 class MockMacroPad:
     def __init__(self):
@@ -76,26 +80,47 @@ class TestScreen(TestCase):
         screen = ScreenListener(macropad)
         screen.initialize()
         screen.group[1].text = "Two"
-        screen.setTitle("ERASED")
+        screen.setTitle("Title")
 
-        self.assertEqual(screen.group[1].text, '')
-        self.assertEqual(screen.group[13].text, 'ERASED')
+        self.assertEqual(screen.group[1].text, 'Two')
+        self.assertEqual(screen.group[13].text, 'Title')
 
-    def test_set_app(self):
-        data = {
-            'name' : 'TitleText',
-            'macros' : [
-                (0x0F0F0F, 'MOCK_1', []),
-                (0xF0F0F0, 'MOCK_2', []),
-                (0x0000FF, 'MOCK_3', []),
-            ]
-        }
-        app = MockApp(data)
+    def test_set_keys(self):
+        keys = MockKeys([], None)
         macropad = MockMacroPad()
         screen = ScreenListener(macropad)
         screen.initialize()
-        screen.setApp(app)
+        screen.setKeys(keys)
 
-        self.assertEqual(screen.group[1].text, 'MOCK_2')
-        self.assertEqual(screen.group[3].text, '')
-        self.assertEqual(screen.group[13].text, 'TitleText')
+        self.assertEqual(screen.group[0].text, 'Test1')
+        self.assertEqual(screen.group[1].text, 'Test2')
+        self.assertEqual(screen.group[2].text, 'Test3')
+        self.assertEqual(screen.group[13].text, '')
+
+    def test_press(self):
+        keys = MockKeys([], None)
+        class MockScreenListener(ScreenListener):
+            highlight = mock.Mock()
+            reset = mock.Mock()
+        macropad = MockMacroPad()
+        screen = MockScreenListener(macropad)
+        screen.initialize()
+        screen.setKeys(keys)
+        screen.pressed(keys, 1)
+
+        screen.highlight.assert_called_once()
+        screen.reset.assert_not_called()
+
+    def test_release(self):
+        keys = MockKeys([], None)
+        class MockScreenListener(ScreenListener):
+            highlight = mock.Mock()
+            reset = mock.Mock()
+        macropad = MockMacroPad()
+        screen = MockScreenListener(macropad)
+        screen.initialize()
+        screen.setKeys(keys)
+        screen.released(keys, 1)
+
+        screen.reset.assert_called_once()
+        screen.highlight.assert_not_called()
