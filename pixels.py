@@ -3,12 +3,14 @@ from commands import Sleep
 class PixelListener:
     BRIGHTNESS = 0.3
     MAX_LEDS = 12
+    sleeping = False
 
     def __init__(self, macropad):
         self.pixels = macropad.pixels
         self.pixels.auto_write = False
         self.pixels.brightness = PixelListener.BRIGHTNESS
         self.keycolors = []
+        self.sleeping = False
 
     def __del__(self):
         self.pixels.clear()
@@ -46,12 +48,16 @@ class PixelListener:
             self.resume()
 
     def sleep(self):
+        if self.sleeping: return
         self.pixels.brightness = 0.0
         self.pixels.show()
+        self.sleeping = True
 
     def resume(self):
+        if not self.sleeping: return
         self.pixels.brightness = PixelListener.BRIGHTNESS
         self.pixels.show()
+        self.sleeping = False
 
     def highlight(self, key_index, color=0xFFFFFF):
         if key_index >= PixelListener.MAX_LEDS: return

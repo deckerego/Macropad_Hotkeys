@@ -6,10 +6,12 @@ from commands import Sleep
 
 class ScreenListener:
     MAX_LABELS = 12
+    sleeping = False
 
     def __init__(self, macropad):
         self.display = macropad.display
         self.display.auto_refresh = False
+        sleeping = False
 
     def __del__(self):
         self.display = None
@@ -68,14 +70,18 @@ class ScreenListener:
             self.resume()
 
     def sleep(self):
+        if self.sleeping: return
         self.display.brightness = 0
         self.display.root_group = displayio.Group()
         self.display.refresh()
+        self.sleeping = True
 
     def resume(self):
+        if not self.sleeping: return
         self.display.brightness = 1
         self.display.root_group = self.group
         self.display.refresh()
+        self.sleeping = False
 
     def highlight(self, key_index):
         if key_index >= ScreenListener.MAX_LABELS: return

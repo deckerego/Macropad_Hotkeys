@@ -82,8 +82,8 @@ while True: # Input event loop
     sleep_remaining -= elapsed_seconds()
     event = macropad.keys.events.get()
     
-    if event:                                        # Don't go to sleep!
-        if sleep_remaining <= 0: keys.release(Keys.KEY_SLEEP)
+    if event or last_position != macropad.encoder or macropad.encoder_switch_debounced.released:
+        keys.release(Keys.KEY_SLEEP)                 # Don't go to sleep!
         sleep_remaining = apps[app_index].timeout
     if sleep_remaining <= 0:                         # Go to sleep and slow down
         keys.press(Keys.KEY_SLEEP)
