@@ -21,14 +21,18 @@ sys.modules['consumer'] = commands
 
 MACRO_FOLDER = '/macros'
 
+# Core objects
 macropad = MacroPad()
 screen = ScreenListener(macropad)
 pixels = PixelListener(macropad)
 hid = InputDeviceListener(macropad)
+
+# State variables
 last_time_seconds = time.monotonic()
 last_position = macropad.encoder
 sleep_remaining = None
 keys = None
+macro_changed = False
 app_index = 0
 
 # Fractions of a second that have elapsed since this method's last run
@@ -59,7 +63,8 @@ apps = App.load_all(MACRO_FOLDER)
 if not apps:
     screen.setError('NO MACRO FILES FOUND')
     while True:
-        pass
+        time.sleep(60.0)
+set_app(app_index)
 
 try: # Test the USB HID connection
     macropad.keyboard.release_all()
@@ -67,12 +72,12 @@ except OSError as err:
     print(err)
     screen.setError('NO USB CONNECTION')
     while True:
-        pass
+        time.sleep(60.0)
 
 # Prep before the run loop
-set_app(app_index)
 
-while True: # Event loop
+
+while True: # Input event loop
     macropad.encoder_switch_debounced.update()
     sleep_remaining -= elapsed_seconds()
     event = macropad.keys.events.get()
@@ -90,9 +95,11 @@ while True: # Event loop
     elif macropad.encoder_switch and macropad.encoder < last_position:
         last_position = macropad.encoder             # Push down and turn (left)
         set_app((app_index - 1) % len(apps))
+        macro_changed = True
     elif macropad.encoder_switch and macropad.encoder > last_position:
         last_position = macropad.encoder             # Push down and turn (right)
         set_app((app_index + 1) % len(apps))
+        macro_changed = True
     elif macropad.encoder < last_position:           # Rotary counter-clockwise
         last_position = macropad.encoder
         keys.press(Keys.KEY_ENC_LEFT)
@@ -101,5 +108,6 @@ while True: # Event loop
         last_position = macropad.encoder
         keys.press(Keys.KEY_ENC_RIGHT)
         keys.release(Keys.KEY_ENC_RIGHT)
-    elif macropad.encoder_switch_debounced.released: # Encoder button "pressed"
-        keys.press(Keys.KEY_ENC_BUTTON)
+    elif macropad.encoder_switch_debounced.released:
+        if macro_changed: macro_changed = False      # Land on the selected macro page
+        else: keys.press(Keys.KEY_ENC_BUTTON)        # Encoder button "pressed"
