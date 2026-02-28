@@ -1,4 +1,4 @@
-from commands import Commands
+from commands import Commands, Sleep
 
 class Key:
     def __init__(self, macro, label='', color=0xF0F0F0):
@@ -7,9 +7,10 @@ class Key:
         self.color = color    
 
 class Keys:
-    KEY_ENC_BUTTON = 12
-    KEY_ENC_LEFT = 13
-    KEY_ENC_RIGHT = 14
+    KEY_ENC_BUTTON = 12 # Virtual key for encoder press
+    KEY_ENC_LEFT   = 13 # Virtual key for encoder rotation left
+    KEY_ENC_RIGHT  = 14 # Virtual key for encoder rotation right
+    KEY_SLEEP      = 15 # Hidden key for sleeping
     
     listeners = []
     keys = []
@@ -18,10 +19,11 @@ class Keys:
     def __init__(self, app):
         self.app = app
         
-        self.keys = []
+        self.keys = [None] * 16
         for i in range(len(self.app.macros)):
             color, label, macro = self.app.macros[i]
-            self.keys += [Key(macro, label, color)]
+            self.keys[i] = Key(macro, label, color)
+        self.keys[15] = Key(Sleep())
 
     def __del__(self):
         self.listeners.clear()

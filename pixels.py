@@ -54,10 +54,12 @@ class PixelListener:
         self.pixels.show()
 
     def highlight(self, key_index, color=0xFFFFFF):
+        if key_index >= PixelListener.MAX_LEDS: return
         self.pixels[key_index] = color
         self.pixels.show()
 
     def reset(self, key_index):
+        if key_index >= PixelListener.MAX_LEDS: return
         self.pixels[key_index] = self.keycolors[key_index] if key_index < len(self.keycolors) else 0x000000
         self.pixels.brightness = PixelListener.BRIGHTNESS
         self.pixels.show()
