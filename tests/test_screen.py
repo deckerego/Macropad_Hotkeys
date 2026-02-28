@@ -7,9 +7,21 @@ from adafruit_display_shapes.rect import Rect
 class MockKeys(Keys):
     def __init__(self, listeners, app):
         self.keys = [
-            Key(mock.Mock(), "Test1"),
-            Key(mock.Mock(), "Test2"),
-            Key(mock.Mock(), "Test3"),
+            Key(mock.Mock(), "Test01"),
+            Key(mock.Mock(), "Test02"),
+            Key(mock.Mock(), "Test03"),
+            Key(mock.Mock(), "Test04"),
+            Key(mock.Mock(), "Test05"),
+            Key(mock.Mock(), "Test06"),
+            Key(mock.Mock(), "Test07"),
+            Key(mock.Mock(), "Test08"),
+            Key(mock.Mock(), "Test09"),
+            Key(mock.Mock(), "Test10"),
+            Key(mock.Mock(), "Test11"),
+            Key(mock.Mock(), "Test12"),
+            Key(mock.Mock(), "TestButton"),
+            Key(mock.Mock(), "TestLeft"),
+            Key(mock.Mock(), "TestRight"),
         ]
 
 class MockMacroPad:
@@ -93,9 +105,9 @@ class TestScreen(TestCase):
         screen.initialize()
         screen.register(keys)
 
-        self.assertEqual(screen.group[0].text, 'Test1')
-        self.assertEqual(screen.group[1].text, 'Test2')
-        self.assertEqual(screen.group[2].text, 'Test3')
+        self.assertEqual(screen.group[0].text, 'Test01')
+        self.assertEqual(screen.group[1].text, 'Test02')
+        self.assertEqual(screen.group[2].text, 'Test03')
         self.assertEqual(screen.group[13].text, '')
 
     def test_press(self):
@@ -125,6 +137,36 @@ class TestScreen(TestCase):
 
         screen.reset.assert_called_once()
         screen.highlight.assert_not_called()
+
+    def test_press_encoder(self):
+        keys = MockKeys([], None)
+        class MockScreenListener(ScreenListener):
+            highlight = mock.Mock()
+            reset = mock.Mock()
+        macropad = MockMacroPad()
+        screen = MockScreenListener(macropad)
+        screen.initialize()
+        screen.register(keys)
+
+        screen.display.refresh.reset_mock()
+        screen.pressed(keys, Keys.KEY_ENC_BUTTON)
+
+        screen.display.refresh.assert_not_called()
+
+    def test_release_encoder(self):
+        keys = MockKeys([], None)
+        class MockScreenListener(ScreenListener):
+            highlight = mock.Mock()
+            reset = mock.Mock()
+        macropad = MockMacroPad()
+        screen = MockScreenListener(macropad)
+        screen.initialize()
+        screen.register(keys)
+
+        screen.display.refresh.reset_mock()
+        screen.released(keys, Keys.KEY_ENC_BUTTON)
+
+        screen.display.refresh.assert_not_called()
 
     def test_sleep(self):
         keys = MockKeys([], None)

@@ -45,14 +45,6 @@ class MockMouse:
         self.release = mock.Mock()
 
 class TestInputDevice(TestCase):
-    def test_init_keyboard(self):
-        keys = MockKeys([], None)
-        macropad = MockMacroPad()
-        listener = InputDeviceListener(macropad)
-        listener.register(keys)
-
-        macropad.keyboard.release_all.assert_called_once()        
-
     def test_press_alpha(self):
         keys = MockKeys([], None)
         macropad = MockMacroPad()

@@ -5,6 +5,8 @@ from adafruit_display_shapes.rect import Rect
 from commands import Sleep
 
 class ScreenListener:
+    MAX_LABELS = 12
+
     def __init__(self, macropad):
         self.display = macropad.display
         self.display.auto_refresh = False
@@ -14,7 +16,7 @@ class ScreenListener:
 
     def initialize(self):
         self.group = displayio.Group()
-        for key_index in range(12):
+        for key_index in range(ScreenListener.MAX_LABELS):
             x = key_index % 3
             y = key_index // 3
             self.group.append(
@@ -76,11 +78,13 @@ class ScreenListener:
         self.display.refresh()
 
     def highlight(self, key_index):
+        if key_index >= ScreenListener.MAX_LABELS: return
         self.group[key_index].color = 0x000000
         self.group[key_index].background_color = 0xFFFFFF
         self.display.refresh()
     
     def reset(self, key_index):
+        if key_index >= ScreenListener.MAX_LABELS: return
         self.group[key_index].color = 0xFFFFFF
         self.group[key_index].background_color = 0x000000
         self.display.refresh()

@@ -7,6 +7,10 @@ class Key:
         self.color = color    
 
 class Keys:
+    KEY_ENC_BUTTON = 12
+    KEY_ENC_LEFT = 13
+    KEY_ENC_RIGHT = 14
+    
     listeners = []
     keys = []
     app = None
