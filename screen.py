@@ -11,7 +11,7 @@ class ScreenListener:
     def __init__(self, macropad):
         self.display = macropad.display
         self.display.auto_refresh = False
-        sleeping = False
+        self.sleeping = False
 
     def __del__(self):
         self.display = None

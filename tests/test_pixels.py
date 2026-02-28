@@ -20,14 +20,13 @@ class MockPixels:
         self.auto_write = True
         self.brightness = 1.0
         self.leds = [0x000000] * 12
+        self.show = mock.Mock()
     def __getitem__(self, key):
         return self.leds[key]
     def __setitem__(self, key, value):
         self.leds[key] = value
     def clear(self):
         self.leds.clear()
-    def show(self):
-        pass
 
 class TestPixels(TestCase):
     def test_initalize(self):
@@ -44,6 +43,14 @@ class TestPixels(TestCase):
 
         self.assertEqual(pixels.pixels.brightness, 0.0)
 
+    def test_sleep_twice(self):
+        macropad = MockMacroPad()
+        pixels = PixelListener(macropad)
+        pixels.sleep()
+        pixels.sleep()
+
+        pixels.pixels.show.assert_called_once()
+
     def test_resume(self):
         macropad = MockMacroPad()
         pixels = PixelListener(macropad)
@@ -51,6 +58,17 @@ class TestPixels(TestCase):
         pixels.resume()
 
         self.assertEqual(pixels.pixels.brightness, PixelListener.BRIGHTNESS)
+
+    def test_resume_twice(self):
+        macropad = MockMacroPad()
+        pixels = PixelListener(macropad)
+        pixels.sleep()
+
+        pixels.pixels.show.reset_mock()
+        pixels.resume()
+        pixels.resume()
+
+        pixels.pixels.show.assert_called_once()
 
     def test_highlight(self):
         macropad = MockMacroPad()
@@ -106,7 +124,7 @@ class TestPixels(TestCase):
         pixels.reset.assert_called_once()
         pixels.highlight.assert_not_called()
 
-    def test_sleep(self):
+    def test_sleep_command(self):
         keys = MockKeys([], None)
         keys[0].commands = Commands(Sleep())
         class MockPixelListener(PixelListener):
