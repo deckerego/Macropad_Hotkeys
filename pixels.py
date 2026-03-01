@@ -37,6 +37,8 @@ class PixelListener:
         self.highlight(index)
 
         commands = keys[index].commands
+        if not commands: return
+
         if isinstance(commands[0], Sleep):
             self.sleep()
 
@@ -44,6 +46,8 @@ class PixelListener:
         self.reset(index)
 
         commands = keys[index].commands
+        if not commands: return
+        
         if isinstance(commands[0], Sleep):
             self.resume()
 
