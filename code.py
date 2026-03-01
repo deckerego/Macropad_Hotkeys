@@ -108,6 +108,9 @@ while True: # Input event loop
         last_position = macropad.encoder
         keys.press(Keys.KEY_ENC_RIGHT)
         keys.release(Keys.KEY_ENC_RIGHT)
-    elif macropad.encoder_switch_debounced.released:
-        if macro_changed: macro_changed = False      # Land on the selected macro page
-        else: keys.press(Keys.KEY_ENC_BUTTON)        # Encoder button "pressed"
+    elif macropad.encoder_switch_debounced.released and macro_changed:
+        keys.press(Keys.KEY_LAUNCH)                  # Press the "new page" button
+        keys.release(Keys.KEY_LAUNCH)
+        macro_changed = False
+    elif macropad.encoder_switch_debounced.released: # Encoder button "pressed"
+        keys.press(Keys.KEY_ENC_BUTTON)
