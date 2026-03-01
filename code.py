@@ -1,34 +1,39 @@
 import time
-import keyfactory
 from adafruit_macropad import MacroPad
 from app import App
-from display import Display
-from pixels import Pixels
-from sleep import Sleep
+from keys import Keys
+from screen import ScreenListener
+from pixels import PixelListener
+from hid import InputDeviceListener
+from commands import Sleep
 
-KEY_LAUNCH = -1
-KEY_ENC_BUTTON = 12
-KEY_ENC_LEFT = 13
-KEY_ENC_RIGHT = 14
-MAX_KEYS = 14
-MAX_LEDS = 12
+## DEPRECATED 
+# Ensure backwards compatibility for the 2.x series
+# So we don't have to change import statements in old macros
+import sys
+import commands
+sys.modules['keyboard'] = commands
+sys.modules['mouse'] = commands
+sys.modules['pause'] = commands
+sys.modules['sleep'] = commands
+sys.modules['midi'] = commands
+sys.modules['consumer'] = commands
+
 MACRO_FOLDER = '/macros'
 
+# Core objects
 macropad = MacroPad()
-last_position = macropad.encoder
+screen = ScreenListener(macropad)
+pixels = PixelListener(macropad)
+hid = InputDeviceListener(macropad)
+
+# State variables
 last_time_seconds = time.monotonic()
+last_position = macropad.encoder
 sleep_remaining = None
+keys = None
 macro_changed = False
 app_index = 0
-app_current = None
-
-# The application state that is shared with the key events
-state = {
-    "macropad": macropad,
-    "screen": Display(macropad),
-    "pixels": Pixels(macropad),
-    "sleeping": False,
-}
 
 # Fractions of a second that have elapsed since this method's last run
 def elapsed_seconds():
@@ -40,116 +45,69 @@ def elapsed_seconds():
 
 # Set the macro page (app) at the given index
 def set_app(index):
-    global app_current, app_index, sleep_remaining
+    global app_index, keys, screen, sleep_remaining
     app_index = index
-    app_current = apps[app_index]
-    sleep_remaining = app_current.timeout
-    state["macropad"].keyboard.release_all()
-    state["screen"].setApp(app_current)
-    state["pixels"].setApp(app_current)
 
-# Get the macro sequence to execute for a given key
-def get_sequence(key):
-    global app_current
-    if key == KEY_LAUNCH:
-        return app_current.launch[2] if app_current.launch else None
-    try: # No such sequence for this key
-        return app_current.macros[key][2] if key <= MAX_KEYS else []
-    except (IndexError) as err:
-        print("Couldn't find sequence for key number ", key)
-        return None
+    sleep_remaining = apps[app_index].timeout
+    screen.setTitle(apps[app_index].name)
+    macropad.keyboard.release_all()
+
+    keys = Keys(apps[app_index])
+    keys.addListener(hid)
+    keys.addListener(screen)
+    keys.addListener(pixels)
 
 # Load available macros
-state["screen"].initialize()
+screen.initialize()
 apps = App.load_all(MACRO_FOLDER)
 if not apps:
-    state["screen"].setTitle('NO MACRO FILES FOUND')
+    screen.setError('NO MACRO FILES FOUND')
     while True:
-        pass
+        time.sleep(60.0)
+set_app(app_index)
 
 try: # Test the USB HID connection
-    state["macropad"].keyboard.release_all()
+    macropad.keyboard.release_all()
 except OSError as err:
     print(err)
-    state["screen"].setTitle('NO USB CONNECTION')
+    screen.setError('NO USB CONNECTION')
     while True:
-        pass
+        time.sleep(60.0)
 
 # Prep before the run loop
-set_app(0)
 
-while True: # Event loop
-    state["macropad"].encoder_switch_debounced.update()
-    position = state["macropad"].encoder
-    pressed = False
-    rotated = False
 
-    # Do we need to press the "sleep" button?
+while True: # Input event loop
+    macropad.encoder_switch_debounced.update()
     sleep_remaining -= elapsed_seconds()
-    if not state["sleeping"] and sleep_remaining <= 0:
-        Sleep().press(state)
-        continue
-
-    if position != last_position: # Did we rotate the encoder?
-        key_number = KEY_ENC_LEFT if position < last_position else KEY_ENC_RIGHT
-        last_position = position
-        rotated = True
-
-        # Do we need to change macro pages?
-        if rotated and state["macropad"].encoder_switch:
-            macro_changed = True
-            app_next = app_index - 1 if key_number is KEY_ENC_LEFT else app_index + 1
-            set_app(app_next % len(apps))
-            continue # Changing macros, not a keypress event
-    # We are now switching to a new macro page
-    elif macro_changed and state["macropad"].encoder_switch_debounced.released:
-        macro_changed = False
-        key_number = KEY_LAUNCH
-        rotated = True
-    # We only clicked the encoder button (not switching to a new page)
-    elif state["macropad"].encoder_switch_debounced.released:
-        key_number = KEY_ENC_BUTTON
-        pressed = state["macropad"].encoder_switch_debounced.released
-    else: # Was there a keypress event on the keypad?
-        event = state["macropad"].keys.events.get()
-        if not event or event.key_number >= len(app_current.macros):
-            if state["sleeping"]: time.sleep(1.0) # Low power mode
-            continue # No key events, or no corresponding macro, resume loop
-        key_number = event.key_number
-        pressed = event.pressed
-
-    # Wake up if there is a key event while sleeping
-    sleep_remaining = app_current.timeout
-    if state["sleeping"] and (pressed or rotated):
-        Sleep().press(state)
-        continue
-
-    sequence = get_sequence(key_number)
-    if sequence and (rotated or pressed): # Key Down Event
-        if not state["sleeping"] and (0 <= key_number < MAX_LEDS):
-            state["pixels"].highlight(key_number, 0xFFFFFF)
-            state["screen"].highlight(key_number)
-
-        if type(sequence) is list:
-            for item in sequence:
-                if type(item) is list: # We have a macro to execute
-                    for subitem in item: # Press the key combination
-                        keyfactory.get(subitem).press(state)
-                    for subitem in item: # Immediately release the key combo
-                        keyfactory.get(subitem).release(state)
-                else: # We have a key combination to press
-                    keyfactory.get(item).press(state)
-        else: # We just have a single command to execute
-            keyfactory.get(sequence).press(state)
-                
-    if sequence and (rotated or not pressed): # Key Up Event
-        if type(sequence) is list: 
-            for item in sequence:
-                if type(item) is not list: # Release any still-pressed key combinations
-                    keyfactory.get(item).release(state)
-                # Macro key cobinations should already have been released
-        else: # Release any still-pressed single commands
-            keyfactory.get(sequence).release(state)
-        if not state["sleeping"] and (0 <= key_number < MAX_LEDS): # No pixel for encoder button
-            state["pixels"].reset(key_number)
-            state["screen"].reset(key_number)
+    event = macropad.keys.events.get()
+    
+    if event or last_position != macropad.encoder or macropad.encoder_switch_debounced.released:
+        keys.release(Keys.KEY_SLEEP)                 # Don't go to sleep!
+        sleep_remaining = apps[app_index].timeout
+    if sleep_remaining <= 0:                         # Go to sleep and slow down
+        keys.press(Keys.KEY_SLEEP)
+        time.sleep(1.0)
+    elif event and event.pressed:                    # Key was pressed
+        keys.press(event.key_number)
+    elif event and event.released:                   # Key was released
+        keys.release(event.key_number)
+    elif macropad.encoder_switch and macropad.encoder < last_position:
+        last_position = macropad.encoder             # Push down and turn (left)
+        set_app((app_index - 1) % len(apps))
+        macro_changed = True
+    elif macropad.encoder_switch and macropad.encoder > last_position:
+        last_position = macropad.encoder             # Push down and turn (right)
+        set_app((app_index + 1) % len(apps))
+        macro_changed = True
+    elif macropad.encoder < last_position:           # Rotary counter-clockwise
+        last_position = macropad.encoder
+        keys.press(Keys.KEY_ENC_LEFT)
+        keys.release(Keys.KEY_ENC_LEFT)
+    elif macropad.encoder > last_position:           # Rotary clockwise
+        last_position = macropad.encoder
+        keys.press(Keys.KEY_ENC_RIGHT)
+        keys.release(Keys.KEY_ENC_RIGHT)
+    elif macropad.encoder_switch_debounced.released:
+        if macro_changed: macro_changed = False      # Land on the selected macro page
+        else: keys.press(Keys.KEY_ENC_BUTTON)        # Encoder button "pressed"

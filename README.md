@@ -106,3 +106,15 @@ Macropad, and then after releasing the button immediately hold down the
 blinking top-left key on the keypad (KEY1). You should see the text 
 "Mounting Read/Write" quickly appear on the screen, and then the CIRCUITPY 
 drive will mount in read/write mode.
+
+
+## Building
+
+I've attempted to build mocks of all necessary libraries so things can be tested locally.
+
+### Running tests
+
+Tests can be run with the native Python unittest module, as in:
+```sh
+python3 -m unittest discover
+```

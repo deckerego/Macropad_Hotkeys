@@ -1,0 +1,17 @@
+name: Automated Testing
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+    branches: [ main ]
+
+jobs:
+  unittest:
+    if: '! github.event.pull_request.draft'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - uses: actions/checkout@v4
+    - run: python3 -m unittest discover

@@ -11,7 +11,7 @@ jobs:
   package:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Adafruit Library Cache
         id: cache-mpy
         uses: actions/cache@v4
@@ -29,6 +29,11 @@ jobs:
           rmdir adafruit-circuitpython-bundle-10.x-mpy-${{ env.adafruit-bundle }}
       - name: Copy Adafruit Libraries
         run: |
+          rm -r -f \
+          ./lib/adafruit_display_shapes \
+          ./lib/adafruit_display_text \
+          ./lib/adafruit_hid \
+          ./lib/*.py
           cp -a \
           ~/.adafruit-circuitpython-bundle/lib/adafruit_debouncer.mpy \
           ~/.adafruit-circuitpython-bundle/lib/adafruit_display_shapes \

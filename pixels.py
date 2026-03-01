@@ -1,51 +1,71 @@
-import time
+from commands import Sleep
 
-BRIGHTNESS = 0.3
+class PixelListener:
+    BRIGHTNESS = 0.3
+    MAX_LEDS = 12
+    sleeping = False
 
-class Pixels:
     def __init__(self, macropad):
         self.pixels = macropad.pixels
         self.pixels.auto_write = False
-        self.pixels.brightness = BRIGHTNESS
+        self.pixels.brightness = PixelListener.BRIGHTNESS
+        self.keycolors = []
+        self.sleeping = False
 
-    def setApp(self, app):
-        self.macros = app.macros
+    def __del__(self):
+        self.pixels.clear()
 
-        for i in range(12):
-            if i < len(self.macros):
-                self.pixels[i] = self.macros[i][0]
+    def initialize(self):
+        self.keycolors = []
+        for i in range(PixelListener.MAX_LEDS):
+            if i < len(self.keycolors):
+                self.pixels[i] = self.keycolors[i]
             else:
-                self.pixels[i] = 0
+                self.pixels[i] = 0x000000
         self.pixels.show()
+
+    def register(self, keys):
+        self.keycolors = list(map(lambda k: k.color, keys))
+        for i in range(PixelListener.MAX_LEDS):
+            if i < len(self.keycolors):
+                self.pixels[i] = self.keycolors[i]
+            else:
+                self.pixels[i] = 0x000000
+        self.pixels.show()
+
+    def pressed(self, keys, index):
+        self.highlight(index)
+
+        commands = keys[index].commands
+        if isinstance(commands[0], Sleep):
+            self.sleep()
+
+    def released(self, keys, index):
+        self.reset(index)
+
+        commands = keys[index].commands
+        if isinstance(commands[0], Sleep):
+            self.resume()
 
     def sleep(self):
+        if self.sleeping: return
         self.pixels.brightness = 0.0
         self.pixels.show()
+        self.sleeping = True
 
     def resume(self):
-        self.pixels.brightness = BRIGHTNESS
+        if not self.sleeping: return
+        self.pixels.brightness = PixelListener.BRIGHTNESS
         self.pixels.show()
+        self.sleeping = False
 
-    def highlight(self, key_index, color):
+    def highlight(self, key_index, color=0xFFFFFF):
+        if key_index >= PixelListener.MAX_LEDS: return
         self.pixels[key_index] = color
         self.pixels.show()
 
     def reset(self, key_index):
-        self.pixels[key_index] = self.macros[key_index][0]
-        self.pixels.brightness = BRIGHTNESS
+        if key_index >= PixelListener.MAX_LEDS: return
+        self.pixels[key_index] = self.keycolors[key_index] if key_index < len(self.keycolors) else 0x000000
+        self.pixels.brightness = PixelListener.BRIGHTNESS
         self.pixels.show()
-
-    @staticmethod
-    def hexToTuple(color):
-        return (color >> 16, (color >> 8) & 0xFF, color & 0xFF)
-
-    @staticmethod
-    def blend(color_fg, color_bg, alpha_fg):
-        red_fg, green_fg, blue_fg = Pixels.hexToTuple(color_fg)
-        red_bg, green_bg, blue_bg = Pixels.hexToTuple(color_bg)
-        alpha_bg = 1.0 - alpha_fg
-        color_result_alpha = 1 - (1 - alpha_fg) * (1 - alpha_bg)
-        color_result_red = red_fg * alpha_fg / color_result_alpha + red_bg * alpha_bg * (1 - alpha_fg) / color_result_alpha
-        color_result_green = green_fg * alpha_fg / color_result_alpha + green_bg * alpha_bg * (1 - alpha_fg) / color_result_alpha
-        color_result_blue = blue_fg * alpha_fg / color_result_alpha + blue_bg * alpha_bg * (1 - alpha_fg) / color_result_alpha
-        return (color_result_red, color_result_green, color_result_blue)

@@ -1,12 +1,14 @@
 # Adafruit Macropad Libraries
 
-These MicroPython compiled libraries are provided as a convenience when
-installing this version of Macropad Hotkeys. See the Macropad
+In packaged versions of this app, these MicroPython compiled libraries are provided as a 
+convenience when installing Macropad Hotkeys. See the Macropad
 [Adafruit Learning System Guide](https://learn.adafruit.com/macropad-hotkeys/project-code)
 for additional details.
 
-If you are installing straight from this repository, you can download the
-libraries as a bundle from the
+If you instead cloned this repository, you will receive the mocked version
+of the libraries used for automated testing. To install Macropad Hotkeys
+from a repository, remove the `*.py` files from `lib/` and replace them
+with the corresponding files from the
 [CircuitPython library bundle](https://circuitpython.org/libraries).
 
 The libraries required by this version of Macropad Hotkeys includes:
@@ -21,6 +23,6 @@ The libraries required by this version of Macropad Hotkeys includes:
 - adafruit_simple_text_display.mpy
 - neopixel.mpy
 
-These libraries are individually licensed in each of their GitHub repositories
-and are provided by Adafruit under the MIT license
+The production libraries are individually licensed in each of their GitHub 
+repositories and are provided by Adafruit under the MIT license
 (see also [LICENSE](./LICENSE) in this directory)

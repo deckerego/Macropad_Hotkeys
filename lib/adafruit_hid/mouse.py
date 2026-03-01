@@ -1,0 +1,6 @@
+class Mouse:
+    LEFT_BUTTON = 1
+    RIGHT_BUTTON = 2
+    MIDDLE_BUTTON = 4
+    BACK_BUTTON = 8
+    FORWARD_BUTTON = 16
