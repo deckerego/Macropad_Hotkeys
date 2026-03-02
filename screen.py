@@ -37,7 +37,7 @@ class ScreenListener:
                 terminalio.FONT,
                 text='',
                 color=0x000000,
-                anchored_position=(self.display.width//2, -2),
+                anchored_position=(self.display.width//2, -1),
                 anchor_point=(0.5, 0.0)
             )
         )
