@@ -46,12 +46,12 @@ def elapsed_seconds():
 # Set the macro page (app) at the given index
 def set_app(index):
     global app_index, keys, screen, sleep_remaining
+
+    macropad.keyboard.release_all()
     app_index = index
 
     sleep_remaining = apps[app_index].timeout
     screen.setTitle(apps[app_index].name)
-    macropad.keyboard.release_all()
-
     keys = Keys(apps[app_index])
     keys.addListener(hid)
     keys.addListener(screen)
@@ -59,8 +59,6 @@ def set_app(index):
 
 # Load available macros
 screen.initialize()
-screen.setTitle(' CONNECTING... ')
-macropad.keyboard.release_all()
 apps = App.load_all(MACRO_FOLDER)
 if not apps:
     screen.setTitle('NO MACRO FILES FOUND')
@@ -68,6 +66,7 @@ if not apps:
         time.sleep(60.0)
 
 # Load our first app page
+screen.setTitle(' CONNECTING... ')
 set_app(app_index)
 
 while True: # Input event loop
