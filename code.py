@@ -59,23 +59,16 @@ def set_app(index):
 
 # Load available macros
 screen.initialize()
+screen.setTitle(' CONNECTING... ')
+macropad.keyboard.release_all()
 apps = App.load_all(MACRO_FOLDER)
 if not apps:
-    screen.setError('NO MACRO FILES FOUND')
+    screen.setTitle('NO MACRO FILES FOUND')
     while True:
         time.sleep(60.0)
+
+# Load our first app page
 set_app(app_index)
-
-try: # Test the USB HID connection
-    macropad.keyboard.release_all()
-except OSError as err:
-    print(err)
-    screen.setError('NO USB CONNECTION')
-    while True:
-        time.sleep(60.0)
-
-# Prep before the run loop
-
 
 while True: # Input event loop
     macropad.encoder_switch_debounced.update()
