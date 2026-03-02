@@ -47,6 +47,10 @@ class ScreenListener:
         self.group[13].text = text
         self.display.refresh()
 
+    def setText(self, text):
+        self.group[0].text = text
+        self.display.refresh()
+
     def register(self, keys):
         for i in range(12):
             if i < len(keys):
