@@ -30,18 +30,18 @@ class InputDeviceListener:
             self.release(command)
 
     def press(self, command: Command):
-        if isinstance(command, Toolbar): return self.pressToolbar(command)
-        elif isinstance(command, Mouse): return self.pressMouse(command)
-        elif isinstance(command, Midi): return self.pressMidi(command)
-        elif isinstance(command, Pause): return self.pressPause(command)
+        if isinstance(command, Keyboard): return self.pressKeyboard(command)
         elif isinstance(command, Sequence): return self.pressSequence(command)
-        elif isinstance(command, Keyboard): return self.pressKeyboard(command)
+        elif isinstance(command, Toolbar): return self.pressToolbar(command)
+        elif isinstance(command, Mouse): return self.pressMouse(command)
+        elif isinstance(command, Pause): return self.pressPause(command)
+        elif isinstance(command, Midi): return self.pressMidi(command)
 
     def release(self, command: Command):
-        if isinstance(command, Toolbar): return self.releaseToolbar(command)
+        if isinstance(command, Keyboard): return self.releaseKeyboard(command)
+        elif isinstance(command, Toolbar): return self.releaseToolbar(command)
         elif isinstance(command, Mouse): return self.releaseMouse(command)
         elif isinstance(command, Midi): return self.releaseMidi(command)
-        elif isinstance(command, Keyboard): return self.releaseKeyboard(command)
         
     def pressToolbar(self, command:Toolbar):
         if command.keycode < 0:
