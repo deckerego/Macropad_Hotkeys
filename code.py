@@ -82,7 +82,7 @@ while True: # Input event loop
     sleep_remaining -= elapsed_seconds()
     event = macropad.keys.events.get()
     
-    if event or last_position != macropad.encoder or macropad.encoder_switch_debounced.released:
+    if (event and event.pressed) or last_position != macropad.encoder or macropad.encoder_switch_debounced.released:
         keys.release(Keys.KEY_SLEEP)                 # Don't go to sleep!
         sleep_remaining = apps[app_index].timeout
     if sleep_remaining <= 0:                         # Go to sleep and slow down
@@ -100,14 +100,19 @@ while True: # Input event loop
         last_position = macropad.encoder             # Push down and turn (right)
         set_app((app_index + 1) % len(apps))
         macro_changed = True
-    elif macropad.encoder < last_position:           # Rotary counter-clockwise
-        last_position = macropad.encoder
-        keys.press(Keys.KEY_ENC_LEFT)
+    elif macropad.encoder < last_position:           # Encoder counter-clockwise
+        while macropad.encoder < last_position:
+            keys.press(Keys.KEY_ENC_LEFT)
+            last_position -= 1
         keys.release(Keys.KEY_ENC_LEFT)
-    elif macropad.encoder > last_position:           # Rotary clockwise
-        last_position = macropad.encoder
-        keys.press(Keys.KEY_ENC_RIGHT)
+    elif macropad.encoder > last_position:           # Encoder clockwise
+        while macropad.encoder > last_position:
+            keys.press(Keys.KEY_ENC_RIGHT)
+            last_position += 1
         keys.release(Keys.KEY_ENC_RIGHT)
-    elif macropad.encoder_switch_debounced.released:
-        if macro_changed: macro_changed = False      # Land on the selected macro page
-        else: keys.press(Keys.KEY_ENC_BUTTON)        # Encoder button "pressed"
+    elif macropad.encoder_switch_debounced.released and macro_changed:
+        keys.press(Keys.KEY_LAUNCH)                  # Press the "new page" button
+        keys.release(Keys.KEY_LAUNCH)
+        macro_changed = False
+    elif macropad.encoder_switch_debounced.released: # Encoder button "pressed"
+        keys.press(Keys.KEY_ENC_BUTTON)

@@ -29,7 +29,7 @@ class TestKeys(TestCase):
         keys = Keys(app)
         keys.addListener(MockListener())
         
-        self.assertEqual(len(keys.keys), 16)
+        self.assertEqual(len(keys.keys), 17)
         self.assertEqual(keys.keys[0].color, 0x0F0F0F)
         self.assertIsInstance(keys.keys[0].commands, Commands)
 
@@ -60,3 +60,26 @@ class TestKeys(TestCase):
         listenerOne.pressed.assert_not_called()
         listenerTwo.released.assert_called_once()
         listenerTwo.pressed.assert_not_called()
+
+    def test_no_launch(self):
+        listenerOne = MockListener()
+        app = MockApp()
+        keys = Keys(app)
+        keys.addListener(listenerOne)
+        keys.press(Keys.KEY_LAUNCH)
+        keys.release(Keys.KEY_LAUNCH)
+
+        listenerOne.released.assert_called_once()
+        listenerOne.pressed.assert_called_once()
+
+    def test_launch(self):
+        listenerOne = MockListener()
+        app = MockApp()
+        app.launch = 0x000000, None, [],
+        keys = Keys(app)
+        keys.addListener(listenerOne)
+        keys.press(Keys.KEY_LAUNCH)
+        keys.release(Keys.KEY_LAUNCH)
+
+        listenerOne.released.assert_called_once()
+        listenerOne.pressed.assert_called_once()
