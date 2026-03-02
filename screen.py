@@ -56,6 +56,9 @@ class ScreenListener:
         self.display.refresh()
 
     def pressed(self, keys, index):
+        # Ignore any button presses until we wake up
+        if self.macropad.display_sleep: return
+
         self.highlight(index)
 
         commands = keys[index].commands
