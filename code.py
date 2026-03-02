@@ -46,12 +46,12 @@ def elapsed_seconds():
 # Set the macro page (app) at the given index
 def set_app(index):
     global app_index, keys, screen, sleep_remaining
+
+    macropad.keyboard.release_all()
     app_index = index
 
     sleep_remaining = apps[app_index].timeout
     screen.setTitle(apps[app_index].name)
-    macropad.keyboard.release_all()
-
     keys = Keys(apps[app_index])
     keys.addListener(hid)
     keys.addListener(screen)
@@ -61,21 +61,13 @@ def set_app(index):
 screen.initialize()
 apps = App.load_all(MACRO_FOLDER)
 if not apps:
-    screen.setError('NO MACRO FILES FOUND')
+    screen.setTitle('NO MACRO FILES FOUND')
     while True:
         time.sleep(60.0)
+
+# Load our first app page
+screen.setTitle(' CONNECTING... ')
 set_app(app_index)
-
-try: # Test the USB HID connection
-    macropad.keyboard.release_all()
-except OSError as err:
-    print(err)
-    screen.setError('NO USB CONNECTION')
-    while True:
-        time.sleep(60.0)
-
-# Prep before the run loop
-
 
 while True: # Input event loop
     macropad.encoder_switch_debounced.update()

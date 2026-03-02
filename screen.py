@@ -6,15 +6,15 @@ from commands import Sleep
 
 class ScreenListener:
     MAX_LABELS = 12
-    sleeping = False
 
     def __init__(self, macropad):
+        self.macropad = macropad
         self.display = macropad.display
         self.display.auto_refresh = False
-        self.sleeping = False
 
     def __del__(self):
         self.display = None
+        self.macropad = None
 
     def initialize(self):
         self.group = displayio.Group()
@@ -37,7 +37,7 @@ class ScreenListener:
                 terminalio.FONT,
                 text='',
                 color=0x000000,
-                anchored_position=(self.display.width//2, -2),
+                anchored_position=(self.display.width//2, -1),
                 anchor_point=(0.5, 0.0)
             )
         )
@@ -74,18 +74,10 @@ class ScreenListener:
             self.resume()
 
     def sleep(self):
-        if self.sleeping: return
-        self.display.brightness = 0
-        self.display.root_group = displayio.Group()
-        self.display.refresh()
-        self.sleeping = True
+        self.macropad.display_sleep = True
 
     def resume(self):
-        if not self.sleeping: return
-        self.display.brightness = 1
-        self.display.root_group = self.group
-        self.display.refresh()
-        self.sleeping = False
+        self.macropad.display_sleep = False
 
     def highlight(self, key_index):
         if key_index >= ScreenListener.MAX_LABELS: return

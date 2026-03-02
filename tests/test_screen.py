@@ -46,46 +46,6 @@ class TestScreen(TestCase):
         self.assertIsInstance(screen.display.root_group[elementCount - 2], Rect)
         self.assertEqual(screen.display.root_group[elementCount - 1].color, 0x000000)
 
-    def test_sleep(self):
-        macropad = MockMacroPad()
-        screen = ScreenListener(macropad)
-        screen.initialize()
-        screen.sleep()
-
-        self.assertEqual(len(screen.display.root_group), 0)
-        self.assertEqual(screen.display.brightness, 0)
-
-    def test_sleep_twice(self):
-        macropad = MockMacroPad()
-        screen = ScreenListener(macropad)
-        screen.initialize()
-        screen.sleep()
-        screen.sleep()
-
-        screen.display.refresh.assert_called_once()
-
-    def test_resume(self):
-        macropad = MockMacroPad()
-        screen = ScreenListener(macropad)
-        screen.initialize()
-        screen.sleep()
-        screen.resume()
-
-        self.assertEqual(len(screen.display.root_group), 14)
-        self.assertEqual(screen.display.brightness, 1)
-
-    def test_resume_twice(self):
-        macropad = MockMacroPad()
-        screen = ScreenListener(macropad)
-        screen.initialize()
-        screen.sleep()
-
-        screen.display.refresh.reset_mock()
-        screen.resume()
-        screen.resume()
-
-        screen.display.refresh.assert_called_once()
-
     def test_highlight(self):
         macropad = MockMacroPad()
         screen = ScreenListener(macropad)

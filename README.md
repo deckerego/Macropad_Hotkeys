@@ -9,6 +9,7 @@ example from the
 ## Modifications
 
 - A number of sample macros for things such as Blender, a MIDI drum kit, DaVinici Resolve, and more
+- Sleep the display and LEDs to avoid burn-in
 - Support for HID consumer control codes
 - Support for mouse buttons
 - Support for sending MIDI notes
