@@ -1,11 +1,13 @@
-from commands import Commands, Command, Toolbar, Keyboard, Midi, Mouse, Pause, Sequence
+from commands import Commands, Command, Toolbar, Keyboard, Midi, Mouse, Pause, Sequence, Sleep
 import time
 
 class InputDeviceListener:
     MIDI_VELOCITY = 127
+    sleeping = False
 
     def __init__(self, macropad):
         self.macropad = macropad
+        self.sleeping = False
     
     def __del__(self):
         pass
@@ -30,18 +32,22 @@ class InputDeviceListener:
             self.release(command)
 
     def press(self, command: Command):
-        if isinstance(command, Toolbar): return self.pressToolbar(command)
-        elif isinstance(command, Mouse): return self.pressMouse(command)
-        elif isinstance(command, Midi): return self.pressMidi(command)
-        elif isinstance(command, Pause): return self.pressPause(command)
+        if self.sleeping: return # Ignore any button presses until we wake up
+
+        if isinstance(command, Keyboard): return self.pressKeyboard(command)
         elif isinstance(command, Sequence): return self.pressSequence(command)
-        elif isinstance(command, Keyboard): return self.pressKeyboard(command)
+        elif isinstance(command, Toolbar): return self.pressToolbar(command)
+        elif isinstance(command, Mouse): return self.pressMouse(command)
+        elif isinstance(command, Pause): return self.pressPause(command)
+        elif isinstance(command, Midi): return self.pressMidi(command)
+        elif isinstance(command, Sleep): return self.sleep(command)
 
     def release(self, command: Command):
-        if isinstance(command, Toolbar): return self.releaseToolbar(command)
+        if isinstance(command, Keyboard): return self.releaseKeyboard(command)
+        elif isinstance(command, Toolbar): return self.releaseToolbar(command)
         elif isinstance(command, Mouse): return self.releaseMouse(command)
         elif isinstance(command, Midi): return self.releaseMidi(command)
-        elif isinstance(command, Keyboard): return self.releaseKeyboard(command)
+        elif isinstance(command, Sleep): return self.resume(command)
         
     def pressToolbar(self, command:Toolbar):
         if command.keycode < 0:
@@ -91,3 +97,9 @@ class InputDeviceListener:
     def releaseKeyboard(self, command:Keyboard):
         if isinstance(command.keycode, int) and command.keycode >= 0:
             self.macropad.keyboard.release(command.keycode)
+
+    def sleep(self, command:Sleep):
+        self.sleeping = True
+
+    def resume(self, command:Sleep):
+        self.sleeping = False

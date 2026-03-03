@@ -34,6 +34,9 @@ class PixelListener:
         self.pixels.show()
 
     def pressed(self, keys, index):
+        # Ignore any button presses until we wake up
+        if self.sleeping: return
+
         self.highlight(index)
 
         commands = keys[index].commands

@@ -2,6 +2,7 @@ class MacroPad:
     def __init__(self):
         self.keyboard = Keyboard()
         self.encoder_switch_debounced = EncoderSwitch() 
+        self.display_sleep = False
         self.display = Display()
 
 class Display:

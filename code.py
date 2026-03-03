@@ -48,17 +48,21 @@ def set_app(index):
     global app_index, keys, screen, sleep_remaining
 
     macropad.keyboard.release_all()
+    screen.initialize()
     app_index = index
 
     sleep_remaining = apps[app_index].timeout
     screen.setTitle(apps[app_index].name)
-    keys = Keys(apps[app_index])
-    keys.addListener(hid)
-    keys.addListener(screen)
-    keys.addListener(pixels)
+    try:
+        keys = Keys(apps[app_index])
+        keys.addListener(hid)
+        keys.addListener(screen)
+        keys.addListener(pixels)
+    except Exception as err:
+        print(err)
+        screen.setText("Error loading macro")
 
 # Load available macros
-screen.initialize()
 apps = App.load_all(MACRO_FOLDER)
 if not apps:
     screen.setTitle('NO MACRO FILES FOUND')
@@ -66,6 +70,7 @@ if not apps:
         time.sleep(60.0)
 
 # Load our first app page
+screen.initialize()
 screen.setTitle(' CONNECTING... ')
 set_app(app_index)
 
@@ -74,7 +79,7 @@ while True: # Input event loop
     sleep_remaining -= elapsed_seconds()
     event = macropad.keys.events.get()
     
-    if (event and event.pressed) or last_position != macropad.encoder or macropad.encoder_switch_debounced.released:
+    if (event and event.released) or last_position != macropad.encoder or macropad.encoder_switch_debounced.released:
         keys.release(Keys.KEY_SLEEP)                 # Don't go to sleep!
         sleep_remaining = apps[app_index].timeout
     if sleep_remaining <= 0:                         # Go to sleep and slow down

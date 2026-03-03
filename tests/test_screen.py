@@ -27,6 +27,7 @@ class MockKeys(Keys):
 class MockMacroPad:
     def __init__(self):
         self.display = MockDisplay()
+        self.display_sleep = False
 
 class MockDisplay:
     def __init__(self):
@@ -78,6 +79,17 @@ class TestScreen(TestCase):
 
         self.assertEqual(screen.group[1].text, 'Two')
         self.assertEqual(screen.group[13].text, 'Title')
+
+    def test_text(self):
+        macropad = MockMacroPad()
+        screen = ScreenListener(macropad)
+        screen.initialize()
+        screen.setTitle("Title")
+        screen.setText("Hello")
+
+        self.assertEqual(screen.group[0].text, 'Hello')
+        self.assertEqual(screen.group[13].text, 'Title')
+
 
     def test_set_keys(self):
         keys = MockKeys([], None)
