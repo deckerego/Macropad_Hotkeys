@@ -23,7 +23,7 @@ app = {
         (0x04541B, 'o      ', Keycode.O),
         # 2nd row ----------
         (0x095E06, '< Tab  ', [Keycode.CONTROL, Keycode.SHIFT, Keycode.TAB]),
-        (0x000000, '',     []),
+        (0x000000, 'Mute',    Toolbar(ConsumerControlCode.MUTE)),
         (0x095E06, 'Tab >  ', [Keycode.CONTROL, Keycode.TAB]),
         # 3rd row ----------
         (0x000754, 'LeftBtn', Mouse(MouseCode.LEFT_BUTTON)),
@@ -35,7 +35,7 @@ app = {
         (0x04541B, 'Cowbell', Midi(56)),
         # Rotary Encoder ---
         (0x000000, None, Sleep()),
-        (0x000000, None, Toolbar(ConsumerControlCode.VOLUME_DECREMENT)),
-        (0x000000, None, Toolbar(ConsumerControlCode.VOLUME_INCREMENT)),
+        (0x000000, None, Mouse(Mouse.SCROLL, -5)),
+        (0x000000, None, Mouse(Mouse.SCROLL, 5)),
     ]
 }
