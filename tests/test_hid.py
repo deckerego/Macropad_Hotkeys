@@ -15,6 +15,8 @@ class MockKeys(Keys):
             Key([[Keycode.SHIFT, Keycode.A]]),
             Key(Toolbar(ConsumerControlCode.VOLUME_DECREMENT)),
             Key(Mouse(MouseCode.LEFT_BUTTON)),
+            Key(Mouse(Mouse.WHEEL, 5)),
+            Key(Mouse(Mouse.PAN, -5)),
         ]
 
 class MockMacroPad:
@@ -43,6 +45,7 @@ class MockMouse:
     def __init__(self):
         self.press = mock.Mock()
         self.release = mock.Mock()
+        self.move_ex = mock.Mock()
 
 class TestInputDevice(TestCase):
     def test_press_alpha(self):
@@ -130,6 +133,28 @@ class TestInputDevice(TestCase):
 
         macropad.mouse.release.assert_called_once()
         macropad.mouse.press.assert_not_called()
+
+    def test_scroll_mouse(self):
+        keys = MockKeys([], None)
+        macropad = MockMacroPad()
+        listener = InputDeviceListener(macropad)
+        listener.register(keys)
+        listener.pressed(keys, 6)
+
+        macropad.mouse.move_ex.assert_called_once()
+        macropad.mouse.press.assert_not_called()
+        macropad.mouse.release.assert_not_called()
+
+    def test_pan_mouse(self):
+        keys = MockKeys([], None)
+        macropad = MockMacroPad()
+        listener = InputDeviceListener(macropad)
+        listener.register(keys)
+        listener.pressed(keys, 7)
+
+        macropad.mouse.move_ex.assert_called_once()
+        macropad.mouse.press.assert_not_called()
+        macropad.mouse.release.assert_not_called()
 
     def test_press_sequence(self):
         keys = MockKeys([], None)

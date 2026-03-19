@@ -78,11 +78,7 @@ class Mouse(Command):
     WHEEL = 0x118
     PAN = 0x119
 
-    def __init__(self, keycode):
-        self.keycode = keycode
-        self.value = 0
-
-    def __init__(self, keycode, value):
+    def __init__(self, keycode, value=0):
         self.keycode = keycode
         self.value = value
 
