@@ -58,7 +58,7 @@ class MouseAdapter():
                 self.mouse.report[4] = (partial_y >> 8) & 0xFF
                 self.mouse.report[5] = partial_wheel & 0xFF
                 self.mouse.report[6] = partial_pan & 0xFF
-                self.mouse._mouse_device.send_report(self.mouse.report, 0x82)
+                self.mouse._mouse_device.send_report(self.mouse.report)
                 x -= partial_x
                 y -= partial_y
                 wheel -= partial_wheel
@@ -72,7 +72,7 @@ class MouseAdapter():
         self.mouse.report[5] = 0
         self.mouse.report[6] = 0
 
-        self.mouse._mouse_device.send_report(self.mouse.report, 0x82)
+        self.mouse._mouse_device.send_report(self.mouse.report)
     
     @staticmethod
     def _limit_i8(dist: int) -> int:
