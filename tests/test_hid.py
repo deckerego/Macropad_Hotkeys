@@ -4,7 +4,7 @@ from hid import InputDeviceListener
 from commands import Toolbar, Mouse
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control_code import ConsumerControlCode
-from adafruit_hid.mouse import Mouse as MouseCode
+from mouse_extended import Mouse as MouseCode
 
 class MockKeys(Keys):
     def __init__(self, listeners, app):
@@ -15,8 +15,8 @@ class MockKeys(Keys):
             Key([[Keycode.SHIFT, Keycode.A]]),
             Key(Toolbar(ConsumerControlCode.VOLUME_DECREMENT)),
             Key(Mouse(MouseCode.LEFT_BUTTON)),
-            Key(Mouse(Mouse.WHEEL, 5)),
-            Key(Mouse(Mouse.PAN, -5)),
+            Key(Mouse(MouseCode.WHEEL, 5)),
+            Key(Mouse(MouseCode.PAN, -5)),
         ]
 
 class MockMacroPad:
@@ -45,7 +45,7 @@ class MockMouse:
     def __init__(self):
         self.press = mock.Mock()
         self.release = mock.Mock()
-        self.move_ex = mock.Mock()
+        self.move = mock.Mock()
 
 class TestInputDevice(TestCase):
     def test_press_alpha(self):
@@ -141,7 +141,7 @@ class TestInputDevice(TestCase):
         listener.register(keys)
         listener.pressed(keys, 6)
 
-        macropad.mouse.move_ex.assert_called_once()
+        macropad.mouse.move.assert_called_once()
         macropad.mouse.press.assert_not_called()
         macropad.mouse.release.assert_not_called()
 
@@ -152,7 +152,7 @@ class TestInputDevice(TestCase):
         listener.register(keys)
         listener.pressed(keys, 7)
 
-        macropad.mouse.move_ex.assert_called_once()
+        macropad.mouse.move.assert_called_once()
         macropad.mouse.press.assert_not_called()
         macropad.mouse.release.assert_not_called()
 

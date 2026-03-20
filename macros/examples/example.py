@@ -2,7 +2,7 @@
 
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control_code import ConsumerControlCode
-from adafruit_hid.mouse import Mouse as MouseCode
+from mouse_extended import Mouse as MouseCode
 
 from consumer import Toolbar
 from mouse import Mouse
@@ -35,7 +35,7 @@ app = {
         (0x04541B, 'Cowbell', Midi(56)),
         # Rotary Encoder ---
         (0x000000, None, Sleep()),
-        (0x000000, None, Mouse(Mouse.WHEEL, -5)),
-        (0x000000, None, Mouse(Mouse.WHEEL, 5)),
+        (0x000000, None, Mouse(MouseCode.WHEEL, -5)),
+        (0x000000, None, Mouse(MouseCode.WHEEL, 5)),
     ]
 }

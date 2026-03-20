@@ -1,6 +1,13 @@
 # MACROPAD Hotkeys: Sample macro page with only the minimum settings
 
 from adafruit_hid.keycode import Keycode
+from adafruit_hid.consumer_control_code import ConsumerControlCode
+from mouse_extended import Mouse as MouseCode
+
+from consumer import Toolbar
+from mouse import Mouse
+from sleep import Sleep
+from midi import Midi
 
 app = {
     'name' : 'Minimal Macro',

@@ -1,4 +1,5 @@
 from commands import Commands, Command, Toolbar, Keyboard, Midi, Mouse, Pause, Sequence, Sleep
+from mouse_extended import Mouse as MouseCode
 import time
 
 class InputDeviceListener:
@@ -58,10 +59,10 @@ class InputDeviceListener:
     def pressMouse(self, command:Mouse):
         if command.keycode < 0:
             self.macropad.mouse.release(command.keycode)
-        elif command.keycode == Mouse.PAN:
-            self.macropad.mouse.move_ex(pan=command.value)
-        elif command.keycode == Mouse.WHEEL:
-            self.macropad.mouse.move_ex(wheel=command.value)
+        elif command.keycode == MouseCode.PAN:
+            self.macropad.mouse.move(pan=command.value)
+        elif command.keycode == MouseCode.WHEEL:
+            self.macropad.mouse.move(wheel=command.value)
         else:
             self.macropad.mouse.press(command.keycode)
 
