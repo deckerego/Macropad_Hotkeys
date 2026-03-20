@@ -35,7 +35,7 @@ app = {
         (0x04541B, 'Cowbell', Midi(56)),
         # Rotary Encoder ---
         (0x000000, None, Sleep()),
-        (0x000000, None, Mouse(Mouse.SCROLL, -5)),
-        (0x000000, None, Mouse(Mouse.SCROLL, 5)),
+        (0x000000, None, Mouse(Mouse.WHEEL, -5)),
+        (0x000000, None, Mouse(Mouse.WHEEL, 5)),
     ]
 }
