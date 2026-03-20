@@ -2,7 +2,7 @@
 
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control_code import ConsumerControlCode
-from mouse_extended import Mouse as MouseCode
+from mouse_extended import MouseAdapter
 
 from consumer import Toolbar
 from mouse import Mouse
@@ -26,16 +26,16 @@ app = {
         (0x000000, 'Mute',    Toolbar(ConsumerControlCode.MUTE)),
         (0x095E06, 'Tab >  ', [Keycode.CONTROL, Keycode.TAB]),
         # 3rd row ----------
-        (0x000754, 'LeftBtn', Mouse(MouseCode.LEFT_BUTTON)),
-        (0x540908, 'MidBtn ', Mouse(MouseCode.MIDDLE_BUTTON)),
-        (0x000754, 'RghtBtn', Mouse(MouseCode.RIGHT_BUTTON)),
+        (0x000754, 'LeftBtn', Mouse(MouseAdapter.LEFT_BUTTON)),
+        (0x540908, 'MidBtn ', Mouse(MouseAdapter.MIDDLE_BUTTON)),
+        (0x000754, 'RghtBtn', Mouse(MouseAdapter.RIGHT_BUTTON)),
         # 4th row ----------
         (0x540908, 'Bass',    Midi(35)),
         (0x540908, 'Kick',    Midi(36)),
         (0x04541B, 'Cowbell', Midi(56)),
         # Rotary Encoder ---
         (0x000000, None, Sleep()),
-        (0x000000, None, Mouse(MouseCode.WHEEL, -5)),
-        (0x000000, None, Mouse(MouseCode.WHEEL, 5)),
+        (0x000000, None, Mouse(MouseAdapter.WHEEL, -5)),
+        (0x000000, None, Mouse(MouseAdapter.WHEEL, 5)),
     ]
 }

@@ -4,7 +4,8 @@ from hid import InputDeviceListener
 from commands import Toolbar, Mouse
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control_code import ConsumerControlCode
-from mouse_extended import Mouse as MouseCode
+from adafruit_hid.mouse import Mouse as MouseCode
+from mouse_extended import MouseAdapter
 
 class MockKeys(Keys):
     def __init__(self, listeners, app):
@@ -15,8 +16,8 @@ class MockKeys(Keys):
             Key([[Keycode.SHIFT, Keycode.A]]),
             Key(Toolbar(ConsumerControlCode.VOLUME_DECREMENT)),
             Key(Mouse(MouseCode.LEFT_BUTTON)),
-            Key(Mouse(MouseCode.WHEEL, 5)),
-            Key(Mouse(MouseCode.PAN, -5)),
+            Key(Mouse(MouseAdapter.WHEEL, 5)),
+            Key(Mouse(MouseAdapter.PAN, -5)),
         ]
 
 class MockMacroPad:
@@ -24,7 +25,7 @@ class MockMacroPad:
         self.keyboard = MockKeyboard()
         self.keyboard_layout = MockKeyboardLayout()
         self.consumer_control = MockConsumerControl()
-        self.mouse = MockMouse()
+        self.mouse = mock.Mock()
 
 class MockKeyboard:
     def __init__(self):
@@ -41,7 +42,7 @@ class MockConsumerControl:
         self.press = mock.Mock()
         self.release = mock.Mock()
 
-class MockMouse:
+class MockMouseAdapter:
     def __init__(self):
         self.press = mock.Mock()
         self.release = mock.Mock()
@@ -118,43 +119,47 @@ class TestInputDevice(TestCase):
         keys = MockKeys([], None)
         macropad = MockMacroPad()
         listener = InputDeviceListener(macropad)
+        listener.mouse = MockMouseAdapter()
         listener.register(keys)
         listener.pressed(keys, 5)
 
-        macropad.mouse.press.assert_called_once()
-        macropad.mouse.release.assert_not_called()
+        listener.mouse.press.assert_called_once()
+        listener.mouse.release.assert_not_called()
 
     def test_release_mouse(self):
         keys = MockKeys([], None)
         macropad = MockMacroPad()
         listener = InputDeviceListener(macropad)
+        listener.mouse = MockMouseAdapter()
         listener.register(keys)
         listener.released(keys, 5)
 
-        macropad.mouse.release.assert_called_once()
-        macropad.mouse.press.assert_not_called()
+        listener.mouse.release.assert_called_once()
+        listener.mouse.press.assert_not_called()
 
     def test_scroll_mouse(self):
         keys = MockKeys([], None)
         macropad = MockMacroPad()
         listener = InputDeviceListener(macropad)
+        listener.mouse = MockMouseAdapter()
         listener.register(keys)
         listener.pressed(keys, 6)
 
-        macropad.mouse.move.assert_called_once()
-        macropad.mouse.press.assert_not_called()
-        macropad.mouse.release.assert_not_called()
+        listener.mouse.move.assert_called_once()
+        listener.mouse.press.assert_not_called()
+        listener.mouse.release.assert_not_called()
 
     def test_pan_mouse(self):
         keys = MockKeys([], None)
         macropad = MockMacroPad()
         listener = InputDeviceListener(macropad)
+        listener.mouse = MockMouseAdapter()
         listener.register(keys)
         listener.pressed(keys, 7)
 
-        macropad.mouse.move.assert_called_once()
-        macropad.mouse.press.assert_not_called()
-        macropad.mouse.release.assert_not_called()
+        listener.mouse.move.assert_called_once()
+        listener.mouse.press.assert_not_called()
+        listener.mouse.release.assert_not_called()
 
     def test_press_sequence(self):
         keys = MockKeys([], None)

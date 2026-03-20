@@ -5,7 +5,6 @@ from keys import Keys
 from screen import ScreenListener
 from pixels import PixelListener
 from hid import InputDeviceListener
-from mouse_extended import Mouse as MouseExtended
 import usb_hid # type: ignore (part of CircuitPython standard libs)
 
 ## DEPRECATED 
@@ -24,7 +23,6 @@ MACRO_FOLDER = '/macros'
 
 # Core objects
 macropad = MacroPad()
-macropad.mouse = MouseExtended(usb_hid.devices)
 screen = ScreenListener(macropad)
 pixels = PixelListener(macropad)
 hid = InputDeviceListener(macropad)
