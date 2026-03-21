@@ -10,3 +10,4 @@ if(encoder_switch.value):
     storage.disable_usb_drive()
 else:
     print("Mounting Read/Write")
+    storage.enable_usb_drive()
