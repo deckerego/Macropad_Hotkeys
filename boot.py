@@ -6,7 +6,8 @@ import storage
 encoder_switch = digitalio.DigitalInOut(board.KEY1)
 encoder_switch.switch_to_input(pull=digitalio.Pull.UP)
 if(encoder_switch.value):
-    print("Mounting Read-Only")
+    print("Disabling USB Storage")
+    storage.disable_usb_drive()
 else:
     print("Mounting Read/Write")
-storage.remount("/", not encoder_switch.value)
+    storage.enable_usb_drive()

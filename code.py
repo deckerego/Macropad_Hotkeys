@@ -5,7 +5,7 @@ from keys import Keys
 from screen import ScreenListener
 from pixels import PixelListener
 from hid import InputDeviceListener
-from commands import Sleep
+import usb_hid # type: ignore (part of CircuitPython standard libs)
 
 ## DEPRECATED 
 # Ensure backwards compatibility for the 2.x series

@@ -58,6 +58,8 @@ class InputDeviceListener:
     def pressMouse(self, command:Mouse):
         if command.keycode < 0:
             self.macropad.mouse.release(command.keycode)
+        elif command.keycode == Mouse.WHEEL:
+            self.macropad.mouse.move(wheel=command.value)
         else:
             self.macropad.mouse.press(command.keycode)
 

@@ -1,6 +1,7 @@
 import sys
 import commands
 
+sys.path.insert(0,'./tests/lib')
 sys.path.insert(0,'./lib')
 
 # backwards compatibility for the 2.x series:

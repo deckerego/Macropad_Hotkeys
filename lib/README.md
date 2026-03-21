@@ -5,10 +5,7 @@ convenience when installing Macropad Hotkeys. See the Macropad
 [Adafruit Learning System Guide](https://learn.adafruit.com/macropad-hotkeys/project-code)
 for additional details.
 
-If you instead cloned this repository, you will receive the mocked version
-of the libraries used for automated testing. To install Macropad Hotkeys
-from a repository, remove the `*.py` files from `lib/` and replace them
-with the corresponding files from the
+If you cloned this repository, you can obtain the necessarily libraries from the
 [CircuitPython library bundle](https://circuitpython.org/libraries).
 
 The libraries required by this version of Macropad Hotkeys includes:
