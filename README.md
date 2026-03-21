@@ -11,10 +11,10 @@ example from the
 - A number of sample macros for things such as Blender, a MIDI drum kit, DaVinici Resolve, and more
 - Sleep the display and LEDs to avoid burn-in
 - Support for HID consumer control codes
-- Support for mouse buttons
+- Support for mouse buttons & mouse wheel
 - Support for sending MIDI notes
 - When no HID connection is present (power only), keep LEDs off and provide a message
-- Stop your OS from shouting when you unplug the Macropad - mount filesystem as read-only unless the KEY1 button is pressed on boot
+- Stop your OS from shouting when you unplug the Macropad - don't mount as USB storage unless the KEY1 button is pressed on boot
 - Refactored the code to make it (maybe) easier to modify
 
 
@@ -96,9 +96,9 @@ macros as needed. You can also copy-and-paste macros listed in the
 ## Updating
 
 After you first install this version of Macropad Hotkeys and reboot the Macropad,
-the CIRCUITPY filesystem will be mounted as read-only. When mounting the device
-as read-only, Windows and MacOS won't complain if you unplug or reboot the device
-without unmounting it, making it more like a regular old HID device.
+the CIRCUITPY filesystem will not be mounted. In this mode Windows and MacOS won't 
+complain if you unplug or reboot the device without unmounting it, making it act
+like a regular old HID device.
 
 To update or edit the code on the device, or to modify the macros, you first
 need to reboot the device with the CIRCUITPY drive mounted in read/write mode.
