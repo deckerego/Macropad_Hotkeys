@@ -63,6 +63,7 @@ def set_app(index):
         screen.setText("Error loading macro")
 
 # Load available macros
+screen.initialize()
 apps = App.load_all(MACRO_FOLDER)
 if not apps:
     screen.setTitle('NO MACRO FILES FOUND')
@@ -70,7 +71,6 @@ if not apps:
         time.sleep(60.0)
 
 # Load our first app page
-screen.initialize()
 screen.setTitle(' CONNECTING... ')
 set_app(app_index)
 
