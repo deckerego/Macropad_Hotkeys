@@ -1,5 +1,4 @@
 from commands import Commands, Command, Toolbar, Keyboard, Midi, Mouse, Pause, Sequence, Sleep
-from mouse_extended import MouseAdapter
 import time
 
 class InputDeviceListener:
@@ -8,7 +7,6 @@ class InputDeviceListener:
 
     def __init__(self, macropad):
         self.macropad = macropad
-        self.mouse = MouseAdapter(macropad.mouse)
         self.sleeping = False
     
     def __del__(self):
@@ -59,13 +57,11 @@ class InputDeviceListener:
 
     def pressMouse(self, command:Mouse):
         if command.keycode < 0:
-            self.mouse.release(command.keycode)
-        elif command.keycode == MouseAdapter.PAN:
-            self.mouse.move(pan=command.value)
-        elif command.keycode == MouseAdapter.WHEEL:
-            self.mouse.move(wheel=command.value)
+            self.macropad.mouse.release(command.keycode)
+        elif command.keycode == Mouse.WHEEL:
+            self.macropad.mouse.move(wheel=command.value)
         else:
-            self.mouse.press(command.keycode)
+            self.macropad.mouse.press(command.keycode)
 
     def pressMidi(self, command:Midi):
         if command.keycode < 0:
@@ -94,7 +90,7 @@ class InputDeviceListener:
         self.macropad.consumer_control.release()
 
     def releaseMouse(self, command:Mouse):
-        self.mouse.release(command.keycode)
+        self.macropad.mouse.release(command.keycode)
 
     def releaseMidi(self, command:Midi):
         if command.keycode >= 0:

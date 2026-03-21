@@ -75,6 +75,8 @@ class Toolbar(Command):
         self.keycode = keycode
 
 class Mouse(Command):
+    WHEEL = 0x118
+
     def __init__(self, keycode, value=0):
         self.keycode = keycode
         self.value = value
