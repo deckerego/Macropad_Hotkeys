@@ -23,6 +23,9 @@ class InputDeviceListener:
         key = keys[index]
         self.releaseCommands(key.commands)
 
+    def tick(self, *_):
+        pass
+
     def pressCommands(self, commands: Commands):
         for command in commands:
             self.press(command)

@@ -53,7 +53,10 @@ class PixelListener:
         
         if isinstance(commands[0], Sleep):
             self.resume()
-
+    
+    def tick(self, keys, frames):
+        pass
+    
     def sleep(self):
         if self.sleeping: return
         self.pixels.brightness = 0.0
