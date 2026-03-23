@@ -1,6 +1,6 @@
 from unittest import mock, TestCase
 from keys import Keys, Key
-from pixels import PixelListener
+from pixels import PixelListener, BlinkShader
 from commands import Commands, Sleep
 
 class MockKeys(Keys):
@@ -75,17 +75,7 @@ class TestPixels(TestCase):
         pixels = PixelListener(macropad)
         pixels.highlight(1)
 
-        self.assertEqual(pixels.pixels[0], 0x000000)
-        self.assertEqual(pixels.pixels[1], 0xFFFFFF)
-
-    def test_reset(self):
-        macropad = MockMacroPad()
-        pixels = PixelListener(macropad)
-        pixels.highlight(1)
-        pixels.reset(1)
-
-        self.assertEqual(pixels.pixels[0], 0x000000)
-        self.assertEqual(pixels.pixels[1], 0x000000)
+        self.assertEqual(len(pixels.shaders), 1)
 
     def test_set_keys(self):
         keys = MockKeys([], None)
@@ -137,3 +127,44 @@ class TestPixels(TestCase):
         screen.pressed(keys, 0)
 
         screen.sleep.assert_called_once()
+
+    def test_tick_fire(self):
+        class MockShader:
+            tick = mock.Mock()
+            done = lambda s: False
+
+        keys = MockKeys([], None)
+        macropad = MockMacroPad()
+        shader = MockShader()
+        pixels = PixelListener(macropad)
+        pixels.shaders += [shader]
+
+        pixels.tick(keys, 1)
+
+        shader.tick.assert_called_once()
+        self.assertEqual(len(pixels.shaders), 1)
+
+    def test_tick_clear(self):
+        class MockShader:
+            tick = mock.Mock()
+            done = lambda s: True
+
+        keys = MockKeys([], None)
+        macropad = MockMacroPad()
+        shader = MockShader()
+        pixels = PixelListener(macropad)
+        pixels.shaders += [shader]
+
+        pixels.tick(keys, 1)
+
+        shader.tick.assert_called_once()
+        self.assertEqual(len(pixels.shaders), 0)
+
+    def test_tick_empty(self):
+        keys = MockKeys([], None)
+        macropad = MockMacroPad()
+        pixels = PixelListener(macropad)
+
+        pixels.tick(keys, 1)
+
+        self.assertEqual(len(pixels.shaders), 0)

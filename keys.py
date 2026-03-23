@@ -1,4 +1,5 @@
 from commands import Commands, Sleep
+import time
 
 class Key:
     def __init__(self, macro, label='', color=0xF0F0F0):
@@ -15,6 +16,7 @@ class Keys:
     
     listeners = []
     keys = []
+    tick_count = None
 
     def __init__(self, app):
         self.keys = [None] * 17
@@ -24,6 +26,8 @@ class Keys:
 
         self.keys[Keys.KEY_LAUNCH] = Key(app.launch[2]) if app.launch else Key([])
         self.keys[Keys.KEY_SLEEP] = Key(Sleep())
+
+        self.tick_count = 0
 
     def __del__(self):
         self.listeners.clear()
@@ -52,3 +56,11 @@ class Keys:
     def release(self, key_index):
         for listener in self.listeners:
             listener.released(self.keys, key_index)
+
+    def tick(self, elapsed_seconds):
+        self.tick_count += elapsed_seconds
+        frames = int(self.tick_count / 0.1)
+        if frames >= 1:
+            self.tick_count = 0
+            for listener in self.listeners:
+                listener.tick(self.keys, frames)

@@ -20,6 +20,7 @@ class MockListener:
     def __init__(self):
         self.pressed = mock.Mock()
         self.released = mock.Mock()
+        self.tick = mock.Mock()
     def register(self, _):
         pass
 
@@ -83,3 +84,39 @@ class TestKeys(TestCase):
 
         listenerOne.released.assert_called_once()
         listenerOne.pressed.assert_called_once()
+
+    def test_tick_no_frames(self):
+        listenerOne = MockListener()
+        app = MockApp()
+        app.launch = 0x000000, None, [],
+        keys = Keys(app)
+        keys.addListener(listenerOne)
+
+        keys.tick(0.01)
+        listenerOne.tick.assert_not_called()
+
+    def test_tick_one_frame(self):
+        listenerOne = MockListener()
+        app = MockApp()
+        app.launch = 0x000000, None, [],
+        keys = Keys(app)
+        keys.addListener(listenerOne)
+
+        keys.tick(0.05)
+        listenerOne.tick.assert_not_called()
+
+        keys.tick(0.05)
+        listenerOne.tick.assert_called_once()
+
+    def test_tick_two_frames(self):
+        listenerOne = MockListener()
+        app = MockApp()
+        app.launch = 0x000000, None, [],
+        keys = Keys(app)
+        keys.addListener(listenerOne)
+
+        keys.tick(0.05)
+        listenerOne.tick.assert_not_called()
+
+        keys.tick(0.15)
+        listenerOne.tick.assert_called_once()

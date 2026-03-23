@@ -76,7 +76,8 @@ set_app(app_index)
 
 while True: # Input event loop
     macropad.encoder_switch_debounced.update()
-    sleep_remaining -= elapsed_seconds()
+    seconds_elapsed = elapsed_seconds()
+    sleep_remaining -= seconds_elapsed
     event = macropad.keys.events.get()
     
     if (event and event.released) or last_position != macropad.encoder or macropad.encoder_switch_debounced.released:
@@ -113,3 +114,5 @@ while True: # Input event loop
         macro_changed = False
     elif macropad.encoder_switch_debounced.released: # Encoder button "pressed"
         keys.press(Keys.KEY_ENC_BUTTON)
+
+    keys.tick(seconds_elapsed)
