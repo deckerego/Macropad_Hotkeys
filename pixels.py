@@ -75,33 +75,34 @@ class PixelListener:
         self.sleeping = False
 
     def highlight(self, key_index):
-        self.shaders += [BlinkShader(self, key_index)]
+        self.shaders += [DefaultShader(self, key_index)]
 
     def reset(self, key_index):
         pass
 
-class BlinkShader:
+class DefaultShader:
     MAX_FRAMES = 4
     listener = None
     key_index = None
+    key_index_max = 0
     frame_index = None
 
     def __init__(self, listener, key_index):
         self.listener = listener
         self.key_index = key_index
-        self.frame_index = BlinkShader.MAX_FRAMES
+        self.frame_index = DefaultShader.MAX_FRAMES
+        self.key_index_max = min(len(self.listener.keycolors), PixelListener.MAX_LEDS)
 
     def tick(self, _, frames):
         self.frame_index -= frames
-        if self.key_index >= PixelListener.MAX_LEDS: return
+        if self.key_index >= self.key_index_max: return
 
         if self.frame_index > 0:
-            color_val =  0xFF * (self.frame_index / BlinkShader.MAX_FRAMES)
+            color_val =  0xFF * (self.frame_index / DefaultShader.MAX_FRAMES)
             self.listener.pixels[self.key_index] = (color_val, color_val, color_val)
             self.listener.pixels.show()
         else:
-            self.listener.pixels[self.key_index] = self.listener.keycolors[self.key_index] if self.key_index < len(self.listener.keycolors) else 0x000000
-            self.listener.pixels.brightness = PixelListener.BRIGHTNESS
+            self.listener.pixels[self.key_index] = self.listener.keycolors[self.key_index]
             self.listener.pixels.show()
         
     def done(self):

@@ -1,6 +1,6 @@
 from unittest import mock, TestCase
 from keys import Keys, Key
-from pixels import PixelListener, BlinkShader
+from pixels import PixelListener
 from commands import Commands, Sleep
 
 class MockKeys(Keys):
