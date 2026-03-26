@@ -14,12 +14,14 @@ class Keys:
     KEY_LAUNCH     = 15 # Hidden key for launching a new page
     KEY_SLEEP      = 16 # Hidden key for sleeping
     
-    listeners = []
-    keys = []
+    listeners = None
+    keys = None
     tick_count = None
 
     def __init__(self, app):
         self.keys = [None] * 17
+        self.listeners = []
+
         for i in range(len(app.macros)):
             color, label, macro = app.macros[i]
             self.keys[i] = Key(macro, label, color)
