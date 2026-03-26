@@ -48,10 +48,11 @@ def set_app(index):
     global app_index, keys, screen, sleep_remaining
 
     macropad.keyboard.release_all()
+    del keys
     screen.initialize()
     app_index = index
-
     sleep_remaining = apps[app_index].timeout
+
     screen.setTitle(apps[app_index].name)
     try:
         keys = Keys(apps[app_index])
