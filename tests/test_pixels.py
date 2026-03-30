@@ -25,6 +25,8 @@ class MockPixels:
         return self.leds[key]
     def __setitem__(self, key, value):
         self.leds[key] = value
+    def __len__(self):
+        return len(self.leds)
     def clear(self):
         self.leds.clear()
 
