@@ -32,8 +32,8 @@ class Keys:
         self.tick_count = 0
 
     def __del__(self):
-        self.listeners.clear()
-        self.keys.clear()
+        if self.listeners: self.listeners.clear()
+        if self.keys: self.keys.clear()
 
     def __bool__(self):
         return len(self.keys) > 0
