@@ -115,5 +115,6 @@ while True: # Input event loop
         macro_changed = False
     elif macropad.encoder_switch_debounced.released: # Encoder button "pressed"
         keys.press(Keys.KEY_ENC_BUTTON)
+        keys.release(Keys.KEY_ENC_BUTTON)
 
     keys.tick(seconds_elapsed)
