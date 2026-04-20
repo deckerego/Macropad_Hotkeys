@@ -1,4 +1,4 @@
-from commands import Commands, Sleep
+from commands import Commands, Sleep, Resume
 import time
 
 class Key:
@@ -13,13 +13,14 @@ class Keys:
     KEY_ENC_RIGHT  = 14 # Virtual key for encoder rotation right
     KEY_LAUNCH     = 15 # Hidden key for launching a new page
     KEY_SLEEP      = 16 # Hidden key for sleeping
+    KEY_RESUME     = 17 # Hidden key for resuming
     
     listeners = None
     keys = None
     tick_count = None
 
     def __init__(self, app):
-        self.keys = [None] * 17
+        self.keys = [None] * 18
         self.listeners = []
 
         for i in range(len(app.macros)):
@@ -28,6 +29,7 @@ class Keys:
 
         self.keys[Keys.KEY_LAUNCH] = Key(app.launch[2]) if app.launch else Key([])
         self.keys[Keys.KEY_SLEEP] = Key(Sleep())
+        self.keys[Keys.KEY_RESUME] = Key(Resume())
 
         self.tick_count = 0
 

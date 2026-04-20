@@ -34,6 +34,8 @@ class Commands:
             return item
         elif isinstance(item, Sleep):
             return item
+        elif isinstance(item, Resume):
+            return item
         elif isinstance(item, float):
             return Pause(item)
         elif isinstance(item, list):
@@ -90,5 +92,9 @@ class Pause(Command):
         self.keycode = seconds
 
 class Sleep(Command):
+    def __init__(self):
+        pass
+
+class Resume(Command):
     def __init__(self):
         pass

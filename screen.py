@@ -2,7 +2,7 @@ import displayio
 import terminalio
 from adafruit_display_text import label
 from adafruit_display_shapes.rect import Rect
-from commands import Sleep
+from commands import Sleep, Resume
 
 class ScreenListener:
     MAX_LABELS = 12
@@ -60,13 +60,17 @@ class ScreenListener:
         self.display.refresh()
 
     def pressed(self, keys, index):
+        commands = keys[index].commands
+        if not commands: return
+
+        # Handle resume before checking if we're asleep
+        if isinstance(commands[0], Resume):
+            self.resume()
+
         # Ignore any button presses until we wake up
         if self.macropad.display_sleep: return
 
         self.highlight(index)
-
-        commands = keys[index].commands
-        if not commands: return
 
         if isinstance(commands[0], Sleep):
             self.sleep()
@@ -76,9 +80,6 @@ class ScreenListener:
 
         commands = keys[index].commands
         if not commands: return
-        
-        if isinstance(commands[0], Sleep):
-            self.resume()
 
     def tick(self, keys, frames):
         pass
