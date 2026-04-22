@@ -146,7 +146,7 @@ class TestInputDevice(TestCase):
         listener.pressed(keys, 3)
 
         macropad.keyboard.press.assert_has_calls([mock.call(0xE1), mock.call(0x04)])
-        macropad.keyboard.release.assert_has_calls([mock.call(0xE1), mock.call(0x04)])
+        macropad.keyboard.release.assert_has_calls([mock.call(0x04), mock.call(0xE1)])
 
     def test_release_sequence(self):
         keys = MockKeys([], None)
@@ -175,5 +175,5 @@ class TestInputDevice(TestCase):
         listener.register(keys)
         listener.released(keys, 2)
 
-        macropad.keyboard.release.assert_has_calls([mock.call(0x04), mock.call(0x05)])
+        macropad.keyboard.release.assert_has_calls([mock.call(0x05), mock.call(0x04)])
         macropad.keyboard.press.assert_not_called()
