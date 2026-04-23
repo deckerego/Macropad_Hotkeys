@@ -29,7 +29,7 @@ class PixelListener:
         self.pixels.show()
 
     def register(self, keys):
-        self.keycolors = list(map(lambda k: k.color, keys))
+        self.keycolors = list(map(lambda k: k.color if k else 0x000000, keys))
         for i in range(PixelListener.MAX_LEDS):
             if i < len(self.keycolors):
                 self.pixels[i] = self.keycolors[i]
