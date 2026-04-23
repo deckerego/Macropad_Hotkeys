@@ -2,6 +2,7 @@
 
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control_code import ConsumerControlCode
+from adafruit_hid.mouse import Mouse as MouseCode
 
 from consumer import Toolbar
 from mouse import Mouse
