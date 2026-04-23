@@ -90,6 +90,18 @@ class TestPixels(TestCase):
         self.assertEqual(pixels.pixels[2], 0xFF0000)
         self.assertEqual(pixels.pixels[3], 0x000000)
 
+    def test_set_empty_keys(self):
+        keys = MockKeys([], None)
+        keys.keys += [None]
+        macropad = MockMacroPad()
+        pixels = PixelListener(macropad)
+        pixels.register(keys)
+
+        self.assertEqual(pixels.pixels[0], 0x0000FF)
+        self.assertEqual(pixels.pixels[1], 0x00FF00)
+        self.assertEqual(pixels.pixels[2], 0xFF0000)
+        self.assertEqual(pixels.pixels[3], 0x000000)
+
     def test_press(self):
         keys = MockKeys([], None)
         class MockPixelListener(PixelListener):
