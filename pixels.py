@@ -1,4 +1,4 @@
-from commands import Sleep
+from commands import Sleep, Resume
 from shaders.pixel_shaders import PressedShader
 
 class PixelListener:
@@ -38,13 +38,17 @@ class PixelListener:
         self.pixels.show()
 
     def pressed(self, keys, index):
+        commands = keys[index].commands
+        if not commands: return
+
+        # Handle resume before checking if we're asleep
+        if isinstance(commands[0], Resume):
+            self.resume()
+
         # Ignore any button presses until we wake up
         if self.sleeping: return
 
         self.highlight(index)
-
-        commands = keys[index].commands
-        if not commands: return
 
         if isinstance(commands[0], Sleep):
             self.sleep()
@@ -54,9 +58,6 @@ class PixelListener:
 
         commands = keys[index].commands
         if not commands: return
-        
-        if isinstance(commands[0], Sleep):
-            self.resume()
     
     def tick(self, keys, frames):
         for shader in self.shaders:
