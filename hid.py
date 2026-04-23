@@ -1,4 +1,4 @@
-from commands import Commands, Command, Toolbar, Keyboard, Midi, Mouse, Pause, Sequence, Sleep
+from commands import Commands, Command, Toolbar, Keyboard, Midi, Mouse, Pause, Sequence, Sleep, Resume
 import time
 
 class InputDeviceListener:
@@ -35,6 +35,9 @@ class InputDeviceListener:
             self.release(command)
 
     def press(self, command: Command):
+        # Handle resume before checking if we're asleep
+        if isinstance(command, Resume): return self.resume(command)
+
         if self.sleeping: return # Ignore any button presses until we wake up
 
         if isinstance(command, Keyboard): return self.pressKeyboard(command)
@@ -50,7 +53,6 @@ class InputDeviceListener:
         elif isinstance(command, Toolbar): return self.releaseToolbar(command)
         elif isinstance(command, Mouse): return self.releaseMouse(command)
         elif isinstance(command, Midi): return self.releaseMidi(command)
-        elif isinstance(command, Sleep): return self.resume(command)
         
     def pressToolbar(self, command:Toolbar):
         if command.keycode < 0:
@@ -106,5 +108,5 @@ class InputDeviceListener:
     def sleep(self, command:Sleep):
         self.sleeping = True
 
-    def resume(self, command:Sleep):
+    def resume(self, command:Resume):
         self.sleeping = False

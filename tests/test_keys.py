@@ -30,7 +30,7 @@ class TestKeys(TestCase):
         keys = Keys(app)
         keys.addListener(MockListener())
         
-        self.assertEqual(len(keys.keys), 17)
+        self.assertEqual(len(keys.keys), 18)
         self.assertEqual(keys.keys[0].color, 0x0F0F0F)
         self.assertIsInstance(keys.keys[0].commands, Commands)
 
