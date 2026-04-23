@@ -52,10 +52,12 @@ class Keys:
         listener.register(self)
 
     def press(self, key_index):
+        if not self.keys[key_index]: return
         for listener in self.listeners:
             listener.pressed(self.keys, key_index)
 
     def release(self, key_index):
+        if not self.keys[key_index]: return
         for listener in self.listeners:
             listener.released(self.keys, key_index)
 
