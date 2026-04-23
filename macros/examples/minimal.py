@@ -2,7 +2,7 @@
 
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control_code import ConsumerControlCode
-from mouse_extended import Mouse as MouseCode
+from adafruit_hid.mouse import Mouse as MouseCode
 
 from consumer import Toolbar
 from mouse import Mouse
@@ -26,6 +26,10 @@ app = {
         (0x000000, '       ', []),
         (0x000000, '       ', []),
         # 4th row ----------
+        (0x000000, '       ', []),
+        (0x000000, '       ', []),
+        (0x000000, '       ', []),
+        # encoder ----------
         (0x000000, '       ', []),
         (0x000000, '       ', []),
         (0x000000, '       ', []),

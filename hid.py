@@ -31,7 +31,7 @@ class InputDeviceListener:
             self.press(command)
 
     def releaseCommands(self, commands: Commands):
-        for command in commands:
+        for command in commands[::-1]:
             self.release(command)
 
     def press(self, command: Command):
@@ -80,7 +80,7 @@ class InputDeviceListener:
     def pressSequence(self, sequence:Sequence):
         for command in sequence:
             self.press(command)
-        for command in sequence:
+        for command in sequence[::-1]:
             self.release(command)
 
     def pressKeyboard(self, command:Keyboard):

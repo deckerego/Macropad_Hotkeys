@@ -1,4 +1,5 @@
 from commands import Sleep, Resume
+from shaders.pixel_shaders import PressedShader
 
 class PixelListener:
     BRIGHTNESS = 0.3
@@ -28,7 +29,7 @@ class PixelListener:
         self.pixels.show()
 
     def register(self, keys):
-        self.keycolors = list(map(lambda k: k.color, keys))
+        self.keycolors = list(map(lambda k: k.color if k else 0x000000, keys))
         for i in range(PixelListener.MAX_LEDS):
             if i < len(self.keycolors):
                 self.pixels[i] = self.keycolors[i]
@@ -76,34 +77,7 @@ class PixelListener:
         self.sleeping = False
 
     def highlight(self, key_index):
-        self.shaders += [BlinkShader(self, key_index)]
+        self.shaders += [PressedShader(self.pixels, key_index)]
 
     def reset(self, key_index):
         pass
-
-class BlinkShader:
-    MAX_FRAMES = 4
-    listener = None
-    key_index = None
-    frame_index = None
-
-    def __init__(self, listener, key_index):
-        self.listener = listener
-        self.key_index = key_index
-        self.frame_index = BlinkShader.MAX_FRAMES
-
-    def tick(self, _, frames):
-        self.frame_index -= frames
-        if self.key_index >= PixelListener.MAX_LEDS: return
-
-        if self.frame_index > 0:
-            color_val =  0xFF * (self.frame_index / BlinkShader.MAX_FRAMES)
-            self.listener.pixels[self.key_index] = (color_val, color_val, color_val)
-            self.listener.pixels.show()
-        else:
-            self.listener.pixels[self.key_index] = self.listener.keycolors[self.key_index] if self.key_index < len(self.listener.keycolors) else 0x000000
-            self.listener.pixels.brightness = PixelListener.BRIGHTNESS
-            self.listener.pixels.show()
-        
-    def done(self):
-        return self.frame_index <= 0
