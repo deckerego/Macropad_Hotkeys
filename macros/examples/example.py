@@ -13,6 +13,7 @@ app = {
     'name' : 'Example Macro',
     'order': 0,
     'timeout': 10,
+    'powersave': True,
     'launch': 
         (0x000000, None, [Keycode.SHIFT]),
     'macros' : [

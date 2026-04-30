@@ -72,6 +72,16 @@ It does not run when the macropad first starts, but it will once you switch from
 See `macros/examples/example.py` for an example of all configuration options.
 
 
+### Configuration Options
+
+Each macro screen has optional attributes you can define, including:
+    + **name**: The name of the page to show on screen
+    + **order**: The sequence in which this screen will appear when flipping through macros (defaults to 0)
+    + **timeout**': Number of seconds before the screen and LEDs turn off (default 300 seconds)
+    + **powersave**': Go into a "low power" mode after timeout - this means keys don't immediately respond when waking up (defaults to *True*)
+    + **launch**': Macro to fire off when first loading this macro page (defaults to no macro launched)
+
+
 ## Installing
 
 First make sure that your Macropad has the
