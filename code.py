@@ -80,12 +80,16 @@ while True: # Input event loop
     seconds_elapsed = elapsed_seconds()
     sleep_remaining -= seconds_elapsed
     event = macropad.keys.events.get()
+    event_wake = event and (event.released if apps[app_index].powersave else event.pressed)
+    encoder_wake = macropad.encoder_switch_debounced.released if apps[app_index].powersave else macropad.encoder_switch_debounced.pressed
     
-    if (event and event.released) or last_position != macropad.encoder or macropad.encoder_switch_debounced.released:
+    if event_wake or last_position != macropad.encoder or encoder_wake:
         keys.press(Keys.KEY_RESUME)                  # Don't go to sleep!
         keys.release(Keys.KEY_RESUME)
         sleep_remaining = apps[app_index].timeout
     if sleep_remaining <= 0:                         # Go to sleep
+        if apps[app_index].powersave:                # Low power mode
+            time.sleep(1.0)
         keys.press(Keys.KEY_SLEEP)
         keys.release(Keys.KEY_SLEEP)
     elif event and event.pressed:                    # Key was pressed

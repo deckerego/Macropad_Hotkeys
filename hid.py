@@ -53,7 +53,6 @@ class InputDeviceListener:
         elif isinstance(command, Toolbar): return self.releaseToolbar(command)
         elif isinstance(command, Mouse): return self.releaseMouse(command)
         elif isinstance(command, Midi): return self.releaseMidi(command)
-        elif isinstance(command, Sleep): return self.releaseSleep(command)
         
     def pressToolbar(self, command:Toolbar):
         if command.keycode < 0:
@@ -108,11 +107,6 @@ class InputDeviceListener:
     def releaseKeyboard(self, command:Keyboard):
         if isinstance(command.keycode, int) and command.keycode >= 0:
             self.macropad.keyboard.release(command.keycode)
-
-    def releaseSleep(self, command:Sleep):
-        if command.powersave:
-            # "Low Power" mode after a press
-            time.sleep(1.0)
 
     def resume(self, command:Resume):
         self.sleeping = False
