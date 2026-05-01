@@ -92,8 +92,8 @@ class Pause(Command):
         self.keycode = seconds
 
 class Sleep(Command):
-    def __init__(self):
-        pass
+    def __init__(self, powersave=True):
+        self.powersave = powersave
 
 class Resume(Command):
     def __init__(self):

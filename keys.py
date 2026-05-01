@@ -28,7 +28,7 @@ class Keys:
             self.keys[i] = Key(macro, label, color)
 
         self.keys[Keys.KEY_LAUNCH] = Key(app.launch[2]) if app.launch else Key([])
-        self.keys[Keys.KEY_SLEEP] = Key(Sleep())
+        self.keys[Keys.KEY_SLEEP] = Key(Sleep(app.powersave))
         self.keys[Keys.KEY_RESUME] = Key(Resume())
 
         self.tick_count = 0

@@ -12,6 +12,7 @@ class MockApp:
         self.order = 0
         self.launch = None
         self.timeout = 300
+        self.powersave = True
         self.macros  = [
             (0x0F0F0F, 'MOCK_1', MockKeycode.MOCK_1),
         ]
