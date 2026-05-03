@@ -55,5 +55,6 @@ jobs:
             *.py
             lib
             macros
+            shaders
             README.md
             LICENSE
