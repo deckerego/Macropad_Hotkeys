@@ -88,10 +88,10 @@ while True: # Input event loop
         keys.release(Keys.KEY_RESUME)
         sleep_remaining = apps[app_index].timeout
     if sleep_remaining <= 0:                         # Go to sleep
-        if apps[app_index].powersave:                # Low power mode
-            time.sleep(1.0)
         keys.press(Keys.KEY_SLEEP)
         keys.release(Keys.KEY_SLEEP)
+        if apps[app_index].powersave:                # Low power mode
+            time.sleep(1.0)
     elif event and event.pressed:                    # Key was pressed
         keys.press(event.key_number)
     elif event and event.released:                   # Key was released
